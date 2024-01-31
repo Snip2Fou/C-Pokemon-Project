@@ -11,7 +11,7 @@ class Game
     {
         playerPos[0] = map.size_x / 2;
         playerPos[1] = map.size_y / 2;
-        map.map.SetValue('p', playerPos[0], playerPos[1]);
+        map.map.SetValue('0', playerPos[0], playerPos[1]);
         map.Draw();
     }
 
@@ -33,8 +33,17 @@ class Game
                 case ConsoleKey.UpArrow:
                     if (playerPos[0] - 1 > 0)
                     {
-                        map.map[playerPos[0], playerPos[1]] = ' ';
-                        map.map[playerPos[0] - 1, playerPos[1]] = 'p';
+                        if((playerPos[0] >= 10 && playerPos[0] <= 13 && playerPos[1] >= 10 && playerPos[1] <= 13) || (playerPos[0] >= 1 && playerPos[0] <= 6 && playerPos[1] >= 40 && playerPos[1] <= 48) || (playerPos[0] >= 12 && playerPos[0] <= 14 && playerPos[1] >= 28 && playerPos[1] <= 34) || (playerPos[0] >= 1 && playerPos[0] <= 4 && playerPos[1] >= 15 && playerPos[1] <= 17) || (playerPos[0] >= 3 && playerPos[0] <= 4 && playerPos[1] >= 18 && playerPos[1] <= 19))
+                        {
+                            map.map[playerPos[0], playerPos[1]] = '"';
+                            map.map[playerPos[0] - 1, playerPos[1]] = '0';
+
+                        }
+                        else
+                        {
+                            map.map[playerPos[0], playerPos[1]] = ' ';
+                            map.map[playerPos[0] - 1, playerPos[1]] = '0';
+                        }
                         playerPos[0] -= 1;
                     }
                     break;
@@ -42,8 +51,17 @@ class Game
                 case ConsoleKey.DownArrow:
                     if (playerPos[0] + 1 < map.size_x - 1)
                     {
-                        map.map[playerPos[0], playerPos[1]] = ' ';
-                        map.map[playerPos[0] + 1, playerPos[1]] = 'p';
+                        if ((playerPos[0] >= 10 && playerPos[0] <= 13 && playerPos[1] >= 10 && playerPos[1] <= 13) || (playerPos[0] >= 1 && playerPos[0] <= 6 && playerPos[1] >= 40 && playerPos[1] <= 48) || (playerPos[0] >= 12 && playerPos[0] <= 14 && playerPos[1] >= 28 && playerPos[1] <= 34) || (playerPos[0] >= 1 && playerPos[0] <= 4 && playerPos[1] >= 15 && playerPos[1] <= 17) || (playerPos[0] >= 3 && playerPos[0] <= 4 && playerPos[1] >= 18 && playerPos[1] <= 19))
+                        {
+                            map.map[playerPos[0], playerPos[1]] = '"';
+                            map.map[playerPos[0] + 1, playerPos[1]] = '0';
+
+                        }
+                        else
+                        {
+                            map.map[playerPos[0], playerPos[1]] = ' ';
+                            map.map[playerPos[0] + 1, playerPos[1]] = '0';
+                        }
                         playerPos[0] += 1;
                     }
                     break;
@@ -51,8 +69,17 @@ class Game
                 case ConsoleKey.LeftArrow:
                     if (playerPos[1] - 1 > 0)
                     {
-                        map.map[playerPos[0], playerPos[1]] = ' ';
-                        map.map[playerPos[0], playerPos[1] - 1] = 'p';
+                        if ((playerPos[0] >= 10 && playerPos[0] <= 13 && playerPos[1] >= 10 && playerPos[1] <= 13) || (playerPos[0] >= 1 && playerPos[0] <= 6 && playerPos[1] >= 40 && playerPos[1] <= 48) || (playerPos[0] >= 12 && playerPos[0] <= 14 && playerPos[1] >= 28 && playerPos[1] <= 34) || (playerPos[0] >= 1 && playerPos[0] <= 4 && playerPos[1] >= 15 && playerPos[1] <= 17) || (playerPos[0] >= 3 && playerPos[0] <= 4 && playerPos[1] >= 18 && playerPos[1] <= 19))
+                        {
+                            map.map[playerPos[0], playerPos[1]] = '"';
+                            map.map[playerPos[0], playerPos[1] - 1] = '0';
+
+                        }
+                        else
+                        {
+                            map.map[playerPos[0], playerPos[1]] = ' ';
+                            map.map[playerPos[0], playerPos[1] - 1] = '0';
+                        }
                         playerPos[1] -= 1;
                     }
                     break;
@@ -60,8 +87,17 @@ class Game
                 case ConsoleKey.RightArrow:
                     if (playerPos[1] + 1 < map.size_y - 1)
                     {
-                        map.map[playerPos[0], playerPos[1]] = ' ';
-                        map.map[playerPos[0], playerPos[1] + 1] = 'p';
+                        if ((playerPos[0] >= 10 && playerPos[0] <= 13 && playerPos[1] >= 10 && playerPos[1] <= 13) || (playerPos[0] >= 1 && playerPos[0] <= 6 && playerPos[1] >= 40 && playerPos[1] <= 48) || (playerPos[0] >= 12 && playerPos[0] <= 14 && playerPos[1] >= 28 && playerPos[1] <= 34) || (playerPos[0] >= 1 && playerPos[0] <= 4 && playerPos[1] >= 15 && playerPos[1] <= 17) || (playerPos[0] >= 3 && playerPos[0] <= 4 && playerPos[1] >= 18 && playerPos[1] <= 19))
+                        {
+                            map.map[playerPos[0], playerPos[1]] = '"';
+                            map.map[playerPos[0], playerPos[1] + 1] = '0';
+
+                        }
+                        else
+                        {
+                            map.map[playerPos[0], playerPos[1]] = ' ';
+                            map.map[playerPos[0], playerPos[1] + 1] = '0';
+                        }
                         playerPos[1] += 1;
                     }
                     break;
@@ -71,7 +107,24 @@ class Game
                     break;
 
             }
-            map.Draw();
+            if ((playerPos[0] >= 10 && playerPos[0] <= 13 && playerPos[1] >= 10 && playerPos[1] <= 13) || (playerPos[0] >= 1 && playerPos[0] <= 6 && playerPos[1] >= 40 && playerPos[1] <= 48) || (playerPos[0] >= 12 && playerPos[0] <= 14 && playerPos[1] >= 28 && playerPos[1] <= 34) || (playerPos[0] >= 1 && playerPos[0] <= 4 && playerPos[1] >= 15 && playerPos[1] <= 17) || (playerPos[0] >= 3 && playerPos[0] <= 4 && playerPos[1] >= 18 && playerPos[1] <= 19))
+            {
+                Random random = new Random();
+                int random_number = random.Next(1, 7);
+                if (random_number == 1)
+                {
+                    Console.WriteLine("Combat");
+                }
+                else
+                {
+                    map.Draw();
+                }
+            }
+            else
+            {
+                map.Draw();
+            }
+            Console.WriteLine(Console.CursorLeft);
         }
     }
 }
