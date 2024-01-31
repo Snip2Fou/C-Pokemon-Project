@@ -1,12 +1,13 @@
 class Pokemon
 {
     public string Name { get; }
-    public int Health { get; set; }
-    public int Attack { get; }
-    public int AttackSpecial { get; }
-    public int Defense { get; }
+    public float Health { get; set; }
+    public float Attack { get; set; }
+    public float AttackSpecial { get; set; }
+    public float Defense { get; set; }
+    private float _level { get; set; }
 
-    public Pokemon(string name, int health, int attack, int attackspecial, int defense)
+    public Pokemon(string name, float health, float attack, float attackspecial, float defense)
     {
         Name = name;
         Health = health;
@@ -15,7 +16,7 @@ class Pokemon
         Defense = defense;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         Health -= damage;
         if (Health < 0)
@@ -28,4 +29,19 @@ class Pokemon
     {
         Health += 5;
     }
+
+    public void StatUp()
+    {
+        Health = Health * 1.2f ;
+        Attack = Attack * 1.2f ;
+        AttackSpecial = AttackSpecial * 1.2f;
+        Defense = Defense * 1.2f;
+    }
+
+    public void LevelUp()
+    {
+        _level += 1;
+        StatUp();
+    }
+
 }

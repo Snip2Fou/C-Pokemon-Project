@@ -78,7 +78,7 @@ class Battle
         switch (consoleKeyInfo.Key)
         {
             case ConsoleKey.W:
-                int damageToTrainer2 = Math.Max(0, activePokemonTrainer1.Attack - activePokemonTrainer2.Defense);
+                float damageToTrainer2 = Math.Max(0, activePokemonTrainer1.Attack - activePokemonTrainer2.Defense);
                 activePokemonTrainer2.TakeDamage(damageToTrainer2);
                 Console.WriteLine($"{trainer2.Name}'s {activePokemonTrainer2.Name} takes {damageToTrainer2} damage!");
                 break;
@@ -89,7 +89,7 @@ class Battle
                 break;
         }
 
-        int damageToTrainer1 = Math.Max(0, activePokemonTrainer2.Attack - activePokemonTrainer1.Defense);
+        float damageToTrainer1 = Math.Max(0, activePokemonTrainer2.Attack - activePokemonTrainer1.Defense);
         activePokemonTrainer1.TakeDamage(damageToTrainer1);
 
         Console.WriteLine($"{trainer1.Name}'s {activePokemonTrainer1.Name} takes {damageToTrainer1} damage!");
