@@ -28,6 +28,10 @@ class Map
                 {
                     map[x, y] = '"';
                 }
+                else if((x == 1 && y == 35))
+                {
+                    map[x, y] = 'O';
+                }
                 else
                 {
                     map[x, y] = ' ';
