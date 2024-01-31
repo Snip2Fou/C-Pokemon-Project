@@ -21,6 +21,26 @@ class Game
 
         while (isRunning)
         {
+
+            /*   // Création de quelques Pokémon
+               Pokemon pikachu = new Pokemon("Pikachu", 20, 10, 12, 5);
+               Pokemon bulbasaur = new Pokemon("Bulbasaur", 25, 8, 12, 5);
+               Pokemon chu = new Pokemon("Chu", 20, 12, 12, 5);
+               Pokemon saur = new Pokemon("Saur", 25, 13, 12, 5);
+
+               // Création de deux dresseurs
+               Trainer ash = new Trainer("Ash");
+               Trainer gary = new Trainer("Gary");
+
+               // Dresseurs ajoutent des Pokémon à leur équipe
+               ash.AddPokemon(pikachu);
+               gary.AddPokemon(bulbasaur);
+               ash.AddPokemon(chu);
+               gary.AddPokemon(saur);
+
+               // Combat entre les deux dresseurs
+               Battle.StartBattle(ash, gary);
+   */
             ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
             Console.Clear();
 
