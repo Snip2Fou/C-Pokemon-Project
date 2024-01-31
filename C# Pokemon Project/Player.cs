@@ -1,4 +1,6 @@
-/*class Trainer
+using System.Collections.Generic;
+
+class Trainer
 {
     public string Name { get; }
     public List<Pokemon> Team { get; }
@@ -13,4 +15,4 @@
     {
         Team.Add(pokemon);
     }
-}*/
+}
