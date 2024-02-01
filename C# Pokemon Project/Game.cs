@@ -176,6 +176,15 @@ class Game
                 int random_number = random.Next(1, 7);
                 if (random_number == 1)
                 {
+                    int random_pokemon = random.Next(1, 722);
+
+                    for (int i = 0; i < pokemons.Count; i++)
+                    {
+                        if (random_pokemon == i)
+                        {
+                            Battle.StartBattle(ash, gary);
+                        }
+                    }
                     // Combat entre les deux dresseurs
                     Battle.StartBattle(ash, gary);
                 }
