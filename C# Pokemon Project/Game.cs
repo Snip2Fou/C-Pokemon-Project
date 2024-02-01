@@ -1,5 +1,8 @@
 using System;
-
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml.Linq;
 
 class Game
 {
@@ -17,21 +20,40 @@ class Game
 
     public void GameLoop()
     {
-        // Création de quelques Pokémon
-        Pokemon pikachu = new Pokemon("Pikachu", 20, 10, 12, 5);
-        Pokemon bulbasaur = new Pokemon("Bulbasaur", 25, 8, 12, 5);
-        Pokemon chu = new Pokemon("Chu", 20, 12, 12, 5);
-        Pokemon saur = new Pokemon("Saur", 25, 13, 12, 5);
+        string filePath = "C:\\Users\\ddeoliveira\\Desktop\\C-Pokemon-Project\\pokemon.csv";
+
+        List<Pokemon> pokemons = new List<Pokemon>();
+
+        if (File.Exists(filePath))
+        {
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                reader.ReadLine();
+
+                while (!reader.EndOfStream)
+                {
+                    string line = reader.ReadLine();
+                    string[] values = line.Split(',');
+
+                    Pokemon pokemon = new Pokemon(values[1], values[2], values[3], int.Parse(values[4]), int.Parse(values[5]), int.Parse(values[6]),
+                        int.Parse(values[7]), int.Parse(values[8]), int.Parse(values[9]), int.Parse(values[10]), int.Parse(values[11]), bool.Parse(values[12]));
+
+                    pokemons.Add(pokemon);
+                }
+            }
+        }   
+        else
+        {
+            Console.WriteLine("Le fichier n'existe pas.");
+        }
 
         // Création de deux dresseurs
         Trainer ash = new Trainer("Ash");
         Trainer gary = new Trainer("Gary");
 
-        // Dresseurs ajoutent des Pokémon à leur équipe
-        ash.AddPokemon(pikachu);
-        gary.AddPokemon(bulbasaur);
-       /* ash.AddPokemon(chu);
-        gary.AddPokemon(saur);*/
+        /*ash.AddPokemon("Kakuna");
+        gary.AddPokemon("Metapod");*/
+
 
         while (isRunning)
         {
