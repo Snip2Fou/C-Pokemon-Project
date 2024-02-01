@@ -157,7 +157,8 @@ class Game
                 if (random_number == 1)
                 {
                     // Combat entre les deux dresseurs
-                    Battle.StartBattle(ash, gary);
+                    Battle.StartBattleVsPokemon(ash, pikachu);
+                    Console.Clear();
                 }
             }
              map.Draw();
