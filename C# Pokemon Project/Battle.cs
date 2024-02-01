@@ -5,67 +5,38 @@ class Battle
 {
 
     public static void StartBattleVsPokemon(Trainer player, Pokemon pokemon)
-    {
+    { 
+        Event event_choice = new Event();
         bool fuite = false;
         Console.WriteLine($"{player.Name} VS {pokemon.Name}");
         Console.WriteLine("Choisissez votre action :");
-        int action_count = 0;
         bool action_selected = false;
         Console.WriteLine("> Selectionnez un Pokemon");
         Console.WriteLine("  Fuire");
         while (!action_selected)
         {
-            ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
-
-            switch (consoleKeyInfo.Key)
-            {
-                case ConsoleKey.UpArrow:
-                    if (action_count-1 < 0)
+            bool choice_event = event_choice.ChoiceEvent(2);
+            if (choice_event) {
+                action_selected = true;
+                if (event_choice.action_count == 0)
+                {
+                    if (player.Team.Count > 0)
                     {
-                        action_count = 1;
+                        Pokemon activePokemonTrainer1 = ChooseActivePokemon(player);
                     }
-                    else
-                    {
-                        action_count--;
-                    }
-                    break;
-
-                case ConsoleKey.DownArrow:
-                    if(action_count+1 == 2)
-                    {
-                        action_count = 0;
-                    }
-                    else
-                    {
-                        action_count++;
-                    }
-                    break;
-
-                case ConsoleKey.Enter:
-                    action_selected = true;
-                    if (action_count == 0)
-                    {
-                        if (player.Team.Count > 0)
-                        {
-                            Pokemon activePokemonTrainer1 = ChooseActivePokemon(player);
-                        }
-                    }
-                    else if (action_count == 1) {
-                        fuite = true;
-                    }
-                    break;
-
-                default:
-                    break;
+                }
+                else if (event_choice.action_count == 1) {
+                    fuite = true;
+                }
             }
             Console.Clear();
             Console.WriteLine("Choisissez votre action :");
-            if (action_count == 0)
+            if (event_choice.action_count == 0)
             {
                 Console.WriteLine("> Selectionnez un Pokemon");
                 Console.WriteLine("  Fuire");
             }
-            else if (action_count == 1)
+            else if (event_choice.action_count == 1)
             {
                 Console.WriteLine("  Selectionnez un Pokemon");
                 Console.WriteLine("> Fuire");
@@ -77,7 +48,7 @@ class Battle
         Console.WriteLine("  Changer de Pokemon");
         Console.WriteLine("  Utiliser un objet");
         Console.WriteLine("  Fuire");
-        action_count = 0;
+        event_choice.action_count = 0;
         while (player.Team.Count > 0 && pokemon.IsAlive() && fuite != true)
         {
             ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
@@ -85,33 +56,33 @@ class Battle
             switch (consoleKeyInfo.Key)
             {
                 case ConsoleKey.UpArrow:
-                    if (action_count - 1 < 0)
+                    if (event_choice.action_count - 1 < 0)
                     {
-                        action_count = 3;
+                        event_choice.action_count = 3;
                     }
                     else
                     {
-                        action_count--;
+                        event_choice.action_count--;
                     }
                     break;
 
                 case ConsoleKey.DownArrow:
-                    if (action_count + 1 == 4)
+                    if (event_choice.action_count + 1 == 4)
                     {
-                        action_count = 0;
+                        event_choice.action_count = 0;
                     }
                     else
                     {
-                        action_count++;
+                        event_choice.action_count++;
                     }
                     break;
 
                 case ConsoleKey.Enter:
-                    if(action_count == 0)
+                    if(event_choice.action_count == 0)
                     {
 
                     }
-                    action_count = 0;
+                    event_choice.action_count = 0;
                     break;
 
                 default:
@@ -119,28 +90,28 @@ class Battle
             }
             Console.Clear();
             Console.WriteLine("Choisissez votre action :");
-            if (action_count == 0)
+            if (event_choice.action_count == 0)
             {
                 Console.WriteLine("> Attaquer");
                 Console.WriteLine("  Changer de Pokemon");
                 Console.WriteLine("  Utiliser un objet");
                 Console.WriteLine("  Fuire");
             }
-            else if (action_count == 1)
+            else if (event_choice.action_count == 1)
             {
                 Console.WriteLine("  Attaquer");
                 Console.WriteLine("> Changer de Pokemon");
                 Console.WriteLine("  Utiliser un objet");
                 Console.WriteLine("  Fuire");
             }
-            else if (action_count == 2)
+            else if (event_choice.action_count == 2)
             {
                 Console.WriteLine("  Attaquer");
                 Console.WriteLine("  Changer de Pokemon");
                 Console.WriteLine("> Utiliser un objet");
                 Console.WriteLine("  Fuire");
             }
-            else if (action_count == 3)
+            else if (event_choice.action_count == 3)
             {
                 Console.WriteLine("  Attaquer");
                 Console.WriteLine("  Changer de Pokemon");
