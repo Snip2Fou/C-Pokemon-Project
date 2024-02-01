@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml.Linq;
 
 class Game
 {
@@ -20,7 +18,7 @@ class Game
 
     public void GameLoop()
     {
-        string filePath = "C:\\Users\\ddeoliveira\\Desktop\\C-Pokemon-Project\\pokemon.csv";
+        string filePath = "pokemon.csv";
 
         List<Pokemon> pokemons = new List<Pokemon>();
 
