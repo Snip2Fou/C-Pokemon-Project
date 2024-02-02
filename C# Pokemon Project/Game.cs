@@ -8,7 +8,7 @@ class Game
     protected Map map = new Map();
     protected int[] playerPos = new int[2];
     protected Inventaire inventaire = new Inventaire();
-    protected Object posion = new Object("posion de soin", "ajoute 5 point de vie au pokemon");
+    protected Object potion = new Object("potion de soin", "ajoute 5 point de vie au pokemon");
     protected Object pokeball = new Object("pokeball", "chance de capature de certain pokemon");
 
     public Game()
@@ -21,11 +21,14 @@ class Game
 
     public void GameLoop()
     {
-        inventaire.AddObject(posion);
-        inventaire.AddObject(posion);
+        
+        inventaire.AddObject(potion);
+        inventaire.AddObject(potion);
         inventaire.AddObject(pokeball);
         inventaire.DisplayInventory();
-        string filePath = "pokemon.csv";
+
+
+        string filePath = "data/pokemon.csv";
 
         List<Pokemon> pokemons = new List<Pokemon>();
 
@@ -55,9 +58,6 @@ class Game
         // Création de deux dresseurs
         Trainer ash = new Trainer("Ash");
         Trainer gary = new Trainer("Gary");
-
-        /*ash.AddPokemon("Kakuna");
-        gary.AddPokemon("Metapod");*/
 
 
         while (isRunning)

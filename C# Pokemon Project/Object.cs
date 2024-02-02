@@ -13,7 +13,7 @@ class Object
 
     public void UseThis(Pokemon pokemon)
     { 
-        if (Name == "posion")
+        if (Name == "potion de soin")
         {
             pokemon.Heal();
         }else if (Name == "pokeball")
