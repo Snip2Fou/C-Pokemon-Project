@@ -1,13 +1,24 @@
+using System;
+
 class Object
 {
     public string Name { get; set; }
-    public object Value { get; set; }
     public string Description { get; set; }
 
-    public Object(string name, object value, string description) 
+    public Object(string name, string description) 
     { 
         Name = name;
-        Value = value;
         Description = description;
+    }
+
+    public void UseThis(Pokemon pokemon)
+    { 
+        if (Name == "posion")
+        {
+            pokemon.Heal();
+        }else if (Name == "pokeball")
+        {
+            Console.WriteLine("je lance ma pokeball");
+        }
     }
 }
