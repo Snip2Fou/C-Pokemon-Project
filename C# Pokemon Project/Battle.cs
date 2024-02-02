@@ -125,7 +125,7 @@ class Battle
                         Pokemon activePokemonTrainer2 = ChooseActivePokemon(trainer2);
 
                         // Combat entre les Pokémon actifs
-                        BattleRound(trainer1, activePokemonTrainer1, trainer2, activePokemonTrainer2);
+                        /*BattleRound(trainer1, activePokemonTrainer1, trainer2, activePokemonTrainer2);*/
                     }
                     break;
                 case ConsoleKey.B:
@@ -207,7 +207,7 @@ class Battle
         float damageToTrainer1 = Math.Max(0, activePokemonTrainer2.Attack - activePokemonTrainer1.Defense);
         activePokemonTrainer1.TakeDamage(damageToTrainer1);
 
-        Console.WriteLine($"{trainer1.Name}'s {activePokemonTrainer1.Name} takes {damageToTrainer1} damage!");
+        /*Console.WriteLine($"{trainer1.Name}'s {activePokemonTrainer1.Name} takes {damageToTrainer1} damage!");
 
         // Vérifier si le Pokémon de trainer2 est vaincu
         if (activePokemonTrainer2.Health <= 0)
@@ -221,6 +221,6 @@ class Battle
       {
           Console.WriteLine($"{trainer1.Name}'s {activePokemonTrainer1.Name} faints!");
           trainer1.Team.Remove(activePokemonTrainer1);
-      }
+      }*/
     }
 }

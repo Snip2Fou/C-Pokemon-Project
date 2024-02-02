@@ -1,4 +1,7 @@
-class Pokemon
+using System.Collections.Generic;
+using System.Reflection.Emit;
+
+public class Pokemon
 {
     public string Name { get; set; }
     public string TypeOne { get; set; }
@@ -10,13 +13,13 @@ class Pokemon
     public float AttackSpecial { get; set; }
     public float DefenseSpecial { get; set; }
     public float Speed { get; set; }
-    public int Generation { get; set; }
-    public bool Legendary { get; set; }
-    private int _level { get; set; }
+    public int Level { get; set; }
+    public Capacity Capacity1 { get; set; }
+    public Capacity Capacity2 { get; set; }
+    public Capacity Capacity3 { get; set; }
 
-    
 
-    public Pokemon(string name, string typeOne, string typeTwo, int total ,float health, float attack, float defense, float attackspecial, float defensespecial, float speed, int generation, bool legendary)
+    public Pokemon(string name, string typeOne, string typeTwo, int total ,float health, float attack, float defense, float attackspecial, float defensespecial, float speed)
     {
         Name = name;
         TypeOne = typeOne;
@@ -28,9 +31,12 @@ class Pokemon
         AttackSpecial = attackspecial;
         DefenseSpecial = defensespecial;    
         Speed = speed;
-        Generation = generation;    
-        Legendary = legendary;
-        _level = 1;
+        Level = 1;
+    }
+
+    public Pokemon() {
+        Level = 1;
+        Capacity1 = null; Capacity2 = null; Capacity3 = null;
     }
 
     public void TakeDamage(float damage)
@@ -59,7 +65,7 @@ class Pokemon
 
     public void LevelUp()
     {
-        _level += 1;
+        Level += 1;
         StatUp();
     }
 
@@ -73,5 +79,78 @@ class Pokemon
         {
             return false;
         }
+    }
+
+    public void CreateCapacity(string[] values, List<string> type_list)
+    {
+        string _name = values[1];
+        string _des = "";
+        int k = 2;
+        while (!type_list.Contains(values[k].ToLower()))
+        {
+            _des += values[k];
+            k++;
+        }
+        string type = values[k];
+        string power = values[k+2];
+        if (power == "—")
+        {
+            power = "0";
+        }
+        string accuracy = values[k+3];
+        if (accuracy == "—")
+        {
+            accuracy = "0";
+        }
+        else
+        {
+            string new_val = "";
+            for (int i = 0; i < values[k+3].Length; i++) {
+                if (values[k+3][i] == '%')
+                {
+                    break;
+                }
+                else
+                {
+                    new_val += values[k+3][i];
+                }
+            }
+            accuracy = new_val;
+        }
+
+        if (Capacity1 == null)
+        {
+            Capacity1 = new Capacity
+            {
+                Name = _name,
+                Description = _des,
+                Type = type,
+                Power = int.Parse(power),
+                Accuracy = int.Parse(accuracy),
+            };
+        }
+        else if(Capacity2 == null)
+        {
+            Capacity2 = new Capacity
+            {
+                Name = _name,
+                Description = _des,
+                Type = type,
+                Power = int.Parse(power),
+                Accuracy = int.Parse(accuracy),
+            };
+        }
+        else if(Capacity3 == null)
+        {
+            Capacity3 = new Capacity
+            {
+                Name = _name,
+                Description = _des,
+                Type = type,
+                Power = int.Parse(power),
+                Accuracy = int.Parse(accuracy),
+            };
+        }
+
     }
 }
