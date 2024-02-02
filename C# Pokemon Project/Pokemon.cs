@@ -63,4 +63,15 @@ class Pokemon
         StatUp();
     }
 
+    public bool IsAlive()
+    {
+        if(Health > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

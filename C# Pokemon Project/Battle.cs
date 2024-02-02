@@ -1,7 +1,109 @@
 using System;
+using System.Diagnostics.Eventing.Reader;
 
 class Battle
 {
+
+    public static void StartBattleVsPokemon(Trainer player, Pokemon pokemon)
+    { 
+        Event event_choice = new Event();
+        bool fuite = false;
+        Console.WriteLine($"{player.Name} VS {pokemon.Name}");
+        Console.WriteLine("Choisissez votre action :");
+        bool action_selected = false;
+        Console.WriteLine("> Selectionnez un Pokemon");
+        Console.WriteLine("  Fuire");
+        Pokemon activePokemonTrainer1 = null;
+        while (!action_selected)
+        {
+            bool choice_event = event_choice.ChoiceEvent(2);
+            if (choice_event) {
+                action_selected = true;
+                if (event_choice.action_count == 0)
+                {
+                    if (player.Team.Count > 0)
+                    {
+                        activePokemonTrainer1 = ChooseActivePokemon(player);
+                    }
+                }
+                else if (event_choice.action_count == 1) {
+                    fuite = true;
+                }
+            }
+            Console.Clear();
+            Console.WriteLine("Choisissez votre action :");
+            if (event_choice.action_count == 0)
+            {
+                Console.WriteLine("> Selectionnez un Pokemon");
+                Console.WriteLine("  Fuire");
+            }
+            else if (event_choice.action_count == 1)
+            {
+                Console.WriteLine("  Selectionnez un Pokemon");
+                Console.WriteLine("> Fuire");
+            }
+        }
+        Console.Clear();
+        Console.WriteLine("Choisissez votre action :");
+        Console.WriteLine("> Attaquer");
+        Console.WriteLine("  Changer de Pokemon");
+        Console.WriteLine("  Utiliser un objet");
+        Console.WriteLine("  Fuire");
+        event_choice.action_count = 0;
+        while (player.Team.Count > 0 && pokemon.IsAlive() && fuite != true)
+        {
+            bool choice_event = event_choice.ChoiceEvent(4);
+            if (choice_event)
+            {
+                if(event_choice.action_count == 0)
+                {
+                    /*BattleRound(activePokemonTrainer1, pokemon);*/
+                }
+                else if(event_choice.action_count == 1)
+                {
+                    activePokemonTrainer1 = ChooseActivePokemon(player);
+                }
+                else if (event_choice.action_count == 2)
+                {
+
+                }
+                else if (event_choice.action_count == 3)
+                {
+                    fuite = true;
+                }
+            }
+            Console.Clear();
+            Console.WriteLine("Choisissez votre action :");
+            if (event_choice.action_count == 0)
+            {
+                Console.WriteLine("> Attaquer");
+                Console.WriteLine("  Changer de Pokemon");
+                Console.WriteLine("  Utiliser un objet");
+                Console.WriteLine("  Fuire");
+            }
+            else if (event_choice.action_count == 1)
+            {
+                Console.WriteLine("  Attaquer");
+                Console.WriteLine("> Changer de Pokemon");
+                Console.WriteLine("  Utiliser un objet");
+                Console.WriteLine("  Fuire");
+            }
+            else if (event_choice.action_count == 2)
+            {
+                Console.WriteLine("  Attaquer");
+                Console.WriteLine("  Changer de Pokemon");
+                Console.WriteLine("> Utiliser un objet");
+                Console.WriteLine("  Fuire");
+            }
+            else if (event_choice.action_count == 3)
+            {
+                Console.WriteLine("  Attaquer");
+                Console.WriteLine("  Changer de Pokemon");
+                Console.WriteLine("  Utiliser un objet");
+                Console.WriteLine("> Fuire");
+            }
+        }
+    }
     public static void StartBattle(Trainer trainer1, Trainer trainer2)
     {
         bool fuite = false;
@@ -52,7 +154,7 @@ class Battle
 
     public static Pokemon ChooseActivePokemon(Trainer trainer)
     {
-        Console.WriteLine($"{trainer.Name}, choose your active Pokémon:");
+        Console.WriteLine("Choisissez votre Pokemon actif :");
         for (int i = 0; i < trainer.Team.Count; i++)
         {
             Console.WriteLine($"{i + 1}. {trainer.Team[i].Name} (Health: {trainer.Team[i].Health})");
@@ -67,26 +169,39 @@ class Battle
         return trainer.Team[choice - 1];
     }
 
-    public static void BattleRound(Trainer trainer1, Pokemon activePokemonTrainer1, Trainer trainer2, Pokemon activePokemonTrainer2)
+    public static void BattleRound(Pokemon activePokemonTrainer1, Pokemon activePokemonTrainer2)
     {
+        Event event_choice = new Event();
+        Console.WriteLine("Choisissez votre attaque :");
+        Console.WriteLine($"> Attack : {activePokemonTrainer1.Attack} de degats");
+        Console.WriteLine($"  Attack Special : {activePokemonTrainer1.AttackSpecial} de degats");
+        bool choice_event = false;
+        while (!choice_event) {
+            choice_event = event_choice.ChoiceEvent(2);
 
-        Console.WriteLine($"{trainer1.Name}, choose the action of your pokemon");
-        Console.WriteLine($"W - Attack / X - Attack Special");
+            if (event_choice.action_count == 0)
+            {
+                Console.WriteLine($"> Attack : {activePokemonTrainer1.Attack} de degats");
+                Console.WriteLine($"  Attack Special : {activePokemonTrainer1.AttackSpecial} de degats");
+            }
+            else if (event_choice.action_count == 1)
+            {
+                Console.WriteLine($"  Attack : {activePokemonTrainer1.Attack} de degats");
+                Console.WriteLine($"> Attack Special : {activePokemonTrainer1.AttackSpecial} de degats");
+            }
+        }
 
-        ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
-
-        switch (consoleKeyInfo.Key)
+        if(event_choice.action_count == 0)
         {
-            case ConsoleKey.W:
-                float damageToTrainer2 = Math.Max(0, activePokemonTrainer1.Attack - activePokemonTrainer2.Defense);
-                activePokemonTrainer2.TakeDamage(damageToTrainer2);
-                Console.WriteLine($"{trainer2.Name}'s {activePokemonTrainer2.Name} takes {damageToTrainer2} damage!");
-                break;
-            case ConsoleKey.X:
-                damageToTrainer2 = Math.Max(0, activePokemonTrainer1.AttackSpecial - activePokemonTrainer2.Defense);
-                activePokemonTrainer2.TakeDamage(damageToTrainer2);
-                Console.WriteLine($"{trainer2.Name}'s {activePokemonTrainer2.Name} takes {damageToTrainer2} damage!");
-                break;
+            float damageToTrainer2 = Math.Max(0, activePokemonTrainer1.Attack - activePokemonTrainer2.Defense);
+            activePokemonTrainer2.TakeDamage(damageToTrainer2);
+            /*Console.WriteLine($"{trainer2.Name}'s {activePokemonTrainer2.Name} takes {damageToTrainer2} damage!");*/
+        }
+        else if(event_choice.action_count == 1) 
+        {
+            float damageToTrainer2 = Math.Max(0, activePokemonTrainer1.AttackSpecial - activePokemonTrainer2.Defense);
+            activePokemonTrainer2.TakeDamage(damageToTrainer2);
+           /* Console.WriteLine($"{trainer2.Name}'s {activePokemonTrainer2.Name} takes {damageToTrainer2} damage!");*/
         }
 
         float damageToTrainer1 = Math.Max(0, activePokemonTrainer2.Attack - activePokemonTrainer1.Defense);

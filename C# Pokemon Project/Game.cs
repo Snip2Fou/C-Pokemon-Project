@@ -178,7 +178,8 @@ class Game
                 {
                     int random_pokemon = random.Next(1, 722);
                     // Combat entre les deux dresseurs
-                    Battle.StartBattle(ash, gary);
+                    Battle.StartBattleVsPokemon(ash, pikachu);
+                    Console.Clear();
                 }
             }
              map.Draw();
