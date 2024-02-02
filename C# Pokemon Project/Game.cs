@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,9 +8,10 @@ class Game
     public bool isRunning = true;
     protected Map map = new Map();
     protected int[] playerPos = new int[2];
-    protected Inventaire inventaire = new Inventaire();
+    protected Inventory inventory = new Inventory();
     protected Object potion = new Object("potion de soin", "ajoute 5 point de vie au pokemon");
     protected Object pokeball = new Object("pokeball", "chance de capature de certain pokemon");
+    protected List<Pokemon> pokemons = new List<Pokemon>();
 
     public Game()
     {
@@ -19,41 +21,21 @@ class Game
         map.Draw();
     }
 
+    public void SaveGame()
+    {
+        SaveData game_save = new SaveData(pokemons, inventory, playerPos);
+        string jsonData = JsonConvert.SerializeObject(game_save);
+        File.WriteAllText("Save/game_save.json", jsonData);
+        Console.WriteLine("sauvegarde");
+    }
+
     public void GameLoop()
     {
         
-        inventaire.AddObject(potion);
-        inventaire.AddObject(potion);
-        inventaire.AddObject(pokeball);
-        inventaire.DisplayInventory();
-
-
-        string filePath = "data/pokemon.csv";
-
-        List<Pokemon> pokemons = new List<Pokemon>();
-
-        if (File.Exists(filePath))
-        {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                reader.ReadLine();
-
-                while (!reader.EndOfStream)
-                {
-                    string line = reader.ReadLine();
-                    string[] values = line.Split(',');
-
-                    Pokemon pokemon = new Pokemon(values[1], values[2], values[3], int.Parse(values[4]), int.Parse(values[5]), int.Parse(values[6]),
-                        int.Parse(values[7]), int.Parse(values[8]), int.Parse(values[9]), int.Parse(values[10]), int.Parse(values[11]), bool.Parse(values[12]));
-
-                    pokemons.Add(pokemon);
-                }
-            }
-        }   
-        else
-        {
-            Console.WriteLine("Le fichier n'existe pas.");
-        }
+        inventory.AddObject(potion);
+        inventory.AddObject(potion);
+        inventory.AddObject(pokeball);
+        inventory.DisplayInventory();
 
         // Création de deux dresseurs
         Trainer ash = new Trainer("Ash");
@@ -70,6 +52,10 @@ class Game
             {
                 case ConsoleKey.Escape:
                     isRunning = false;
+                    break;
+
+                case ConsoleKey.S:
+                    SaveGame();
                     break;
 
                 case ConsoleKey.UpArrow:

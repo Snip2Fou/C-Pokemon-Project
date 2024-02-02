@@ -12,7 +12,7 @@ class Pokemon
     public float Speed { get; set; }
     public int Generation { get; set; }
     public bool Legendary { get; set; }
-    private int _level { get; set; }
+    public int _level { get; set; }
 
     
 
@@ -46,21 +46,9 @@ class Pokemon
     {
         Health += 5;
     }
-
-    public void StatUp()
-    {
-        Health = Health * 1.2f;
-        Attack = Attack * 1.2f;
-        Defense = Defense * 1.2f;
-        AttackSpecial = AttackSpecial * 1.2f;
-        DefenseSpecial = DefenseSpecial * 1.2f;
-        Speed = Speed * 1.2f;
-    }
-
     public void LevelUp()
     {
         _level += 1;
-        StatUp();
     }
 
     public bool IsAlive()
