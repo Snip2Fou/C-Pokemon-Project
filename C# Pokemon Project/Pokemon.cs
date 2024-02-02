@@ -7,12 +7,12 @@ public class Pokemon
     public string TypeOne { get; set; }
     public string TypeTwo { get; set; }
     public int Total { get; set; }
-    public float Health { get; set; }
-    public float Attack { get; set; }
-    public float Defense { get; set; }
-    public float AttackSpecial { get; set; }
-    public float DefenseSpecial { get; set; }
-    public float Speed { get; set; }
+    public int Health { get; set; }
+    public int Attack { get; set; }
+    public int Defense { get; set; }
+    public int AttackSpecial { get; set; }
+    public int DefenseSpecial { get; set; }
+    public int Speed { get; set; }
     public int Level { get; set; }
     public Capacity Capacity1 { get; set; }
     public Capacity Capacity2 { get; set; }
@@ -53,20 +53,9 @@ public class Pokemon
         Health += 5;
     }
 
-    public void StatUp()
-    {
-        Health = Health * 1.2f;
-        Attack = Attack * 1.2f;
-        Defense = Defense * 1.2f;
-        AttackSpecial = AttackSpecial * 1.2f;
-        DefenseSpecial = DefenseSpecial * 1.2f;
-        Speed = Speed * 1.2f;
-    }
-
     public void LevelUp()
     {
         Level += 1;
-        StatUp();
     }
 
     public bool IsAlive()
@@ -92,6 +81,7 @@ public class Pokemon
             k++;
         }
         string type = values[k];
+        string category = values[k+1];
         string power = values[k+2];
         if (power == "—")
         {
@@ -125,6 +115,7 @@ public class Pokemon
                 Name = _name,
                 Description = _des,
                 Type = type,
+                Category = category,
                 Power = int.Parse(power),
                 Accuracy = int.Parse(accuracy),
             };
@@ -136,6 +127,7 @@ public class Pokemon
                 Name = _name,
                 Description = _des,
                 Type = type,
+                Category = category,
                 Power = int.Parse(power),
                 Accuracy = int.Parse(accuracy),
             };
@@ -147,6 +139,7 @@ public class Pokemon
                 Name = _name,
                 Description = _des,
                 Type = type,
+                Category = category,
                 Power = int.Parse(power),
                 Accuracy = int.Parse(accuracy),
             };

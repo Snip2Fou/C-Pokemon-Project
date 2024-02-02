@@ -3,9 +3,49 @@ using System.Diagnostics.Eventing.Reader;
 
 class Battle
 {
+    private int Mud_Sport { get; set; }
+    private int Water_Sport { get; set; }
 
-    public static void StartBattleVsPokemon(Trainer player, Pokemon pokemon)
+    public int GetPower(Capacity capacity_attack,Capacity capacity_defense)
+    {
+        float MS = 1;
+        if(Mud_Sport != 0 && capacity_attack.Type == "Electric")
+        {
+            MS = 0.5f;
+        }
+        float WS = 1;
+        if (Water_Sport != 0 && capacity_attack.Type == "Fire")
+        {
+            MS = 0.5f;
+        }
+        float power = capacity_attack.Power * MS * WS;
+        return (int)Math.Round(power);
+    }
+
+    public int GetAttack(Capacity capacity_attack, Pokemon pokemon)
+    {
+        int attack = pokemon.Attack;
+        if(capacity_attack.Type == "Special")
+        {
+            attack = pokemon.AttackSpecial;
+        }
+        return attack;
+    }
+
+    public int GetDefense(Capacity capacity_attack, Pokemon pokemon)
+    {
+        int defense = pokemon.Defense;
+        if (capacity_attack.Type == "Special")
+        {
+            defense = pokemon.DefenseSpecial;
+        }
+        return defense;
+    }
+
+    public void StartBattleVsPokemon(Trainer player, Pokemon pokemon)
     { 
+        Mud_Sport = 0;
+        Water_Sport = 0;
         Event event_choice = new Event();
         bool fuite = false;
         Console.WriteLine($"{player.Name} VS {pokemon.Name}");
@@ -13,7 +53,7 @@ class Battle
         bool action_selected = false;
         Console.WriteLine("> Selectionnez un Pokemon");
         Console.WriteLine("  Fuire");
-        Pokemon activePokemonTrainer1 = null;
+        Pokemon activePokemon1 = null;
         while (!action_selected)
         {
             bool choice_event = event_choice.ChoiceEvent(2);
@@ -23,7 +63,7 @@ class Battle
                 {
                     if (player.Team.Count > 0)
                     {
-                        activePokemonTrainer1 = ChooseActivePokemon(player);
+                        activePokemon1 = ChooseActivePokemon(player);
                     }
                 }
                 else if (event_choice.action_count == 1) {
@@ -57,11 +97,11 @@ class Battle
             {
                 if(event_choice.action_count == 0)
                 {
-                    /*BattleRound(activePokemonTrainer1, pokemon);*/
+                    /*BattleRound(activePokemon1, pokemon);*/
                 }
                 else if(event_choice.action_count == 1)
                 {
-                    activePokemonTrainer1 = ChooseActivePokemon(player);
+                    activePokemon1 = ChooseActivePokemon(player);
                 }
                 else if (event_choice.action_count == 2)
                 {
@@ -121,11 +161,11 @@ class Battle
                     while (trainer1.Team.Count > 0 || trainer2.Team.Count > 0)
                     {
                         // Chaque dresseur choisit son Pokémon actif
-                        Pokemon activePokemonTrainer1 = ChooseActivePokemon(trainer1);
-                        Pokemon activePokemonTrainer2 = ChooseActivePokemon(trainer2);
+                        Pokemon activePokemon1 = ChooseActivePokemon(trainer1);
+                        Pokemon activePokemon2 = ChooseActivePokemon(trainer2);
 
                         // Combat entre les Pokémon actifs
-                        /*BattleRound(trainer1, activePokemonTrainer1, trainer2, activePokemonTrainer2);*/
+                        /*BattleRound(trainer1, activePokemon1, trainer2, activePokemon2);*/
                     }
                     break;
                 case ConsoleKey.B:
@@ -169,58 +209,121 @@ class Battle
         return trainer.Team[choice - 1];
     }
 
-    public static void BattleRound(Pokemon activePokemonTrainer1, Pokemon activePokemonTrainer2)
+    public void BattleRound(Pokemon activePokemon1, Pokemon activePokemon2)
     {
         Event event_choice = new Event();
+        int nb_event = 0;
         Console.WriteLine("Choisissez votre attaque :");
-        Console.WriteLine($"> Attack : {activePokemonTrainer1.Attack} de degats");
-        Console.WriteLine($"  Attack Special : {activePokemonTrainer1.AttackSpecial} de degats");
+        if(activePokemon1.Capacity1 != null)
+        {
+            Console.WriteLine($">  {activePokemon1.Capacity1.Name} | {activePokemon1.Capacity1.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Power} | {activePokemon1.Capacity1.Accuracy}");
+            nb_event++;
+        }
+        else if(activePokemon1.Capacity2 != null)
+        {
+            Console.WriteLine($"  {activePokemon1.Capacity2.Name} | {activePokemon1.Capacity2.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity2.Power} | {activePokemon1.Capacity2.Accuracy}");
+            nb_event++;
+        }
+        else if (activePokemon1.Capacity3 != null)
+        {
+            Console.WriteLine($"  {activePokemon1.Capacity3.Name} | {activePokemon1.Capacity3.Type} | {activePokemon1.Capacity3.Category} | {activePokemon1.Capacity3.Power} | {activePokemon1.Capacity3.Accuracy}");
+            nb_event++;
+        }
         bool choice_event = false;
         while (!choice_event) {
-            choice_event = event_choice.ChoiceEvent(2);
+            choice_event = event_choice.ChoiceEvent(nb_event);
 
+            Console.Clear();
+            Console.WriteLine("Choisissez votre attaque :");
             if (event_choice.action_count == 0)
             {
-                Console.WriteLine($"> Attack : {activePokemonTrainer1.Attack} de degats");
-                Console.WriteLine($"  Attack Special : {activePokemonTrainer1.AttackSpecial} de degats");
+                if (activePokemon1.Capacity1 != null)
+                {
+                    Console.WriteLine($"> {activePokemon1.Capacity1.Name} | {activePokemon1.Capacity1.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Power} | {activePokemon1.Capacity1.Accuracy}");
+                }
+                else if (activePokemon1.Capacity2 != null)
+                {
+                    Console.WriteLine($"  {activePokemon1.Capacity2.Name} | {activePokemon1.Capacity2.Type} | {activePokemon1.Capacity2.Category} | {activePokemon1.Capacity2.Power} | {activePokemon1.Capacity2.Accuracy}");
+                }
+                else if (activePokemon1.Capacity3 != null)
+                {
+                    Console.WriteLine($"  {activePokemon1.Capacity3.Name} | {activePokemon1.Capacity3.Type} | {activePokemon1.Capacity3.Category} | {activePokemon1.Capacity3.Power} | {activePokemon1.Capacity3.Accuracy}");
+                }
             }
             else if (event_choice.action_count == 1)
             {
-                Console.WriteLine($"  Attack : {activePokemonTrainer1.Attack} de degats");
-                Console.WriteLine($"> Attack Special : {activePokemonTrainer1.AttackSpecial} de degats");
+                if (activePokemon1.Capacity1 != null)
+                {
+                    Console.WriteLine($"  {activePokemon1.Capacity1.Name} | {activePokemon1.Capacity1.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Power} | {activePokemon1.Capacity1.Accuracy}");
+                }
+                else if (activePokemon1.Capacity2 != null)
+                {
+                    Console.WriteLine($"> {activePokemon1.Capacity2.Name} | {activePokemon1.Capacity2.Type} | {activePokemon1.Capacity2.Category} | {activePokemon1.Capacity2.Power} | {activePokemon1.Capacity2.Accuracy}");
+                }
+                else if (activePokemon1.Capacity3 != null)
+                {
+                    Console.WriteLine($"  {activePokemon1.Capacity3.Name} | {activePokemon1.Capacity3.Type} | {activePokemon1.Capacity3.Category} | {activePokemon1.Capacity3.Power} | {activePokemon1.Capacity3.Accuracy}");
+                }
+            }
+            else if (event_choice.action_count == 2)
+            {
+                Console.WriteLine($"  Attack | Normal | {activePokemon1.Attack} | 100%");
+                if (activePokemon1.Capacity1 != null)
+                {
+                    Console.WriteLine($"  {activePokemon1.Capacity1.Name} | {activePokemon1.Capacity1.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Power} | {activePokemon1.Capacity1.Accuracy}");
+                }
+                else if (activePokemon1.Capacity2 != null)
+                {
+                    Console.WriteLine($"  {activePokemon1.Capacity2.Name} | {activePokemon1.Capacity2.Type} | {activePokemon1.Capacity2.Category} | {activePokemon1.Capacity2.Power} | {activePokemon1.Capacity2.Accuracy}");
+                }
+                else if (activePokemon1.Capacity3 != null)
+                {
+                    Console.WriteLine($"> {activePokemon1.Capacity3.Name} | {activePokemon1.Capacity3.Type} | {activePokemon1.Capacity3.Category} | {activePokemon1.Capacity3.Power} | {activePokemon1.Capacity3.Accuracy}");
+                }
             }
         }
 
+        Capacity capacity_random = activePokemon2.Capacity1;
+
         if(event_choice.action_count == 0)
         {
-            float damageToTrainer2 = Math.Max(0, activePokemonTrainer1.Attack - activePokemonTrainer2.Defense);
-            activePokemonTrainer2.TakeDamage(damageToTrainer2);
-            /*Console.WriteLine($"{trainer2.Name}'s {activePokemonTrainer2.Name} takes {damageToTrainer2} damage!");*/
+            int level = activePokemon1.Level;
+            int damage = (level * 2 / 5) + 2;
+            int power = GetPower(activePokemon1.Capacity1, capacity_random);
+            damage *= power;
+            int attack = GetAttack(activePokemon1.Capacity1, activePokemon1);
+            damage *= attack;
+            float damage_temp = damage / 50;
+            damage = (int)Math.Round(damage_temp);
+
+              /*  Math.Max(0, activePokemon1.Attack - activePokemon2.Defense);*/
+            activePokemon2.TakeDamage(damageToTrainer2);
+            /*Console.WriteLine($"{trainer2.Name}'s {activePokemon2.Name} takes {damageToTrainer2} damage!");*/
         }
         else if(event_choice.action_count == 1) 
         {
-            float damageToTrainer2 = Math.Max(0, activePokemonTrainer1.AttackSpecial - activePokemonTrainer2.Defense);
-            activePokemonTrainer2.TakeDamage(damageToTrainer2);
-           /* Console.WriteLine($"{trainer2.Name}'s {activePokemonTrainer2.Name} takes {damageToTrainer2} damage!");*/
+            float damageToTrainer2 = Math.Max(0, activePokemon1.AttackSpecial - activePokemon2.Defense);
+            activePokemon2.TakeDamage(damageToTrainer2);
+           /* Console.WriteLine($"{trainer2.Name}'s {activePokemon2.Name} takes {damageToTrainer2} damage!");*/
         }
 
-        float damageToTrainer1 = Math.Max(0, activePokemonTrainer2.Attack - activePokemonTrainer1.Defense);
-        activePokemonTrainer1.TakeDamage(damageToTrainer1);
+        float damageToTrainer1 = Math.Max(0, activePokemon2.Attack - activePokemon1.Defense);
+        activePokemon1.TakeDamage(damageToTrainer1);
 
-        /*Console.WriteLine($"{trainer1.Name}'s {activePokemonTrainer1.Name} takes {damageToTrainer1} damage!");
+        /*Console.WriteLine($"{trainer1.Name}'s {activePokemon1.Name} takes {damageToTrainer1} damage!");
 
         // Vérifier si le Pokémon de trainer2 est vaincu
-        if (activePokemonTrainer2.Health <= 0)
+        if (activePokemon2.Health <= 0)
       {
-          Console.WriteLine($"{trainer2.Name}'s {activePokemonTrainer2.Name} faints!");
-          trainer2.Team.Remove(activePokemonTrainer2);
+          Console.WriteLine($"{trainer2.Name}'s {activePokemon2.Name} faints!");
+          trainer2.Team.Remove(activePokemon2);
       }
 
       // Vérifier si le Pokémon de trainer1 est vaincu
-      if (activePokemonTrainer1.Health <= 0)
+      if (activePokemon1.Health <= 0)
       {
-          Console.WriteLine($"{trainer1.Name}'s {activePokemonTrainer1.Name} faints!");
-          trainer1.Team.Remove(activePokemonTrainer1);
+          Console.WriteLine($"{trainer1.Name}'s {activePokemon1.Name} faints!");
+          trainer1.Team.Remove(activePokemon1);
       }*/
     }
 }

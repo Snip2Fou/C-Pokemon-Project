@@ -283,14 +283,14 @@ public class Game
                 int random_number = random.Next(1, 7);
                 if (random_number == 1)
                 {
-                    int random_pokemon = random.Next(1, 722);
+                    int random_pokemon = random.Next(1, 1061);
                     // Combat entre les deux dresseurs
-                    /*Battle.StartBattleVsPokemon(ash, pikachu);*/
+                    Battle battle = new Battle(); 
+                    battle.StartBattleVsPokemon(ash, pokemons[random_pokemon]);
                     Console.Clear();
                 }
             }
             map.Draw();
-            Console.WriteLine($"{pokemons[0].Name} {pokemons[0].Capacity1.Name}");
         }
     }
 }
