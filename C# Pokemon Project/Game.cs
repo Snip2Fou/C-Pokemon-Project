@@ -7,6 +7,9 @@ class Game
     public bool isRunning = true;
     protected Map map = new Map();
     protected int[] playerPos = new int[2];
+    protected Inventaire inventaire = new Inventaire();
+    protected Object posion = new Object("posion de soin", "ajoute 5 point de vie au pokemon");
+    protected Object pokeball = new Object("pokeball", "chance de capature de certain pokemon");
 
     public Game()
     {
@@ -18,6 +21,10 @@ class Game
 
     public void GameLoop()
     {
+        inventaire.AddObject(posion);
+        inventaire.AddObject(posion);
+        inventaire.AddObject(pokeball);
+        inventaire.DisplayInventory();
         string filePath = "pokemon.csv";
 
         List<Pokemon> pokemons = new List<Pokemon>();
@@ -178,7 +185,7 @@ class Game
                 {
                     int random_pokemon = random.Next(1, 722);
                     // Combat entre les deux dresseurs
-                    Battle.StartBattleVsPokemon(ash, pikachu);
+                    /*Battle.StartBattleVsPokemon(ash, pikachu);*/
                     Console.Clear();
                 }
             }

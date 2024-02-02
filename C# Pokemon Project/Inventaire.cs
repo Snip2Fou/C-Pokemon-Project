@@ -5,6 +5,8 @@ class Inventaire
 {
     private List<Object> _inventaire = new List<Object>();
 
+    public Inventaire() { }
+
     public void UsingObject(Object obj, Pokemon pokemon) 
     {
         obj.UseThis(pokemon);

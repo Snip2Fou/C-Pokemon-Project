@@ -50,8 +50,10 @@
     <Compile Include="Battle.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Inventaire.cs" />
     <Compile Include="main.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Object.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Pokemon.cs" />
