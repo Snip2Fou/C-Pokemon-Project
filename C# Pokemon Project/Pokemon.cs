@@ -19,7 +19,7 @@ public class Pokemon
     public Capacity Capacity3 { get; set; }
 
 
-    public Pokemon(string name, string typeOne, string typeTwo, int total ,float health, float attack, float defense, float attackspecial, float defensespecial, float speed)
+    public Pokemon(string name, string typeOne, string typeTwo, int total ,int health, int attack, int defense, int attackspecial, int defensespecial, int speed)
     {
         Name = name;
         TypeOne = typeOne;
@@ -39,7 +39,7 @@ public class Pokemon
         Capacity1 = null; Capacity2 = null; Capacity3 = null;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         Health -= damage;
         if (Health < 0)
@@ -107,6 +107,11 @@ public class Pokemon
             }
             accuracy = new_val;
         }
+        bool critical = false;
+        if (values[k+7] == "1")
+        {
+            critical = true;
+        }
 
         if (Capacity1 == null)
         {
@@ -118,6 +123,7 @@ public class Pokemon
                 Category = category,
                 Power = int.Parse(power),
                 Accuracy = int.Parse(accuracy),
+                Critical = critical
             };
         }
         else if(Capacity2 == null)
@@ -130,6 +136,7 @@ public class Pokemon
                 Category = category,
                 Power = int.Parse(power),
                 Accuracy = int.Parse(accuracy),
+                Critical = critical
             };
         }
         else if(Capacity3 == null)
@@ -142,6 +149,7 @@ public class Pokemon
                 Category = category,
                 Power = int.Parse(power),
                 Accuracy = int.Parse(accuracy),
+                Critical = critical
             };
         }
 

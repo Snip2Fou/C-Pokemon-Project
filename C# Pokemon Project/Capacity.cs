@@ -9,6 +9,7 @@ public class Capacity
     public string Category { get; set; }
     public float Power { get; set; }
     public float Accuracy { get; set; }
+    public bool Critical { get; set; }
 
     public Capacity() { }
 

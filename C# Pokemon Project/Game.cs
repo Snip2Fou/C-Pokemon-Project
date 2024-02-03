@@ -1,7 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 
 
@@ -13,7 +14,8 @@ public class Game
     protected Map map = new Map();
     protected int[] playerPos = new int[2];
     public List<Pokemon> pokemons = new List<Pokemon>();
-    public List<String> type_list = new List<String>();
+    public List<string> type_list = new List<string>();
+    public Dictionary<string, Dictionary<string, List<double>>> type_chart = new Dictionary<string, Dictionary<string, List<double>>>();
 
     public static Game Instance
     {
@@ -45,9 +47,52 @@ public class Game
             {
                 string lineType = readerType.ReadLine();
                 string[] valuesType = lineType.Split(',');
-                for(int i = 2; i < valuesType.Length; i++)
+
+                Dictionary<string, List<double>> dico_type_int = new Dictionary<string, List<double>>();
+                List<double> list_double = new List<double>();
+                for (int i = 2; i < valuesType.Length; i++)
                 {
                     type_list.Add(valuesType[i]);
+                }
+                while (!readerType.EndOfStream)
+                {
+                    lineType = readerType.ReadLine();
+                    valuesType = lineType.Split(',');
+
+                    list_double = new List<double>();
+                    dico_type_int = new Dictionary<string, List<double>>();
+                    for (int k = 2; k < valuesType.Length; k++)
+                    {
+                        if (double.TryParse(valuesType[k], out double value_double))
+                        {
+                            list_double.Add(value_double);
+                        }
+                        else
+                        {
+                            list_double.Add(0.5);
+                        }
+                    }
+                    dico_type_int.Add(valuesType[1], list_double);
+                    for (int i = 1; i < type_list.Count; i++)
+                    {
+                        lineType = readerType.ReadLine();
+                        valuesType = lineType.Split(',');
+
+                        list_double = new List<double>();
+                        for (int k = 2; k < valuesType.Length; k++)
+                        {
+                            if (double.TryParse(valuesType[k], out double value_double))
+                            {
+                                list_double.Add(value_double);
+                            }
+                            else
+                            {
+                                list_double.Add(0.5);
+                            }
+                        }
+                        dico_type_int.Add(valuesType[1], list_double);
+                    }
+                    type_chart.Add(valuesType[0], dico_type_int);
                 }
             }
         }
@@ -152,7 +197,7 @@ public class Game
     public void GameLoop()
     {
 
-        // Cr�ation de deux dresseurs
+        // Création de deux dresseurs
         Trainer ash = new Trainer("Ash");
         Trainer gary = new Trainer("Gary");
 
@@ -291,6 +336,11 @@ public class Game
                 }
             }
             map.Draw();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("[■■■");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write("--]");
+            Console.ResetColor();
         }
     }
 }

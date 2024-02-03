@@ -1,4 +1,5 @@
-using System;
+ï»¿using System;
+using System.Data.SqlTypes;
 using System.Diagnostics.Eventing.Reader;
 
 class Battle
@@ -6,7 +7,30 @@ class Battle
     private int Mud_Sport { get; set; }
     private int Water_Sport { get; set; }
 
-    public int GetPower(Capacity capacity_attack,Capacity capacity_defense)
+    public int GetDamage(Pokemon attack_pokemon, Capacity attack_capacity, Pokemon defense_pokemon)
+    {
+        int level = attack_pokemon.Level;
+        int damage = (level * 2 / 5) + 2;
+        int power = GetPower(attack_capacity);
+        damage *= power;
+        int attack = GetAttack(attack_capacity, attack_pokemon);
+        damage *= attack;
+        float damage_temp = damage / 50;
+        damage = (int)Math.Round(damage_temp);
+        damage_temp = damage / GetDefense(attack_capacity, defense_pokemon);
+        damage = (int)Math.Round(damage_temp);
+        damage += 2;
+        damage *= GetCritical(attack_capacity);
+        damage *= GetRandom();
+        damage_temp = damage / 100;
+        damage = (int)Math.Round(damage_temp);
+        damage_temp = damage * GetStab(attack_capacity, attack_pokemon);
+        damage = (int)Math.Round(damage_temp);
+        double damage_temp2 = damage * GetType(attack_capacity, defense_pokemon);
+        damage = (int)Math.Round(damage_temp2);
+        return damage;
+    }
+    public int GetPower(Capacity capacity_attack)
     {
         float MS = 1;
         if(Mud_Sport != 0 && capacity_attack.Type == "Electric")
@@ -40,6 +64,44 @@ class Battle
             defense = pokemon.DefenseSpecial;
         }
         return defense;
+    }
+
+    public int GetCritical(Capacity capacity_attack)
+    {
+        int critical = 1;
+        if (capacity_attack.Critical)
+        {
+            critical = 2;
+        }
+        return critical;
+    }
+
+    public int GetRandom()
+    {
+        Random R = new Random();
+        int random = (R.Next(217, 255) * 100) / 255;
+        return random;
+    }
+
+    public float GetStab(Capacity capacity_attack, Pokemon pokemon)
+    {
+        float stab = 1;
+        if(capacity_attack.Type.Equals(pokemon.TypeOne) || capacity_attack.Type.Equals(pokemon.TypeTwo))
+        {
+            stab = 1.5f;
+        }
+        return stab;
+    }
+
+    public double GetType(Capacity capacity_attack, Pokemon pokemon)
+    {
+        int index_type = Game.Instance.type_list.IndexOf(capacity_attack.Type);
+        return Game.Instance.type_chart[pokemon.TypeOne][pokemon.TypeTwo][index_type];
+    }
+
+    public void UseCapacity()
+    {
+
     }
 
     public void StartBattleVsPokemon(Trainer player, Pokemon pokemon)
@@ -160,11 +222,11 @@ class Battle
                 case ConsoleKey.A:
                     while (trainer1.Team.Count > 0 || trainer2.Team.Count > 0)
                     {
-                        // Chaque dresseur choisit son Pokémon actif
+                        // Chaque dresseur choisit son PokÃ©mon actif
                         Pokemon activePokemon1 = ChooseActivePokemon(trainer1);
                         Pokemon activePokemon2 = ChooseActivePokemon(trainer2);
 
-                        // Combat entre les Pokémon actifs
+                        // Combat entre les PokÃ©mon actifs
                         /*BattleRound(trainer1, activePokemon1, trainer2, activePokemon2);*/
                     }
                     break;
@@ -267,7 +329,6 @@ class Battle
             }
             else if (event_choice.action_count == 2)
             {
-                Console.WriteLine($"  Attack | Normal | {activePokemon1.Attack} | 100%");
                 if (activePokemon1.Capacity1 != null)
                 {
                     Console.WriteLine($"  {activePokemon1.Capacity1.Name} | {activePokemon1.Capacity1.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Power} | {activePokemon1.Capacity1.Accuracy}");
@@ -287,39 +348,32 @@ class Battle
 
         if(event_choice.action_count == 0)
         {
-            int level = activePokemon1.Level;
-            int damage = (level * 2 / 5) + 2;
-            int power = GetPower(activePokemon1.Capacity1, capacity_random);
-            damage *= power;
-            int attack = GetAttack(activePokemon1.Capacity1, activePokemon1);
-            damage *= attack;
-            float damage_temp = damage / 50;
-            damage = (int)Math.Round(damage_temp);
-
-              /*  Math.Max(0, activePokemon1.Attack - activePokemon2.Defense);*/
-            activePokemon2.TakeDamage(damageToTrainer2);
+            UseCapacity();
+        
+            /*  Math.Max(0, activePokemon1.Attack - activePokemon2.Defense);*/
+            /* activePokemon2.TakeDamage(damageToTrainer2);*/
             /*Console.WriteLine($"{trainer2.Name}'s {activePokemon2.Name} takes {damageToTrainer2} damage!");*/
         }
         else if(event_choice.action_count == 1) 
         {
             float damageToTrainer2 = Math.Max(0, activePokemon1.AttackSpecial - activePokemon2.Defense);
-            activePokemon2.TakeDamage(damageToTrainer2);
+            /*activePokemon2.TakeDamage(damageToTrainer2);*/
            /* Console.WriteLine($"{trainer2.Name}'s {activePokemon2.Name} takes {damageToTrainer2} damage!");*/
         }
 
         float damageToTrainer1 = Math.Max(0, activePokemon2.Attack - activePokemon1.Defense);
-        activePokemon1.TakeDamage(damageToTrainer1);
+      /*  activePokemon1.TakeDamage(damageToTrainer1);*/
 
         /*Console.WriteLine($"{trainer1.Name}'s {activePokemon1.Name} takes {damageToTrainer1} damage!");
 
-        // Vérifier si le Pokémon de trainer2 est vaincu
+        // VÃ©rifier si le PokÃ©mon de trainer2 est vaincu
         if (activePokemon2.Health <= 0)
       {
           Console.WriteLine($"{trainer2.Name}'s {activePokemon2.Name} faints!");
           trainer2.Team.Remove(activePokemon2);
       }
 
-      // Vérifier si le Pokémon de trainer1 est vaincu
+      // VÃ©rifier si le PokÃ©mon de trainer1 est vaincu
       if (activePokemon1.Health <= 0)
       {
           Console.WriteLine($"{trainer1.Name}'s {activePokemon1.Name} faints!");
