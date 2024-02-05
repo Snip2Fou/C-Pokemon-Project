@@ -32,6 +32,30 @@ class Game
         Console.WriteLine("sauvegarde");
     }
 
+    public void LoadGame()
+    {
+        try
+        {
+            string jsonData = File.ReadAllText("Save/game_save.json");
+            SaveData data = JsonConvert.DeserializeObject<SaveData>(jsonData);
+            namePlayer = data.NamePlayer;
+            pokemons = data.Pokemons;
+            foreach(var obj in data.Inventory)
+            {
+                inventory.AddObject(obj);
+            }
+            Console.WriteLine("Partie chargée");
+        }
+        catch (FieldAccessException) 
+        {
+            Console.WriteLine("Aucun sauvegarde trouvé");
+        }
+        catch (JsonException)
+        {
+            Console.WriteLine("Erreur lors de la lecture du fichier de sauvegarde");
+        }
+    }
+
     public void GameLoop()
     {
         Console.WriteLine("entre votre pseudo :");
@@ -61,6 +85,10 @@ class Game
 
                 case ConsoleKey.S:
                     SaveGame();
+                    break;
+
+                case ConsoleKey.K:
+                    LoadGame();
                     break;
 
                 case ConsoleKey.UpArrow:
