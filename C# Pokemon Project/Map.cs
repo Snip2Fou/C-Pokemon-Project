@@ -1,5 +1,5 @@
 using System;
-class Map
+public class Map
 {
     public char[,] map;
     public int size_x = 20;
