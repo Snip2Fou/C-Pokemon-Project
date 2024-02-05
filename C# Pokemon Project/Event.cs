@@ -32,7 +32,6 @@ class Event
                 return false;
 
             case ConsoleKey.Enter:
-                action_count = 0;
                 return true;
 
             default:

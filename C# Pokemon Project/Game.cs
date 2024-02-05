@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,12 @@ class Game
     public bool isRunning = true;
     protected Map map = new Map();
     protected int[] playerPos = new int[2];
+    protected Inventory inventory = new Inventory();
+    protected Object potion = new Object("potion de soin", "ajoute 5 point de vie au pokemon");
+    protected Object pokeball = new Object("pokeball", "chance de capature de certain pokemon");
+    protected Pokemon poke = new Pokemon("poketest");
+    protected List<Pokemon> pokemons = new List<Pokemon>();
+    string namePlayer;
 
     public Game()
     {
@@ -14,43 +21,54 @@ class Game
         playerPos[1] = map.size_y / 2;
         map.map.SetValue('0', playerPos[0], playerPos[1]);
         map.Draw();
+        pokemons.Add(poke);
+    }
+
+    public void SaveGame()
+    {
+        SaveData game_save = new SaveData(namePlayer, pokemons, inventory.SaveInventory(), playerPos);
+        string jsonData = JsonConvert.SerializeObject(game_save);
+        File.WriteAllText("Save/game_save.json", jsonData);
+        Console.WriteLine("sauvegarde");
+    }
+
+    public void LoadGame()
+    {
+        try
+        {
+            string jsonData = File.ReadAllText("Save/game_save.json");
+            SaveData data = JsonConvert.DeserializeObject<SaveData>(jsonData);
+            namePlayer = data.NamePlayer;
+            pokemons = data.Pokemons;
+            foreach(var obj in data.Inventory)
+            {
+                inventory.AddObject(obj);
+            }
+            Console.WriteLine("Partie chargée");
+        }
+        catch (FieldAccessException) 
+        {
+            Console.WriteLine("Aucun sauvegarde trouvé");
+        }
+        catch (JsonException)
+        {
+            Console.WriteLine("Erreur lors de la lecture du fichier de sauvegarde");
+        }
     }
 
     public void GameLoop()
     {
-        string filePath = "pokemon.csv";
-
-        List<Pokemon> pokemons = new List<Pokemon>();
-
-        if (File.Exists(filePath))
-        {
-            using (StreamReader reader = new StreamReader(filePath))
-            {
-                reader.ReadLine();
-
-                while (!reader.EndOfStream)
-                {
-                    string line = reader.ReadLine();
-                    string[] values = line.Split(',');
-
-                    Pokemon pokemon = new Pokemon(values[1], values[2], values[3], int.Parse(values[4]), int.Parse(values[5]), int.Parse(values[6]),
-                        int.Parse(values[7]), int.Parse(values[8]), int.Parse(values[9]), int.Parse(values[10]), int.Parse(values[11]), bool.Parse(values[12]));
-
-                    pokemons.Add(pokemon);
-                }
-            }
-        }   
-        else
-        {
-            Console.WriteLine("Le fichier n'existe pas.");
-        }
+        Console.WriteLine("entre votre pseudo :");
+        namePlayer = Console.ReadLine();
 
         // Création de deux dresseurs
-        Trainer ash = new Trainer("Ash");
+        Trainer player = new Trainer(namePlayer);
         Trainer gary = new Trainer("Gary");
 
-        /*ash.AddPokemon("Kakuna");
-        gary.AddPokemon("Metapod");*/
+        inventory.AddObject(potion);
+        inventory.AddObject(potion);
+        inventory.AddObject(pokeball);
+        inventory.DisplayInventory();
 
 
         while (isRunning)
@@ -65,12 +83,28 @@ class Game
                     isRunning = false;
                     break;
 
+                case ConsoleKey.S:
+                    SaveGame();
+                    break;
+
+                case ConsoleKey.K:
+                    LoadGame();
+                    break;
+
                 case ConsoleKey.UpArrow:
                     if (playerPos[0] - 1 > 0)
                     {
                         if(playerPos[0] - 1 == 1 && playerPos[1] == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {
@@ -96,6 +130,14 @@ class Game
                         if (playerPos[0] + 1 == 1 && playerPos[1] == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {
@@ -121,6 +163,14 @@ class Game
                         if (playerPos[0] == 1 && playerPos[1] - 1 == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {
@@ -146,6 +196,14 @@ class Game
                         if (playerPos[0] == 1 && playerPos[1] + 1 == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {
@@ -178,7 +236,7 @@ class Game
                 {
                     int random_pokemon = random.Next(1, 722);
                     // Combat entre les deux dresseurs
-                    Battle.StartBattleVsPokemon(ash, pikachu);
+                    /*Battle.StartBattleVsPokemon(ash, pikachu);*/
                     Console.Clear();
                 }
             }

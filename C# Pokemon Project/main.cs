@@ -9,7 +9,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        Game game = new Game();
-        game.GameLoop();
+       Menu menu = new Menu();
+       menu.Start();
     }
 }

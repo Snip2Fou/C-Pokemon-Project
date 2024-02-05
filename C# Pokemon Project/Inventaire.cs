@@ -1,22 +1,28 @@
 using System;
 using System.Collections.Generic;
 
-class Inventaire 
+class Inventory 
 {
-    private List<Object> _inventaire = new List<Object>();
+    private List<Object> _inventory = new List<Object>();
+
+    public Inventory() { }
 
     public void UsingObject(Object obj, Pokemon pokemon) 
     {
         obj.UseThis(pokemon);
-        _inventaire.Remove(obj);
+        _inventory.Remove(obj);
     }
-    public void AddObject(Object obj) { _inventaire.Add(obj);}
+    public void AddObject(Object obj) { _inventory.Add(obj);}
 
     public void DisplayInventory()
     {
-        foreach (var obj in _inventaire)
+        foreach (var obj in _inventory)
         {
             Console.WriteLine($"{obj.Name} : {obj.Description}");
         }
+    }
+    public List<Object> SaveInventory()
+    {
+        return _inventory;
     }
 }
