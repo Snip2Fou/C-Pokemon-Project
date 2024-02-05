@@ -80,7 +80,8 @@ class Game
             switch (consoleKeyInfo.Key)
             {
                 case ConsoleKey.Escape:
-                    isRunning = false;
+                    MenuPause menuPause = new MenuPause(this);
+                    menuPause.Stop();
                     break;
 
                 case ConsoleKey.S:
