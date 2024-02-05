@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Net;
 using System.Reflection.Emit;
+using System.Security.Policy;
 
 public class Pokemon
 {
@@ -14,6 +16,8 @@ public class Pokemon
     public int DefenseSpecial { get; set; }
     public int Speed { get; set; }
     public int Level { get; set; }
+    public int PvMax {  get; set; }
+    public int Pv { get; set; }
     public Capacity Capacity1 { get; set; }
     public Capacity Capacity2 { get; set; }
     public Capacity Capacity3 { get; set; }
@@ -29,7 +33,9 @@ public class Pokemon
         Attack = attack;
         Defense = defense;
         AttackSpecial = attackspecial;
-        DefenseSpecial = defensespecial;    
+        DefenseSpecial = defensespecial;
+        PvMax = GetPvByFormule();
+        Pv = GetPvByFormule();
         Speed = speed;
         Level = 1;
     }
@@ -41,16 +47,16 @@ public class Pokemon
 
     public void TakeDamage(int damage)
     {
-        Health -= damage;
-        if (Health < 0)
+        Pv -= damage;
+        if (Pv < 0)
         {
-            Health = 0;
+            Pv = 0;
         }
     }
 
     public void Heal()
     {
-        Health += 5;
+        Pv += 5;
     }
 
     public void LevelUp()
@@ -60,7 +66,7 @@ public class Pokemon
 
     public bool IsAlive()
     {
-        if(Health > 0)
+        if(Pv > 0)
         {
             return true;
         }
@@ -68,6 +74,18 @@ public class Pokemon
         {
             return false;
         }
+    }
+
+    public int GetPvByFormule()
+    {
+        int pv = ((2 * Health * Level / 100) + Level + 10);
+        return pv;
+    }
+
+    public int GetStatByFormule(int statistique)
+    {
+        int resultat_stat = (((2 * statistique * Level / 100) + 5) * 1);
+        return resultat_stat;
     }
 
     public void CreateCapacity(string[] values, List<string> type_list)

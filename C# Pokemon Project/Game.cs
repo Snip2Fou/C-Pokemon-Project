@@ -31,11 +31,7 @@ public class Game
 
     private Game()
     {
-        playerPos[0] = map.size_x / 2;
-        playerPos[1] = map.size_y / 2;
-        map.map.SetValue('0', playerPos[0], playerPos[1]);
-        map.Draw();
-
+        
         string filePath = "data/pokemon.csv";
         string filePathCapacity = "data/moves.csv";
         string filePathCapacitySets = "data/movesets.csv";
@@ -123,8 +119,10 @@ public class Game
                         AttackSpecial = int.Parse(values[12]),
                         DefenseSpecial = int.Parse(values[13]),
                         Speed = int.Parse(values[14]),
-                        Total = int.Parse(values[15]),
+                        Total = int.Parse(values[15])
                     };
+                    pokemon.Pv = pokemon.GetPvByFormule();
+                    pokemon.PvMax = pokemon.GetPvByFormule();
 
                     bool pokemon_all_capacity_found = false;
                     if (File.Exists(filePathCapacitySets))
@@ -192,21 +190,21 @@ public class Game
         {
             Console.WriteLine("Le fichier n'existe pas.");
         }
+
+        playerPos[0] = map.size_x / 2;
+        playerPos[1] = map.size_y / 2;
+        map.map.SetValue('0', playerPos[0], playerPos[1]);
+        map.Draw();
     }
 
     public void GameLoop()
     {
-
-        // Création de deux dresseurs
-        Trainer ash = new Trainer("Ash");
-        Trainer gary = new Trainer("Gary");
-
-        /*ash.AddPokemon("Kakuna");
-        gary.AddPokemon("Metapod");*/
-
-
         while (isRunning)
         {
+
+            Trainer ash = new Trainer("Ash");
+            ash.AddPokemon(pokemons[0]);
+            ash.AddPokemon(pokemons[52]);
 
             ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
             Console.Clear();
@@ -336,11 +334,6 @@ public class Game
                 }
             }
             map.Draw();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write("[■■■");
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write("--]");
-            Console.ResetColor();
         }
     }
 }
