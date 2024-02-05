@@ -1,4 +1,4 @@
-﻿using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Diagnostics.Eventing.Reader;
@@ -134,7 +134,7 @@ class Battle
         {
             int damage = GetDamage(pokemon_attack, capacity_attack, pokemon_defense);
             pokemon_defense.TakeDamage(damage);
-            return  $"{pokemon_attack.Name} utilise {capacity_attack.Name} et inflige {damage} à {pokemon_defense} !";
+            return  $"{pokemon_attack.Name} utilise {capacity_attack.Name} et inflige {damage} Ã  {pokemon_defense} !";
         }
     }
 
@@ -321,7 +321,7 @@ class Battle
         double nb_pv = (ActivePokemon1.Pv * 15 / ActivePokemon1.PvMax);
         for( int i = 0; i < nb_pv; i++ )
         {
-            lifebar += '■';
+            lifebar += 'â ';
         }
         Console.ForegroundColor = ConsoleColor.Green;
         Console.Write(lifebar);
@@ -329,7 +329,7 @@ class Battle
         float nb_pv_moins = ((ActivePokemon1.PvMax - ActivePokemon1.Pv) * 15) / ActivePokemon1.PvMax;
         for (int i = 0; i < nb_pv_moins; i++)
         {
-            lifebar += '■';
+            lifebar += 'â ';
         }
         Console.ForegroundColor = ConsoleColor.DarkGreen;
         Console.Write(lifebar);
@@ -343,7 +343,7 @@ class Battle
         nb_pv = (ActivePokemon2.Pv * 15 / ActivePokemon2.PvMax) ;
         for (int i = 0; i < nb_pv; i++)
         {
-            lifebar += '■';
+            lifebar += 'â ';
         }
         Console.ForegroundColor = ConsoleColor.Red;
         Console.Write(lifebar);
@@ -352,7 +352,7 @@ class Battle
         nb_pv_moins = ((ActivePokemon2.PvMax - ActivePokemon2.Pv) * 15 ) / ActivePokemon2.PvMax;
         for (int i = 0; i < nb_pv_moins; i++)
         {
-            lifebar += '■';
+            lifebar += 'â ';
         }
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine(lifebar);

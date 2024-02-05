@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -16,6 +17,11 @@ public class Game
     public List<Pokemon> pokemons = new List<Pokemon>();
     public List<string> type_list = new List<string>();
     public Dictionary<string, Dictionary<string, List<double>>> type_chart = new Dictionary<string, Dictionary<string, List<double>>>();
+    protected Inventory inventory = new Inventory();
+    protected Object potion = new Object("potion de soin", "ajoute 5 point de vie au pokemon");
+    protected Object pokeball = new Object("pokeball", "chance de capature de certain pokemon");
+    protected Pokemon poke = new Pokemon("poketest");
+    string namePlayer;
 
     public static Game Instance
     {
@@ -96,106 +102,153 @@ public class Game
         {
             Console.WriteLine("Le fichier n'existe pas.");
         }
-
+        
         if (File.Exists(filePath))
         {
             using (StreamReader reader = new StreamReader(filePath))
             {
-                reader.ReadLine();
+              reader.ReadLine();
 
-                while (!reader.EndOfStream)
-                {
-                    string line = reader.ReadLine();
-                    string[] values = line.Split(',');
+              while (!reader.EndOfStream)
+              {
+                  string line = reader.ReadLine();
+                  string[] values = line.Split(',');
 
-                    Pokemon pokemon = new Pokemon
-                    {
-                        Name = values[2],
-                        TypeOne = values[4],
-                        TypeTwo = values[5],
-                        Health = int.Parse(values[9]),
-                        Attack = int.Parse(values[10]),
-                        Defense = int.Parse(values[11]),
-                        AttackSpecial = int.Parse(values[12]),
-                        DefenseSpecial = int.Parse(values[13]),
-                        Speed = int.Parse(values[14]),
-                        Total = int.Parse(values[15])
-                    };
-                    pokemon.Pv = pokemon.GetPvByFormule();
-                    pokemon.PvMax = pokemon.GetPvByFormule();
+                  Pokemon pokemon = new Pokemon
+                  {
+                      Name = values[2],
+                      TypeOne = values[4],
+                      TypeTwo = values[5],
+                      Health = int.Parse(values[9]),
+                      Attack = int.Parse(values[10]),
+                      Defense = int.Parse(values[11]),
+                      AttackSpecial = int.Parse(values[12]),
+                      DefenseSpecial = int.Parse(values[13]),
+                      Speed = int.Parse(values[14]),
+                      Total = int.Parse(values[15])
+                  };
+                  pokemon.Pv = pokemon.GetPvByFormule();
+                  pokemon.PvMax = pokemon.GetPvByFormule();
 
-                    bool pokemon_all_capacity_found = false;
-                    if (File.Exists(filePathCapacitySets))
-                    {
-                        using (StreamReader readerCapacitySets = new StreamReader(filePathCapacitySets))
-                        {
-                            readerCapacitySets.ReadLine();
+                  bool pokemon_all_capacity_found = false;
+                  if (File.Exists(filePathCapacitySets))
+                  {
+                      using (StreamReader readerCapacitySets = new StreamReader(filePathCapacitySets))
+                      {
+                          readerCapacitySets.ReadLine();
 
-                            while (!pokemon_all_capacity_found && !readerCapacitySets.EndOfStream)
-                            {
-                                string line_all_capacity = readerCapacitySets.ReadLine();
-                                string[] values_all_capacity = line_all_capacity.Split(',');
-                                if (values_all_capacity[1] == pokemon.Name)
-                                {
-                                    for(int i = 3; i < values_all_capacity.Length; i++)
-                                    {
-                                        if (values_all_capacity[i].Contains("Start"))
-                                        {
-                                            bool pokemon_capacity_found = false;
-                                            string[] parts = values_all_capacity[i].Split('-');
-                                            if (File.Exists(filePathCapacity))
-                                            {
-                                                using (StreamReader readerCapacity = new StreamReader(filePathCapacity))
-                                                {
-                                                    readerCapacity.ReadLine();
+                          while (!pokemon_all_capacity_found && !readerCapacitySets.EndOfStream)
+                          {
+                              string line_all_capacity = readerCapacitySets.ReadLine();
+                              string[] values_all_capacity = line_all_capacity.Split(',');
+                              if (values_all_capacity[1] == pokemon.Name)
+                              {
+                                  for(int i = 3; i < values_all_capacity.Length; i++)
+                                  {
+                                      if (values_all_capacity[i].Contains("Start"))
+                                      {
+                                          bool pokemon_capacity_found = false;
+                                          string[] parts = values_all_capacity[i].Split('-');
+                                          if (File.Exists(filePathCapacity))
+                                          {
+                                              using (StreamReader readerCapacity = new StreamReader(filePathCapacity))
+                                              {
+                                                  readerCapacity.ReadLine();
 
-                                                    while (!pokemon_capacity_found && !readerCapacity.EndOfStream)
-                                                    {
-                                                        string line_capacity = readerCapacity.ReadLine();
-                                                        string[] values_capacity = line_capacity.Split(',');
+                                                  while (!pokemon_capacity_found && !readerCapacity.EndOfStream)
+                                                  {
+                                                      string line_capacity = readerCapacity.ReadLine();
+                                                      string[] values_capacity = line_capacity.Split(',');
 
-                                                        if (parts[1].Contains(values_capacity[1]))
-                                                        {
-                                                            pokemon.CreateCapacity(values_capacity, type_list);
-                                                            pokemon_capacity_found = true;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                Console.WriteLine("Le fichier n'existe pas.");
-                                            }
-                                        }
-                                        else
-                                        {
-                                            break;
-                                        }
-                                    }
-                                    pokemon_all_capacity_found = true;
-                                }
-                            }
+                                                      if (parts[1].Contains(values_capacity[1]))
+                                                      {
+                                                          pokemon.CreateCapacity(values_capacity, type_list);
+                                                          pokemon_capacity_found = true;
+                                                      }
+                                                  }
+                                              }
+                                          }
+                                          else
+                                          {
+                                              Console.WriteLine("Le fichier n'existe pas.");
+                                          }
+                                      }
+                                      else
+                                      {
+                                          break;
+                                      }
+                                  }
+                                  pokemon_all_capacity_found = true;
+                              }
+                          }
 
-                            pokemons.Add(pokemon);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Le fichier n'existe pas.");
-                    }
-                }
-            }
-        }
-        else
-        {
-            Console.WriteLine("Le fichier n'existe pas.");
-        }
-
-        playerPos[0] = map.size_x / 2;
-        playerPos[1] = map.size_y / 2;
-        map.map.SetValue('0', playerPos[0], playerPos[1]);
-        map.Draw();
+                          pokemons.Add(pokemon);
+                      }
+                  }
+                  else
+                  {
+                      Console.WriteLine("Le fichier n'existe pas.");
+                  }
+              }
+          }
+      }
+      else
+      {
+          Console.WriteLine("Le fichier n'existe pas.");
+      }
+        
+      playerPos[0] = map.size_x / 2;
+      playerPos[1] = map.size_y / 2;
+      map.map.SetValue('0', playerPos[0], playerPos[1]);
+      map.Draw();
+      pokemons.Add(poke);
     }
+
+    public void SaveGame()
+    {
+        SaveData game_save = new SaveData(namePlayer, pokemons, inventory.SaveInventory(), playerPos);
+        string jsonData = JsonConvert.SerializeObject(game_save);
+        File.WriteAllText("Save/game_save.json", jsonData);
+        Console.WriteLine("sauvegarde");
+    }
+
+    public void LoadGame()
+    {
+        try
+        {
+            string jsonData = File.ReadAllText("Save/game_save.json");
+            SaveData data = JsonConvert.DeserializeObject<SaveData>(jsonData);
+            namePlayer = data.NamePlayer;
+            pokemons = data.Pokemons;
+            foreach(var obj in data.Inventory)
+            {
+                inventory.AddObject(obj);
+            }
+            Console.WriteLine("Partie chargée");
+        }
+        catch (FieldAccessException) 
+        {
+            Console.WriteLine("Aucun sauvegarde trouvé");
+        }
+        catch (JsonException)
+        {
+            Console.WriteLine("Erreur lors de la lecture du fichier de sauvegarde");
+        }
+    }
+
+    public void GameLoop()
+    {
+        Console.WriteLine("entre votre pseudo :");
+        namePlayer = Console.ReadLine();
+
+        // Création de deux dresseurs
+        Trainer player = new Trainer(namePlayer);
+        Trainer gary = new Trainer("Gary");
+
+        inventory.AddObject(potion);
+        inventory.AddObject(potion);
+        inventory.AddObject(pokeball);
+        inventory.DisplayInventory();
 
     public void GameLoop()
     {
@@ -212,7 +265,16 @@ public class Game
             switch (consoleKeyInfo.Key)
             {
                 case ConsoleKey.Escape:
-                    isRunning = false;
+                    MenuPause menuPause = new MenuPause(this);
+                    menuPause.Stop();
+                    break;
+
+                case ConsoleKey.S:
+                    SaveGame();
+                    break;
+
+                case ConsoleKey.K:
+                    LoadGame();
                     break;
 
                 case ConsoleKey.UpArrow:
@@ -221,6 +283,14 @@ public class Game
                         if(playerPos[0] - 1 == 1 && playerPos[1] == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {
@@ -246,6 +316,14 @@ public class Game
                         if (playerPos[0] + 1 == 1 && playerPos[1] == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {
@@ -271,6 +349,14 @@ public class Game
                         if (playerPos[0] == 1 && playerPos[1] - 1 == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {
@@ -296,6 +382,14 @@ public class Game
                         if (playerPos[0] == 1 && playerPos[1] + 1 == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {
@@ -328,8 +422,10 @@ public class Game
                 {
                     int random_pokemon = random.Next(1, 1061);
                     // Combat entre les deux dresseurs
+
                     Battle battle = new Battle(); 
                     battle.StartBattleVsPokemon(ash, pokemons[random_pokemon]);
+
                     Console.Clear();
                 }
             }

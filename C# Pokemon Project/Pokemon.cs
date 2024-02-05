@@ -23,6 +23,7 @@ public class Pokemon
     public Capacity Capacity3 { get; set; }
 
 
+
     public Pokemon(string name, string typeOne, string typeTwo, int total ,int health, int attack, int defense, int attackspecial, int defensespecial, int speed)
     {
         Name = name;
@@ -43,6 +44,13 @@ public class Pokemon
     public Pokemon() {
         Level = 1;
         Capacity1 = null; Capacity2 = null; Capacity3 = null;
+    }
+
+
+    public Pokemon(string name)
+    {
+        Name = name;
+        _level = 1;
     }
 
     public void TakeDamage(int damage)
@@ -101,12 +109,12 @@ public class Pokemon
         string type = values[k];
         string category = values[k+1];
         string power = values[k+2];
-        if (power == "—")
+        if (power == "ï¿½")
         {
             power = "0";
         }
         string accuracy = values[k+3];
-        if (accuracy == "—")
+        if (accuracy == "ï¿½")
         {
             accuracy = "0";
         }
