@@ -33,6 +33,12 @@ class Pokemon
         _level = 1;
     }
 
+    public Pokemon(string name)
+    {
+        Name = name;
+        _level = 1;
+    }
+
     public void TakeDamage(float damage)
     {
         Health -= damage;

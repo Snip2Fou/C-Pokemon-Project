@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 class Trainer
 {
-    public string Name { get; }
+    public string Name { get; set; }
     public List<Pokemon> Team { get; }
 
     public Trainer(string name)

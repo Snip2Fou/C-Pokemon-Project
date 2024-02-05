@@ -4,6 +4,7 @@ class Map
     public char[,] map;
     public int size_x = 20;
     public int size_y = 50;
+    public Npc npc = new Npc();
 
     public Map()
     {

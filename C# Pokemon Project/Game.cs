@@ -11,7 +11,9 @@ class Game
     protected Inventory inventory = new Inventory();
     protected Object potion = new Object("potion de soin", "ajoute 5 point de vie au pokemon");
     protected Object pokeball = new Object("pokeball", "chance de capature de certain pokemon");
+    protected Pokemon poke = new Pokemon("poketest");
     protected List<Pokemon> pokemons = new List<Pokemon>();
+    string namePlayer;
 
     public Game()
     {
@@ -19,11 +21,12 @@ class Game
         playerPos[1] = map.size_y / 2;
         map.map.SetValue('0', playerPos[0], playerPos[1]);
         map.Draw();
+        pokemons.Add(poke);
     }
 
     public void SaveGame()
     {
-        SaveData game_save = new SaveData(pokemons, inventory, playerPos);
+        SaveData game_save = new SaveData(namePlayer, pokemons, inventory.SaveInventory(), playerPos);
         string jsonData = JsonConvert.SerializeObject(game_save);
         File.WriteAllText("Save/game_save.json", jsonData);
         Console.WriteLine("sauvegarde");
@@ -31,15 +34,17 @@ class Game
 
     public void GameLoop()
     {
-        
+        Console.WriteLine("entre votre pseudo :");
+        namePlayer = Console.ReadLine();
+
+        // Création de deux dresseurs
+        Trainer player = new Trainer(namePlayer);
+        Trainer gary = new Trainer("Gary");
+
         inventory.AddObject(potion);
         inventory.AddObject(potion);
         inventory.AddObject(pokeball);
         inventory.DisplayInventory();
-
-        // Création de deux dresseurs
-        Trainer ash = new Trainer("Ash");
-        Trainer gary = new Trainer("Gary");
 
 
         while (isRunning)
@@ -64,6 +69,14 @@ class Game
                         if(playerPos[0] - 1 == 1 && playerPos[1] == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {
@@ -89,6 +102,14 @@ class Game
                         if (playerPos[0] + 1 == 1 && playerPos[1] == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {
@@ -114,6 +135,14 @@ class Game
                         if (playerPos[0] == 1 && playerPos[1] - 1 == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {
@@ -139,6 +168,14 @@ class Game
                         if (playerPos[0] == 1 && playerPos[1] + 1 == 35)
                         {
                             Console.WriteLine("PNJ");
+                            if (map.npc.ennemy)
+                            {
+                                map.npc.NpcEnnemy(player);
+                            }
+                            else
+                            {
+                                map.npc.NpcHelp();
+                            }
                         }
                         else
                         {

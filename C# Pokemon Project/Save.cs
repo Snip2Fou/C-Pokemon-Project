@@ -5,14 +5,14 @@ using Newtonsoft.Json;
 
 class SaveData
 {
-    public List<Pokemon> Pokemons = new List<Pokemon>();
-    public Inventory Inventory = new Inventory();
-    public int[] playerPos = new int[2];
     public string NamePlayer;
+    public List<Pokemon> Pokemons = new List<Pokemon>();
+    public List<Object> Inventory = new List<Object>();
+    public int[] playerPos = new int[2];
 
-    public SaveData(List<Pokemon> pokemons, Inventory inventorys, int[] player)
+    public SaveData(string nameplayer, List<Pokemon> pokemons, List<Object> inventorys, int[] player)
     {
-        NamePlayer = "test";
+        NamePlayer = nameplayer;
         Pokemons = pokemons;
         Inventory = inventorys;
         playerPos = player;
