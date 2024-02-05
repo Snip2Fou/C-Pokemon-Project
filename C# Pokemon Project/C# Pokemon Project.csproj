@@ -57,6 +57,7 @@
     <Compile Include="JsonSerializerOptions.cs" />
     <Compile Include="main.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="Npc.cs" />
     <Compile Include="Object.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
