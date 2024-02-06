@@ -321,7 +321,7 @@ public class Battle
         double nb_pv = (ActivePokemon1.Pv * 15 / ActivePokemon1.PvMax);
         for( int i = 0; i < nb_pv; i++ )
         {
-            lifebar += "â ";
+            lifebar += "\u2588";
         }
         Console.ForegroundColor = ConsoleColor.Green;
         Console.Write(lifebar);
@@ -329,7 +329,7 @@ public class Battle
         float nb_pv_moins = ((ActivePokemon1.PvMax - ActivePokemon1.Pv) * 15) / ActivePokemon1.PvMax;
         for (int i = 0; i < nb_pv_moins; i++)
         {
-            lifebar += "â ";
+            lifebar += "\u2588";
         }
         Console.ForegroundColor = ConsoleColor.DarkGreen;
         Console.Write(lifebar);
@@ -343,7 +343,7 @@ public class Battle
         nb_pv = (ActivePokemon2.Pv * 15 / ActivePokemon2.PvMax) ;
         for (int i = 0; i < nb_pv; i++)
         {
-            lifebar += "â";
+            lifebar += "\u2588";
         }
         Console.ForegroundColor = ConsoleColor.Red;
         Console.Write(lifebar);
@@ -352,7 +352,7 @@ public class Battle
         nb_pv_moins = ((ActivePokemon2.PvMax - ActivePokemon2.Pv) * 15 ) / ActivePokemon2.PvMax;
         for (int i = 0; i < nb_pv_moins; i++)
         {
-            lifebar += "â";
+            lifebar += "\u2588";
         }
         Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.WriteLine(lifebar);
