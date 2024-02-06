@@ -1,9 +1,9 @@
 ﻿using System;
 
-class MenuPause
+public class MenuPause
 {
     bool exit = false;
-    Game Game = new Game();
+    Game Game = Game.Instance;
 
     public MenuPause(Game game)
     {

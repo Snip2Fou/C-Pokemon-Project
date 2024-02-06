@@ -1,5 +1,4 @@
 using System;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -250,8 +249,6 @@ public class Game
         inventory.AddObject(pokeball);
         inventory.DisplayInventory();
 
-    public void GameLoop()
-    {
         while (isRunning)
         {
 

@@ -50,7 +50,7 @@ public class Pokemon
     public Pokemon(string name)
     {
         Name = name;
-        _level = 1;
+        Level = 1;
     }
 
     public void TakeDamage(int damage)

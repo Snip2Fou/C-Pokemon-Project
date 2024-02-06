@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-class Inventory 
+public class Inventory 
 {
     private List<Object> _inventory = new List<Object>();
 
