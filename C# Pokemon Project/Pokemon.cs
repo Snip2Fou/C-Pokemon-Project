@@ -109,12 +109,12 @@ public class Pokemon
         string type = values[k];
         string category = values[k+1];
         string power = values[k+2];
-        if (power == "�")
+        if (power == "—")
         {
             power = "0";
         }
         string accuracy = values[k+3];
-        if (accuracy == "�")
+        if (accuracy == "—")
         {
             accuracy = "0";
         }
