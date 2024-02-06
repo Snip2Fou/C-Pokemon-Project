@@ -267,9 +267,11 @@ public class Game
                     break;
 
                 case ConsoleKey.UpArrow:
-                    if ()
+                    if (map.map[playerPos[0] - 1,playerPos[1]] != '#' && map.map[playerPos[0] - 1, playerPos[1]] != '©' && map.map[playerPos[0] - 1, playerPos[1]] != '¶')
                     {
-                        
+                        char e = '╬';
+                        char r = '⌂';
+                        char h = '¥';
                     }
                     break;
 
@@ -278,7 +280,7 @@ public class Game
                     {
                         if (playerPos[0] + 1 == 1 && playerPos[1] == 35)
                         {
-                            Console.WriteLine("PNJ");
+                            /*Console.WriteLine("PNJ");
                             if (map.npc.ennemy)
                             {
                                 map.npc.NpcEnnemy(player);
@@ -286,7 +288,7 @@ public class Game
                             else
                             {
                                 map.npc.NpcHelp();
-                            }
+                            }*/
                         }
                         else
                         {
