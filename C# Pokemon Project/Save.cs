@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Newtonsoft.Json;
 
-class SaveData
+public class SaveData
 {
     public string NamePlayer;
     public List<Pokemon> Pokemons = new List<Pokemon>();

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-class Trainer
+public class Trainer
 {
     public string Name { get; set; }
     public List<Pokemon> Team { get; }

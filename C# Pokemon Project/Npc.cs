@@ -1,6 +1,6 @@
 ﻿using System;
 
-class Npc
+public class Npc
 {
    public bool ennemy = true;
 
@@ -9,7 +9,8 @@ class Npc
         Trainer ennemy = new Trainer("Carle");
         Console.WriteLine("zzz zzz zzz");
         Console.WriteLine("Hmm... Baille... Je suppose qu'un combat de Pokémon m'aiderait à rester éveillé.");
-        Battle.StartBattle(player, ennemy);
+        Battle battle = new Battle();
+        /*battle.StartBattle(player, ennemy);*/
         Console.WriteLine("Rien contre toi, gamin, tu te bats comme un champion, mais je suis... Baille... Je m'assoupis...");
     }
 

@@ -1,6 +1,8 @@
 using System;
 using System.IO;
-class Map
+
+public class Map
+
 {
     public char[,] map;
     public int size_x;
@@ -18,7 +20,7 @@ class Map
         {
             if (lines[i].Length != size_y)
             {
-                throw new ArgumentException("Les lignes du fichier ne sont pas de la même longueur.");
+                throw new ArgumentException("Les lignes du fichier ne sont pas de la mï¿½me longueur.");
             }
         }
 

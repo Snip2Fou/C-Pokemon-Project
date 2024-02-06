@@ -1,9 +1,9 @@
 ﻿using System;
 
-class Menu
+public class Menu
 {
     bool exit = false;
-    Game game = new Game();
+    Game game = Game.Instance;
 
     public void Start()
     {

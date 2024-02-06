@@ -1,6 +1,6 @@
 using System;
 
-class Event
+public class Event
 {
     public int action_count = 0;
     public bool ChoiceEvent(int nb_choice)
