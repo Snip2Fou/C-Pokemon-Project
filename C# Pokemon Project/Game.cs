@@ -267,11 +267,12 @@ public class Game
                     break;
 
                 case ConsoleKey.UpArrow:
-                    if (map.map[playerPos[0] - 1,playerPos[1]] != '#' && map.map[playerPos[0] - 1, playerPos[1]] != '©' && map.map[playerPos[0] - 1, playerPos[1]] != '¶')
+                    if (map.map[playerPos[0] - 1,playerPos[1]] != '#' && map.map[playerPos[0] - 1, playerPos[1]] != '\u00A9' && map.map[playerPos[0] - 1, playerPos[1]] != '\u00B6')
                     {
-                        char e = '╬';
-                        char r = '⌂';
-                        char h = '¥';
+                        char i = '\u00B6';
+                        char e = '\u256C';
+                        char r = '\u2302';
+                        char h = '\u00A5';
                     }
                     break;
 
@@ -313,15 +314,7 @@ public class Game
                     {
                         if (playerPos[0] == 1 && playerPos[1] - 1 == 35)
                         {
-                            Console.WriteLine("PNJ");
-                            if (map.npc.ennemy)
-                            {
-                                map.npc.NpcEnnemy(player);
-                            }
-                            else
-                            {
-                                map.npc.NpcHelp();
-                            }
+                            
                         }
                         else
                         {
@@ -347,14 +340,7 @@ public class Game
                         if (playerPos[0] == 1 && playerPos[1] + 1 == 35)
                         {
                             Console.WriteLine("PNJ");
-                            if (map.npc.ennemy)
-                            {
-                                map.npc.NpcEnnemy(player);
-                            }
-                            else
-                            {
-                                map.npc.NpcHelp();
-                            }
+                           
                         }
                         else
                         {
