@@ -267,12 +267,12 @@ public class Game
                     break;
 
                 case ConsoleKey.UpArrow:
-                    if (map.map[playerPos[0] - 1,playerPos[1]] != '#' && map.map[playerPos[0] - 1, playerPos[1]] != '\u00A9' && map.map[playerPos[0] - 1, playerPos[1]] != '\u00B6')
+                    if (map.map[playerPos[0] - 1,playerPos[1]] != '#' && map.map[playerPos[0] - 1, playerPos[1]] != '\u00A9'/*©*/ && map.map[playerPos[0] - 1, playerPos[1]] != '\u00B6'/*¶*/)
                     {
-                        char i = '\u00B6';
-                        char e = '\u256C';
-                        char r = '\u2302';
-                        char h = '\u00A5';
+                        
+                        char e = '\u256C';/*╬*/
+                        char r = '\u2302';/*⌂*/
+                        char h = '\u00A5';/*¥*/
                     }
                     break;
 
