@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection.Emit;
@@ -18,6 +19,7 @@ public class Pokemon
     public int Level { get; set; }
     public int PvMax {  get; set; }
     public int Pv { get; set; }
+    public int Xp { get; set; }
     public Capacity Capacity1 { get; set; }
     public Capacity Capacity2 { get; set; }
     public Capacity Capacity3 { get; set; }
@@ -39,6 +41,7 @@ public class Pokemon
         Pv = GetPvByFormule();
         Speed = speed;
         Level = 1;
+        Xp = 0;
     }
 
     public Pokemon() {
@@ -67,9 +70,19 @@ public class Pokemon
         Pv += 5;
     }
 
-    public void LevelUp()
+    public void GiveXp(Pokemon pokemon)
     {
-        Level += 1;
+        int formuleXp = (int)(((1.5 * 8 * pokemon.Level) / (5 * 1))*((2*pokemon.Level+10)/Math.Pow((pokemon.Level+Level+10),2.5)+1));
+        Xp += formuleXp;
+    }
+
+    public void CanLevelUp()
+    {
+        if (Xp >= Math.Pow((Level+1),3))
+        {
+            Xp -= (int)Math.Pow((Level+1),3);
+            Level += 1;
+        } 
     }
 
     public bool IsAlive()
