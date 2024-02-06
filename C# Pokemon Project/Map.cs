@@ -5,10 +5,9 @@ public class Map
 
 {
     public char[,] map;
+    public object copy_map;
     public int size_x;
     public int size_y;
-    public Npc npc = new Npc();
-
 
     public Map()
     {
@@ -33,6 +32,8 @@ public class Map
                 map[x, y] = lines[x][y];
             }
         }
+
+        copy_map = map.Clone();
     }
 
     public void Draw()

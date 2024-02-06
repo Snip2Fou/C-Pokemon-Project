@@ -266,44 +266,10 @@ public class Game
                     menuPause.Stop();
                     break;
 
-                case ConsoleKey.S:
-                    SaveGame();
-                    break;
-
-                case ConsoleKey.K:
-                    LoadGame();
-                    break;
-
                 case ConsoleKey.UpArrow:
-                    if (playerPos[0] - 1 > 0)
+                    if ()
                     {
-                        if(playerPos[0] - 1 == 1 && playerPos[1] == 35)
-                        {
-                            Console.WriteLine("PNJ");
-                            if (map.npc.ennemy)
-                            {
-                                map.npc.NpcEnnemy(player);
-                            }
-                            else
-                            {
-                                map.npc.NpcHelp();
-                            }
-                        }
-                        else
-                        {
-                            if ((playerPos[0] >= 10 && playerPos[0] <= 13 && playerPos[1] >= 10 && playerPos[1] <= 13) || (playerPos[0] >= 1 && playerPos[0] <= 6 && playerPos[1] >= 40 && playerPos[1] <= 48) || (playerPos[0] >= 12 && playerPos[0] <= 14 && playerPos[1] >= 28 && playerPos[1] <= 34) || (playerPos[0] >= 1 && playerPos[0] <= 4 && playerPos[1] >= 15 && playerPos[1] <= 17) || (playerPos[0] >= 3 && playerPos[0] <= 4 && playerPos[1] >= 18 && playerPos[1] <= 19))
-                            {
-                                map.map[playerPos[0], playerPos[1]] = '"';
-                                map.map[playerPos[0] - 1, playerPos[1]] = '0';
-
-                            }
-                            else
-                            {
-                                map.map[playerPos[0], playerPos[1]] = ' ';
-                                map.map[playerPos[0] - 1, playerPos[1]] = '0';
-                            }
-                            playerPos[0] -= 1;
-                        }
+                        
                     }
                     break;
 
