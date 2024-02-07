@@ -38,4 +38,34 @@ public class Event
                 return false;
         }
     }
+
+
+    public bool QuantityEvent(int pokemoney, int prizeObject)
+    {
+        ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+        
+
+        switch (consoleKeyInfo.Key)
+        {
+            case ConsoleKey.UpArrow:
+                if (prizeObject * action_count+1 <= pokemoney)
+                {
+                    action_count += 1;
+                }
+                return false;
+
+            case ConsoleKey.DownArrow:
+                if (prizeObject * action_count-1 >= pokemoney)
+                {
+                    action_count-=1;
+                }
+                return false;
+
+            case ConsoleKey.Enter:
+                return true;
+
+            default:
+                return false;
+        }
+    }
 }
