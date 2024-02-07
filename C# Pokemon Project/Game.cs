@@ -204,7 +204,7 @@ public class Game
         {
             SaveData game_save = new SaveData(player.Name, player.Team, player.Inventory.SaveInventory(), playerPos);
             string jsonData = JsonConvert.SerializeObject(game_save);
-            File.WriteAllText("Save/game_save.json", jsonData);
+            File.WriteAllText("game_save.json", jsonData);
             Console.WriteLine("sauvegarde");
             GameLoop();
         }
@@ -222,7 +222,7 @@ public class Game
     {
         try
         {
-            string jsonData = File.ReadAllText("Save/game_save.json");
+            string jsonData = File.ReadAllText("game_save.json");
             SaveData data = JsonConvert.DeserializeObject<SaveData>(jsonData);
             player.Name = data.NamePlayer;
             foreach (var poke in data.Pokemons)
