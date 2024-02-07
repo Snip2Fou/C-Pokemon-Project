@@ -7,11 +7,11 @@ public class Inventory
 
     public Inventory() { }
 
-    public void UsingObject(Object obj, Pokemon pokemon) 
+    /*public void UsingObject(Object obj, Pokemon pokemon) 
     {
         obj.UseThis(pokemon);
         _inventory.Remove(obj);
-    }
+    }*/
     public void AddObject(Object obj) { _inventory.Add(obj);}
 
     public void DisplayInventory()

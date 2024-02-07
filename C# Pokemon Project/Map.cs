@@ -5,10 +5,9 @@ public class Map
 
 {
     public char[,] map;
+    public char[,] copy_map;
     public int size_x;
     public int size_y;
-    public Npc npc = new Npc();
-
 
     public Map()
     {
@@ -25,12 +24,14 @@ public class Map
         }
 
         map = new char[size_x, size_y];
+        copy_map = new char[size_x, size_y];
 
         for (int x = 0; x < size_x; x++)
         {
             for (int y = 0; y < size_y; y++)
             {
                 map[x, y] = lines[x][y];
+                copy_map[x,y] = lines[x][y];
             }
         }
     }
