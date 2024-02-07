@@ -129,7 +129,7 @@ public class Potion : Object
             int prev_pv = pokemon.Pv;
             pokemon.Heal(Effect);
             Quantity -= 1;
-            Console.WriteLine($"Les pv de {pokemon.Name} sont passe de {prev_pv} a {pokemon.Pv} !");
+            Console.WriteLine($"Les pv de {pokemon.Name} sont passe de {prev_pv} a {pokemon.Pv} !\n");
             return true;
         }
         else
@@ -156,7 +156,7 @@ public class SuperPotion : Object
             int prev_pv = pokemon.Pv;
             pokemon.Heal(Effect);
             Quantity -= 1;
-            Console.WriteLine($"Les pv de {pokemon.Name} sont passe de {prev_pv} a {pokemon.Pv} !");
+            Console.WriteLine($"Les pv de {pokemon.Name} sont passe de {prev_pv} a {pokemon.Pv} !\n");
             return true;
         }
         else
@@ -183,7 +183,7 @@ public class HyperPotion : Object
             int prev_pv = pokemon.Pv;
             pokemon.Heal(Effect);
             Quantity -= 1;
-            Console.WriteLine($"Les pv de {pokemon.Name} sont passe de {prev_pv} a {pokemon.Pv} !");
+            Console.WriteLine($"Les pv de {pokemon.Name} sont passe de {prev_pv} a {pokemon.Pv} !\n");
             return true;
         }
         else
