@@ -21,7 +21,7 @@ public class Menu
             {
                 if (event_choice.action_count == 0)
                 {
-                    game.GameLoop();
+                    game.Start();
                 }
                 else if (event_choice.action_count == 1)
                 {
