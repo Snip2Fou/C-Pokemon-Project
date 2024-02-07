@@ -23,6 +23,8 @@ public class Pokemon
     public Capacity Capacity1 { get; set; }
     public Capacity Capacity2 { get; set; }
     public Capacity Capacity3 { get; set; }
+    public bool IsUsing { get; set; }
+    public bool Switch {  get; set; }
 
 
 
@@ -70,10 +72,29 @@ public class Pokemon
         Pv += 5;
     }
 
-    public void GiveXp(Pokemon pokemon)
+    public void GiveXp(Pokemon pokemon, bool capture)
     {
-        int formuleXp = (int)(((1.5 * 8 * pokemon.Level) / (5 * 1))*((2*pokemon.Level+10)/Math.Pow((pokemon.Level+Level+10),2.5)+1));
-        Xp += formuleXp;
+        if (capture)
+        {
+            int formuleXp = (int)(((1.5 * 8 * pokemon.Level) / (5 * 1)) * ((2 * pokemon.Level + 10) / Math.Pow((pokemon.Level + Level + 10), 2.5) + 1));
+            if (Switch)
+            {
+                formuleXp = (int)(formuleXp * 1.5);
+                Xp += formuleXp;
+            }
+            Xp += formuleXp;
+        }
+        else
+        {
+            int formuleXp = (int)(((1 * 8 * pokemon.Level) / (5 * 1)) * ((2 * pokemon.Level + 10) / Math.Pow((pokemon.Level + Level + 10), 2.5) + 1));
+            if (Switch)
+            {
+                formuleXp += (int)(formuleXp * 1.5);
+                Xp += formuleXp;
+            }
+            Xp += formuleXp;
+        }
+
     }
 
     public void CanLevelUp()
