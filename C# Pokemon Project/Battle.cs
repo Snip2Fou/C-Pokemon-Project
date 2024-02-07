@@ -389,6 +389,7 @@ public class Battle
     { 
         Mud_Sport = 0;
         Water_Sport = 0;
+        player.BattleTeam = player.Team.GetRange(0,player.Team.Count);
         Event event_choice = new Event();
         bool fuite = false;
         PlayerBattle = player;
@@ -396,7 +397,7 @@ public class Battle
         ActivePokemon2 = pokemon;
         Pokemon activePokemon1 = ChooseActivePokemon(player);
         event_choice.action_count = 0;
-        while (player.Team.Count > 0 && pokemon.IsAlive() && fuite != true)
+        while (player.BattleTeam.Count > 0 && pokemon.IsAlive() && fuite != true)
         {
             Console.Clear();
             AffichageVs();
@@ -444,7 +445,7 @@ public class Battle
                 if (event_choice.action_count == 0)
                 {
                     BattleRound(activePokemon1, pokemon);
-                    if(!activePokemon1.IsAlive() && player.Team.Count > 0)
+                    if(!activePokemon1.IsAlive() && player.BattleTeam.Count > 0)
                     {
                         activePokemon1 = ChooseActivePokemon(player);
                     }
@@ -473,17 +474,17 @@ public class Battle
         AffichageVs();
         Console.WriteLine("Choisissez votre Pokemon actif :");
         Console.WriteLine("  Nom | Niveau | Type1 | Type2 | Pv/PvMax | Attack | Defense | AttackSpecial | DefenseSpecial");
-        for (int i = 0; i < trainer.Team.Count; i++)
+        for (int i = 0; i < trainer.BattleTeam.Count; i++)
         {
-            if(!first && trainer.Team[i].IsAlive())
+            if(!first && trainer.BattleTeam[i].IsAlive())
             {
-                Console.WriteLine($"> {trainer.Team[i].Name} | {trainer.Team[i].Level} | {trainer.Team[i].TypeOne} | {trainer.Team[i].TypeTwo} | {trainer.Team[i].Pv} / {trainer.Team[i].PvMax} PV | {trainer.Team[i].Attack} | {trainer.Team[i].Defense} | {trainer.Team[i].AttackSpecial} | {trainer.Team[i].DefenseSpecial}");
+                Console.WriteLine($"> {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv} / {trainer.BattleTeam[i].PvMax} PV | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
                 first = true;
                 nb_event++;
             }
-            else if(trainer.Team[i].IsAlive())
+            else if(trainer.BattleTeam[i].IsAlive())
             {
-                Console.WriteLine($"  {trainer.Team[i].Name} | {trainer.Team[i].Level} | {trainer.Team[i].TypeOne} | {trainer.Team[i].TypeTwo} | {trainer.Team[i].Pv} / {trainer.Team[i].PvMax} PV | {trainer.Team[i].Attack} | {trainer.Team[i].Defense} | {trainer.Team[i].AttackSpecial} | {trainer.Team[i].DefenseSpecial}");
+                Console.WriteLine($"  {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv} / {trainer.BattleTeam[i].PvMax} PV | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
                 nb_event++;
             }
         }
@@ -498,20 +499,20 @@ public class Battle
             AffichageVs();
             Console.WriteLine("Choisissez votre Pokemon actif :");
             Console.WriteLine("  Nom | Niveau | Type1 | Type2 | Pv/PvMax | Attack | Defense | AttackSpecial | DefenseSpecial");
-            for (int i = 0; i < trainer.Team.Count; i++)
+            for (int i = 0; i < trainer.BattleTeam.Count; i++)
             {
-                if (event_choice.action_count == i && trainer.Team[i].IsAlive())
+                if (event_choice.action_count == i && trainer.BattleTeam[i].IsAlive())
                 {
-                    Console.WriteLine($"> {trainer.Team[i].Name} | {trainer.Team[i].Level} | {trainer.Team[i].TypeOne} | {trainer.Team[i].TypeTwo} | {trainer.Team[i].Pv}/{trainer.Team[i].PvMax} | {trainer.Team[i].Attack} | {trainer.Team[i].Defense} | {trainer.Team[i].AttackSpecial} | {trainer.Team[i].DefenseSpecial}");
+                    Console.WriteLine($"> {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv}/{trainer.BattleTeam[i].PvMax} | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
                 }
-                else if (trainer.Team[i].IsAlive())
+                else if (trainer.BattleTeam[i].IsAlive())
                 {
-                    Console.WriteLine($"  {trainer.Team[i].Name} | {trainer.Team[i].Level} | {trainer.Team[i].TypeOne} | {trainer.Team[i].TypeTwo} | {trainer.Team[i].Pv}/{trainer.Team[i].PvMax} | {trainer.Team[i].Attack} | {trainer.Team[i].Defense} | {trainer.Team[i].AttackSpecial} | {trainer.Team[i].DefenseSpecial}");
+                    Console.WriteLine($"  {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv}/{trainer.BattleTeam[i].PvMax} | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
                 }
             }
         }
-        ActivePokemon1 = trainer.Team[event_choice.action_count];
-        return trainer.Team[event_choice.action_count];
+        ActivePokemon1 = trainer.BattleTeam[event_choice.action_count];
+        return trainer.BattleTeam[event_choice.action_count];
     }
 
     public void BattleRound(Pokemon activePokemon1, Pokemon activePokemon2)
@@ -612,6 +613,10 @@ public class Battle
             if (activePokemon2.IsAlive())
             {
                 NextAction2 = UseCapacity(activePokemon2, capacity_random, activePokemon1);
+                if (!activePokemon1.IsAlive())
+                {
+                    PlayerBattle.BattleTeam.Remove(activePokemon1);
+                }
             }
         }
         else if(ActivePokemon2.Speed > ActivePokemon1.Speed || first == 1)
@@ -631,6 +636,10 @@ public class Battle
                 {
                     NextAction2 = UseCapacity(activePokemon1, activePokemon1.Capacity3, activePokemon2);
                 }
+            }
+            else
+            {
+                PlayerBattle.BattleTeam.Remove(activePokemon1);
             }
         }
     }

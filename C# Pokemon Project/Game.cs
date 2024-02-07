@@ -266,141 +266,137 @@ public class Game
                     menuPause.Stop();
                     break;
 
-                case ConsoleKey.S:
-                    SaveGame();
-                    break;
-
-                case ConsoleKey.K:
-                    LoadGame();
-                    break;
-
                 case ConsoleKey.UpArrow:
-                    if (playerPos[0] - 1 > 0)
+                    if (map.map[playerPos[0] - 1,playerPos[1]] != '#' && map.map[playerPos[0] - 1, playerPos[1]] != '\u00A9'/*©*/ && map.map[playerPos[0] - 1, playerPos[1]] != '\u00B6'/*¶*/)
                     {
-                        if(playerPos[0] - 1 == 1 && playerPos[1] == 35)
+                        if(map.map[playerPos[0] - 1, playerPos[1]] == '\u256C'/*╬*/)
                         {
-                            Console.WriteLine("PNJ");
-                            if (map.npc.ennemy)
-                            {
-                                map.npc.NpcEnnemy(player);
-                            }
-                            else
-                            {
-                                map.npc.NpcHelp();
-                            }
+
+                        }
+                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '\u2302'/*⌂*/)
+                        {
+
+                        }
+                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '\u00A5'/*¥*/)
+                        {
+
+                        }
+                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '\u263C'/*☼*/)
+                        {
+                            map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
+                            map.map[playerPos[0] - 1, playerPos[1]] = '0';
+                            playerPos[0] -= 1;
+                        }
+                        else if(map.map[playerPos[0] - 1, playerPos[1]] == 'O')
+                        {
+
                         }
                         else
                         {
-                            if ((playerPos[0] >= 10 && playerPos[0] <= 13 && playerPos[1] >= 10 && playerPos[1] <= 13) || (playerPos[0] >= 1 && playerPos[0] <= 6 && playerPos[1] >= 40 && playerPos[1] <= 48) || (playerPos[0] >= 12 && playerPos[0] <= 14 && playerPos[1] >= 28 && playerPos[1] <= 34) || (playerPos[0] >= 1 && playerPos[0] <= 4 && playerPos[1] >= 15 && playerPos[1] <= 17) || (playerPos[0] >= 3 && playerPos[0] <= 4 && playerPos[1] >= 18 && playerPos[1] <= 19))
-                            {
-                                map.map[playerPos[0], playerPos[1]] = '"';
-                                map.map[playerPos[0] - 1, playerPos[1]] = '0';
-
-                            }
-                            else
-                            {
-                                map.map[playerPos[0], playerPos[1]] = ' ';
-                                map.map[playerPos[0] - 1, playerPos[1]] = '0';
-                            }
+                            map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
+                            map.map[playerPos[0] - 1, playerPos[1]] = '0';
                             playerPos[0] -= 1;
                         }
                     }
                     break;
 
                 case ConsoleKey.DownArrow:
-                    if (playerPos[0] + 1 < map.size_x - 1)
+                    if (map.map[playerPos[0] + 1,playerPos[1]] != '#' && map.map[playerPos[0] + 1, playerPos[1]] != '\u00A9'/*©*/ && map.map[playerPos[0] + 1, playerPos[1]] != '\u00B6'/*¶*/)
                     {
-                        if (playerPos[0] + 1 == 1 && playerPos[1] == 35)
+                        if(map.map[playerPos[0] + 1, playerPos[1]] == '\u256C'/*╬*/)
                         {
-                            Console.WriteLine("PNJ");
-                            if (map.npc.ennemy)
-                            {
-                                map.npc.NpcEnnemy(player);
-                            }
-                            else
-                            {
-                                map.npc.NpcHelp();
-                            }
+
+                        }
+                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '\u2302'/*⌂*/)
+                        {
+
+                        }
+                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '\u00A5'/*¥*/)
+                        {
+
+                        }
+                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '\u263C'/*☼*/)
+                        {
+                            map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
+                            map.map[playerPos[0] + 1, playerPos[1]] = '0';
+                            playerPos[0] += 1;
+                        }
+                        else if(map.map[playerPos[0] + 1, playerPos[1]] == 'O')
+                        {
+
                         }
                         else
                         {
-                            if ((playerPos[0] >= 10 && playerPos[0] <= 13 && playerPos[1] >= 10 && playerPos[1] <= 13) || (playerPos[0] >= 1 && playerPos[0] <= 6 && playerPos[1] >= 40 && playerPos[1] <= 48) || (playerPos[0] >= 12 && playerPos[0] <= 14 && playerPos[1] >= 28 && playerPos[1] <= 34) || (playerPos[0] >= 1 && playerPos[0] <= 4 && playerPos[1] >= 15 && playerPos[1] <= 17) || (playerPos[0] >= 3 && playerPos[0] <= 4 && playerPos[1] >= 18 && playerPos[1] <= 19))
-                            {
-                                map.map[playerPos[0], playerPos[1]] = '"';
-                                map.map[playerPos[0] + 1, playerPos[1]] = '0';
-
-                            }
-                            else
-                            {
-                                map.map[playerPos[0], playerPos[1]] = ' ';
-                                map.map[playerPos[0] + 1, playerPos[1]] = '0';
-                            }
+                            map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
+                            map.map[playerPos[0] + 1, playerPos[1]] = '0';
                             playerPos[0] += 1;
                         }
                     }
                     break;
 
                 case ConsoleKey.LeftArrow:
-                    if (playerPos[1] - 1 > 0)
+                    if (map.map[playerPos[0], playerPos[1] - 1] != '#' && map.map[playerPos[0], playerPos[1] - 1] != '\u00A9'/*©*/ && map.map[playerPos[0], playerPos[1] - 1] != '\u00B6'/*¶*/)
                     {
-                        if (playerPos[0] == 1 && playerPos[1] - 1 == 35)
+                        if (map.map[playerPos[0], playerPos[1] - 1] == '\u256C'/*╬*/)
                         {
-                            Console.WriteLine("PNJ");
-                            if (map.npc.ennemy)
-                            {
-                                map.npc.NpcEnnemy(player);
-                            }
-                            else
-                            {
-                                map.npc.NpcHelp();
-                            }
+
+                        }
+                        else if (map.map[playerPos[0], playerPos[1] - 1] == '\u2302'/*⌂*/)
+                        {
+
+                        }
+                        else if (map.map[playerPos[0], playerPos[1] - 1] == '\u00A5'/*¥*/)
+                        {
+
+                        }
+                        else if (map.map[playerPos[0], playerPos[1] - 1] == '\u263C'/*☼*/)
+                        {
+                            map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
+                            map.map[playerPos[0], playerPos[1] - 1] = '0';
+                            playerPos[1] -= 1;
+                        }
+                        else if (map.map[playerPos[0], playerPos[1] - 1] == 'O')
+                        {
+
                         }
                         else
                         {
-                            if ((playerPos[0] >= 10 && playerPos[0] <= 13 && playerPos[1] >= 10 && playerPos[1] <= 13) || (playerPos[0] >= 1 && playerPos[0] <= 6 && playerPos[1] >= 40 && playerPos[1] <= 48) || (playerPos[0] >= 12 && playerPos[0] <= 14 && playerPos[1] >= 28 && playerPos[1] <= 34) || (playerPos[0] >= 1 && playerPos[0] <= 4 && playerPos[1] >= 15 && playerPos[1] <= 17) || (playerPos[0] >= 3 && playerPos[0] <= 4 && playerPos[1] >= 18 && playerPos[1] <= 19))
-                            {
-                                map.map[playerPos[0], playerPos[1]] = '"';
-                                map.map[playerPos[0], playerPos[1] - 1] = '0';
-
-                            }
-                            else
-                            {
-                                map.map[playerPos[0], playerPos[1]] = ' ';
-                                map.map[playerPos[0], playerPos[1] - 1] = '0';
-                            }
+                            map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
+                            map.map[playerPos[0], playerPos[1] - 1] = '0';
                             playerPos[1] -= 1;
                         }
                     }
                     break;
 
                 case ConsoleKey.RightArrow:
-                    if (playerPos[1] + 1 < map.size_y - 1)
+                    if (map.map[playerPos[0], playerPos[1] + 1] != '#' && map.map[playerPos[0], playerPos[1] + 1] != '\u00A9'/*©*/ && map.map[playerPos[0], playerPos[1] + 1] != '\u00B6'/*¶*/)
                     {
-                        if (playerPos[0] == 1 && playerPos[1] + 1 == 35)
+                        if (map.map[playerPos[0], playerPos[1] + 1] == '\u256C'/*╬*/)
                         {
-                            Console.WriteLine("PNJ");
-                            if (map.npc.ennemy)
-                            {
-                                map.npc.NpcEnnemy(player);
-                            }
-                            else
-                            {
-                                map.npc.NpcHelp();
-                            }
+
+                        }
+                        else if (map.map[playerPos[0], playerPos[1] + 1] == '\u2302'/*⌂*/)
+                        {
+
+                        }
+                        else if (map.map[playerPos[0], playerPos[1] + 1] == '\u00A5'/*¥*/)
+                        {
+
+                        }
+                        else if (map.map[playerPos[0], playerPos[1] + 1] == '\u263C'/*☼*/)
+                        {
+                            map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
+                            map.map[playerPos[0], playerPos[1] + 1] = '0';
+                            playerPos[1] += 1;
+                        }
+                        else if (map.map[playerPos[0], playerPos[1] + 1] == 'O')
+                        {
+
                         }
                         else
                         {
-                            if ((playerPos[0] >= 10 && playerPos[0] <= 13 && playerPos[1] >= 10 && playerPos[1] <= 13) || (playerPos[0] >= 1 && playerPos[0] <= 6 && playerPos[1] >= 40 && playerPos[1] <= 48) || (playerPos[0] >= 12 && playerPos[0] <= 14 && playerPos[1] >= 28 && playerPos[1] <= 34) || (playerPos[0] >= 1 && playerPos[0] <= 4 && playerPos[1] >= 15 && playerPos[1] <= 17) || (playerPos[0] >= 3 && playerPos[0] <= 4 && playerPos[1] >= 18 && playerPos[1] <= 19))
-                            {
-                                map.map[playerPos[0], playerPos[1]] = '"';
-                                map.map[playerPos[0], playerPos[1] + 1] = '0';
-
-                            }
-                            else
-                            {
-                                map.map[playerPos[0], playerPos[1]] = ' ';
-                                map.map[playerPos[0], playerPos[1] + 1] = '0';
-                            }
+                            map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
+                            map.map[playerPos[0], playerPos[1] + 1] = '0';
                             playerPos[1] += 1;
                         }
                     }
@@ -411,7 +407,7 @@ public class Game
                     break;
 
             }
-            if ((playerPos[0] >= 10 && playerPos[0] <= 13 && playerPos[1] >= 10 && playerPos[1] <= 13) || (playerPos[0] >= 1 && playerPos[0] <= 6 && playerPos[1] >= 40 && playerPos[1] <= 48) || (playerPos[0] >= 12 && playerPos[0] <= 14 && playerPos[1] >= 28 && playerPos[1] <= 34) || (playerPos[0] >= 1 && playerPos[0] <= 4 && playerPos[1] >= 15 && playerPos[1] <= 17) || (playerPos[0] >= 3 && playerPos[0] <= 4 && playerPos[1] >= 18 && playerPos[1] <= 19))
+            if (map.copy_map[playerPos[0], playerPos[1]] == '"')
             {
                 Random random = new Random();
                 int random_number = random.Next(1, 7);
