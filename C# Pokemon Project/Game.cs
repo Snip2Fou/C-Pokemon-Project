@@ -15,12 +15,8 @@ public class Game
     protected int[] playerPos = new int[2];
     public List<Pokemon> pokemons = new List<Pokemon>();
     public List<string> type_list = new List<string>();
+    public Trainer player = new Trainer("");
     public Dictionary<string, Dictionary<string, List<double>>> type_chart = new Dictionary<string, Dictionary<string, List<double>>>();
-    protected Inventory inventory = new Inventory();
-    protected Object potion = new Object("potion de soin", "ajoute 5 point de vie au pokemon");
-    protected Object pokeball = new Object("pokeball", "chance de capature de certain pokemon");
-    protected Pokemon poke = new Pokemon("poketest");
-    string namePlayer;
 
     public static Game Instance
     {
@@ -200,15 +196,26 @@ public class Game
       playerPos[1] = map.size_y / 2;
       map.map.SetValue('0', playerPos[0], playerPos[1]);
       map.Draw();
-      pokemons.Add(poke);
     }
 
     public void SaveGame()
     {
-        SaveData game_save = new SaveData(namePlayer, pokemons, inventory.SaveInventory(), playerPos);
-        string jsonData = JsonConvert.SerializeObject(game_save);
-        File.WriteAllText("Save/game_save.json", jsonData);
-        Console.WriteLine("sauvegarde");
+        try
+        {
+            SaveData game_save = new SaveData(player.Name, player.Team, player.Inventory.SaveInventory(), playerPos);
+            string jsonData = JsonConvert.SerializeObject(game_save);
+            File.WriteAllText("Save/game_save.json", jsonData);
+            Console.WriteLine("sauvegarde");
+            GameLoop();
+        }
+        catch (FieldAccessException)
+        {
+            Console.WriteLine("Aucun fichier trouvé");
+        }
+        catch (JsonException)
+        {
+            Console.WriteLine("Erreur lors de la sauvegarde");
+        }       
     }
 
     public void LoadGame()
@@ -217,13 +224,18 @@ public class Game
         {
             string jsonData = File.ReadAllText("Save/game_save.json");
             SaveData data = JsonConvert.DeserializeObject<SaveData>(jsonData);
-            namePlayer = data.NamePlayer;
-            pokemons = data.Pokemons;
+            player.Name = data.NamePlayer;
+            foreach (var poke in data.Pokemons)
+            {
+                player.Team.Add(poke);
+            }
             foreach(var obj in data.Inventory)
             {
-                inventory.AddObject(obj);
+               player.Inventory.AddObject(obj);
             }
+            playerPos = data.playerPos;
             Console.WriteLine("Partie chargée");
+            GameLoop();
         }
         catch (FieldAccessException) 
         {
@@ -235,20 +247,18 @@ public class Game
         }
     }
 
-    public void GameLoop()
+    public void Start() 
     {
         Console.WriteLine("entre votre pseudo :");
-        namePlayer = Console.ReadLine();
 
         // Création de deux dresseurs
-        Trainer player = new Trainer(namePlayer);
-        Trainer gary = new Trainer("Gary");
+        player.Name = Console.ReadLine();
 
-        inventory.AddObject(potion);
-        inventory.AddObject(potion);
-        inventory.AddObject(pokeball);
-        inventory.DisplayInventory();
+        GameLoop();
+    }
 
+    public void GameLoop()
+    {
         while (isRunning)
         {
 

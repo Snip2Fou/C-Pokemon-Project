@@ -249,6 +249,17 @@ public class Battle
         }
     }
 
+    public bool Capture(int ball, Pokemon pokemonCapture)
+    {
+        Random rnd = new Random();
+        int Formule = ((1 - (2 / 3) * (pokemonCapture.Pv / pokemonCapture.Pv)) * rnd.Next(3,256) * ball);
+        if (Formule >= 255)
+        {
+            return  true;
+        }
+        else { return false; }
+    }
+
     public void AffichageVs()
     {
         string versus = "";
