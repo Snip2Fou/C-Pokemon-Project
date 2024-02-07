@@ -67,9 +67,16 @@ public class Pokemon
         }
     }
 
-    public void Heal()
+    public void Heal(double heal)
     {
-        Pv += 5;
+        if(Pv + heal > PvMax) 
+        {
+            Pv = PvMax;
+        }
+        else
+        {
+            Pv += (int)heal;
+        }
     }
 
     public void GiveXp(Pokemon pokemon, bool capture)

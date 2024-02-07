@@ -400,7 +400,14 @@ public class Battle
     { 
         Mud_Sport = 0;
         Water_Sport = 0;
-        player.BattleTeam = player.Team.GetRange(0,player.Team.Count);
+        player.BattleTeam.Clear();
+        foreach(var pokemon_battle in player.Team)
+        {
+            if (pokemon_battle.IsAlive())
+            {
+                player.BattleTeam.Add(pokemon_battle);
+            }
+        }
         Event event_choice = new Event();
         bool fuite = false;
         PlayerBattle = player;
@@ -489,13 +496,13 @@ public class Battle
         {
             if(!first && trainer.BattleTeam[i].IsAlive())
             {
-                Console.WriteLine($"> {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv} / {trainer.BattleTeam[i].PvMax} PV | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
+                Console.WriteLine($"> {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv}/{trainer.BattleTeam[i].PvMax} PV | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
                 first = true;
                 nb_event++;
             }
             else if(trainer.BattleTeam[i].IsAlive())
             {
-                Console.WriteLine($"  {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv} / {trainer.BattleTeam[i].PvMax} PV | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
+                Console.WriteLine($"  {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv}/{trainer.BattleTeam[i].PvMax} PV | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
                 nb_event++;
             }
         }
@@ -514,11 +521,11 @@ public class Battle
             {
                 if (event_choice.action_count == i && trainer.BattleTeam[i].IsAlive())
                 {
-                    Console.WriteLine($"> {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv}/{trainer.BattleTeam[i].PvMax} | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
+                    Console.WriteLine($"> {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv}/{trainer.BattleTeam[i].PvMax} PV | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
                 }
                 else if (trainer.BattleTeam[i].IsAlive())
                 {
-                    Console.WriteLine($"  {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv}/{trainer.BattleTeam[i].PvMax} | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
+                    Console.WriteLine($"  {trainer.BattleTeam[i].Name} | {trainer.BattleTeam[i].Level} | {trainer.BattleTeam[i].TypeOne} | {trainer.BattleTeam[i].TypeTwo} | {trainer.BattleTeam[i].Pv}/{trainer.BattleTeam[i].PvMax} PV | {trainer.BattleTeam[i].Attack} | {trainer.BattleTeam[i].Defense} | {trainer.BattleTeam[i].AttackSpecial} | {trainer.BattleTeam[i].DefenseSpecial}");
                 }
             }
         }

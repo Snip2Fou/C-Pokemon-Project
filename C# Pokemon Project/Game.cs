@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.IO;
 using System.Runtime.Remoting.Messaging;
 using System.Threading;
@@ -32,7 +33,11 @@ public class Game
 
     private Game()
     {
-        
+        LoadData();
+    }
+
+    public void LoadData()
+    {
         string filePath = "data/pokemon.csv";
         string filePathCapacity = "data/moves.csv";
         string filePathCapacitySets = "data/movesets.csv";
@@ -97,105 +102,100 @@ public class Game
         {
             Console.WriteLine("Le fichier n'existe pas.");
         }
-        
+
         if (File.Exists(filePath))
         {
             using (StreamReader reader = new StreamReader(filePath))
             {
-              reader.ReadLine();
+                reader.ReadLine();
 
-              while (!reader.EndOfStream)
-              {
-                  string line = reader.ReadLine();
-                  string[] values = line.Split(',');
+                while (!reader.EndOfStream)
+                {
+                    string line = reader.ReadLine();
+                    string[] values = line.Split(',');
 
-                  Pokemon pokemon = new Pokemon
-                  {
-                      Name = values[2],
-                      TypeOne = values[4],
-                      TypeTwo = values[5],
-                      Health = int.Parse(values[9]),
-                      Attack = int.Parse(values[10]),
-                      Defense = int.Parse(values[11]),
-                      AttackSpecial = int.Parse(values[12]),
-                      DefenseSpecial = int.Parse(values[13]),
-                      Speed = int.Parse(values[14]),
-                      Total = int.Parse(values[15])
-                  };
-                  pokemon.Pv = pokemon.GetPvByFormule();
-                  pokemon.PvMax = pokemon.GetPvByFormule();
+                    Pokemon pokemon = new Pokemon
+                    {
+                        Name = values[2],
+                        TypeOne = values[4],
+                        TypeTwo = values[5],
+                        Health = int.Parse(values[9]),
+                        Attack = int.Parse(values[10]),
+                        Defense = int.Parse(values[11]),
+                        AttackSpecial = int.Parse(values[12]),
+                        DefenseSpecial = int.Parse(values[13]),
+                        Speed = int.Parse(values[14]),
+                        Total = int.Parse(values[15])
+                    };
+                    pokemon.Pv = pokemon.GetPvByFormule();
+                    pokemon.PvMax = pokemon.GetPvByFormule();
 
-                  bool pokemon_all_capacity_found = false;
-                  if (File.Exists(filePathCapacitySets))
-                  {
-                      using (StreamReader readerCapacitySets = new StreamReader(filePathCapacitySets))
-                      {
-                          readerCapacitySets.ReadLine();
+                    bool pokemon_all_capacity_found = false;
+                    if (File.Exists(filePathCapacitySets))
+                    {
+                        using (StreamReader readerCapacitySets = new StreamReader(filePathCapacitySets))
+                        {
+                            readerCapacitySets.ReadLine();
 
-                          while (!pokemon_all_capacity_found && !readerCapacitySets.EndOfStream)
-                          {
-                              string line_all_capacity = readerCapacitySets.ReadLine();
-                              string[] values_all_capacity = line_all_capacity.Split(',');
-                              if (values_all_capacity[1] == pokemon.Name)
-                              {
-                                  for(int i = 3; i < values_all_capacity.Length; i++)
-                                  {
-                                      if (values_all_capacity[i].Contains("Start"))
-                                      {
-                                          bool pokemon_capacity_found = false;
-                                          string[] parts = values_all_capacity[i].Split('-');
-                                          if (File.Exists(filePathCapacity))
-                                          {
-                                              using (StreamReader readerCapacity = new StreamReader(filePathCapacity))
-                                              {
-                                                  readerCapacity.ReadLine();
+                            while (!pokemon_all_capacity_found && !readerCapacitySets.EndOfStream)
+                            {
+                                string line_all_capacity = readerCapacitySets.ReadLine();
+                                string[] values_all_capacity = line_all_capacity.Split(',');
+                                if (values_all_capacity[1] == pokemon.Name)
+                                {
+                                    for (int i = 3; i < values_all_capacity.Length; i++)
+                                    {
+                                        if (values_all_capacity[i].Contains("Start"))
+                                        {
+                                            bool pokemon_capacity_found = false;
+                                            string[] parts = values_all_capacity[i].Split('-');
+                                            if (File.Exists(filePathCapacity))
+                                            {
+                                                using (StreamReader readerCapacity = new StreamReader(filePathCapacity))
+                                                {
+                                                    readerCapacity.ReadLine();
 
-                                                  while (!pokemon_capacity_found && !readerCapacity.EndOfStream)
-                                                  {
-                                                      string line_capacity = readerCapacity.ReadLine();
-                                                      string[] values_capacity = line_capacity.Split(',');
+                                                    while (!pokemon_capacity_found && !readerCapacity.EndOfStream)
+                                                    {
+                                                        string line_capacity = readerCapacity.ReadLine();
+                                                        string[] values_capacity = line_capacity.Split(',');
 
-                                                      if (parts[1].Contains(values_capacity[1]))
-                                                      {
-                                                          pokemon.CreateCapacity(values_capacity, type_list);
-                                                          pokemon_capacity_found = true;
-                                                      }
-                                                  }
-                                              }
-                                          }
-                                          else
-                                          {
-                                              Console.WriteLine("Le fichier n'existe pas.");
-                                          }
-                                      }
-                                      else
-                                      {
-                                          break;
-                                      }
-                                  }
-                                  pokemon_all_capacity_found = true;
-                              }
-                          }
+                                                        if (parts[1].Contains(values_capacity[1]))
+                                                        {
+                                                            pokemon.CreateCapacity(values_capacity, type_list);
+                                                            pokemon_capacity_found = true;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Le fichier n'existe pas.");
+                                            }
+                                        }
+                                        else
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    pokemon_all_capacity_found = true;
+                                }
+                            }
 
-                          pokemons.Add(pokemon);
-                      }
-                  }
-                  else
-                  {
-                      Console.WriteLine("Le fichier n'existe pas.");
-                  }
-              }
-          }
-      }
-      else
-      {
-          Console.WriteLine("Le fichier n'existe pas.");
-      }
-        
-      playerPos[0] = map.size_x / 2;
-      playerPos[1] = map.size_y / 2;
-      map.map.SetValue('0', playerPos[0], playerPos[1]);
-      map.Draw();
+                            pokemons.Add(pokemon);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Le fichier n'existe pas.");
+                    }
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("Le fichier n'existe pas.");
+        }
     }
 
     public void SaveGame()
@@ -231,7 +231,7 @@ public class Game
             }
             foreach(var obj in data.Inventory)
             {
-               player.Inventory.AddObject(obj);
+               player.Inventory.AddObject(obj,obj.Quantity);
             }
             playerPos = data.playerPos;
             Console.WriteLine("Partie chargée");
@@ -254,17 +254,26 @@ public class Game
         // Création de deux dresseurs
         player.Name = Console.ReadLine();
 
+        playerPos[0] = map.size_x / 2;
+        playerPos[1] = map.size_y / 2;
+        map.map.SetValue('0', playerPos[0], playerPos[1]);
+
         GameLoop();
     }
 
     public void GameLoop()
     {
+        player.AddPokemon(pokemons[0]);
+        player.AddPokemon(pokemons[52]);
+        player.Inventory.AddObject(new PokeBall(),2);
+        player.Inventory.AddObject(new SuperBall(),12);
+        player.Inventory.AddObject(new Potion(),13);
+
         while (isRunning)
         {
 
-            Trainer ash = new Trainer("Ash");
-            ash.AddPokemon(pokemons[0]);
-            ash.AddPokemon(pokemons[52]);
+            Console.Clear();
+            map.Draw();
 
             ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
             Console.Clear();
@@ -412,6 +421,9 @@ public class Game
                     }
                     break;
 
+                case ConsoleKey.I:
+                    player.Inventory.OpenInventory();
+                    break;
 
                 default:
                     break;
@@ -427,12 +439,18 @@ public class Game
                     // Combat entre les deux dresseurs
 
                     Battle battle = new Battle(); 
-                    battle.StartBattleVsPokemon(ash, pokemons[random_pokemon]);
+                    battle.StartBattleVsPokemon(player, pokemons[random_pokemon]);
+                    if (!player.TeamIsAlive())
+                    {
+                        map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
+                        playerPos[0] = 3;
+                        playerPos[1] = 4;
+                        map.map[playerPos[0], playerPos[1]] = '0';
+                    }
 
                     Console.Clear();
                 }
             }
-            map.Draw();
         }
     }
 }
