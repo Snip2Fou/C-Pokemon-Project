@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class Event
 {
@@ -39,7 +41,6 @@ public class Event
         }
     }
 
-
     public bool QuantityEvent(int pokemoney, int prizeObject)
     {
         ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
@@ -68,4 +69,71 @@ public class Event
                 return false;
         }
     }
+
+    public bool QuantityEventSale(int quantityObject)
+    {
+        ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+
+
+        switch (consoleKeyInfo.Key)
+        {
+            case ConsoleKey.UpArrow:
+                if (action_count + 1 <= quantityObject)
+                {
+                    action_count += 1;
+                }
+                return false;
+
+            case ConsoleKey.DownArrow:
+                if (action_count - 1 >= quantityObject)
+                {
+                    action_count -= 1;
+                }
+                return false;
+
+            case ConsoleKey.Enter:
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
+    public bool ListPokedex(List<Pokemon> pokedex)
+    {
+        ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
+
+
+        switch (consoleKeyInfo.Key)
+        {
+            case ConsoleKey.UpArrow:
+                if (action_count - 1 < 0)
+                {
+                    action_count = 0;
+                }
+                else
+                {
+                    action_count -= 1;
+                }
+                return false;
+
+            case ConsoleKey.DownArrow:
+                if (action_count + 1 > pokedex.Count -1)
+                {
+                    action_count = pokedex.Count - 1;
+                }
+                else
+                {
+                    action_count += 1;
+                }
+                return false;
+
+            case ConsoleKey.Enter:
+                return true;
+
+            default:
+                return false;
+        }
+    }
+
 }
