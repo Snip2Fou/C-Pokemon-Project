@@ -147,8 +147,7 @@ public class Pokemon
             }
         }
     }
-
-    public void LearnNewCapacity(Capacity capacity)
+public void LearnNewCapacity(Capacity capacity)
     {
         Console.Clear();
         if (Capacity1 == null)
@@ -235,6 +234,62 @@ public class Pokemon
         }
         Console.Write("\nAppuyer sur une touche pour passer...");
         Console.ReadKey();
+    }
+    public void CanLearnNewCapacityEnemy()
+    {
+        foreach (var new_capactiy in NextLearnCapacity)
+        {
+            string[] parts = new_capactiy.Split('-');
+            if (parts[0] == "L" + Level.ToString() + " ")
+            {
+                foreach (var capacity in Game.Instance.all_capacity)
+                {
+                    if (parts[1].Contains(capacity.Name))
+                    {
+                        LearnNewCapacityEnemy(capacity);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void LearnNewCapacityEnemy(Capacity capacity)
+    {
+        if (Capacity1 == null)
+        {
+            Capacity1 = capacity;
+        }
+        else if (Capacity2 == null)
+        {
+            Capacity2 = capacity;
+        }
+        else if (Capacity3 == null)
+        {
+            Capacity3 = capacity;
+        }
+        else
+        {
+            Random random = new Random();
+            int random_choice = random.Next(0, 2);
+        
+            if (random_choice == 0)
+            
+                if (random_choice == 0)
+                {
+                    Capacity1 = capacity;
+                }
+                else if (random_choice == 1)
+                {
+                    Capacity2 = capacity;
+                }
+                else if (random_choice == 2)
+                {
+                    Capacity3 = capacity;
+                }
+        }
+        
+
     }
 
     public bool IsAlive()
