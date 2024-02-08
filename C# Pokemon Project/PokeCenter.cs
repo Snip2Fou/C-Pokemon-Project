@@ -522,7 +522,7 @@ public class PokeCenter
                 }
             }
         }
-        reTurn trainer.Team[event_choice.action_count];
+        return trainer.Team[event_choice.action_count];
     }
 }
 

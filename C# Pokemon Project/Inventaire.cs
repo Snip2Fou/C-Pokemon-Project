@@ -6,6 +6,12 @@ public class Inventory
     private List<Object> _inventory = new List<Object>();
 
     public Inventory() { }
+
+    public List<Object> GetInventory()
+    { 
+        return _inventory;
+    }
+
     public void AddObject(Object obj, int quantity) 
     { 
         Object find = null;

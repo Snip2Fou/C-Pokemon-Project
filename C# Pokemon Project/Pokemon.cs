@@ -60,6 +60,7 @@ public class Pokemon
     public Pokemon(string name)
     {
         Name = name;
+        Pv = 20;
         Level = 1;
     }
 

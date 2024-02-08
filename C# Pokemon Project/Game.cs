@@ -20,6 +20,7 @@ public class Game
     public Dictionary<string, Dictionary<string, List<double>>> type_chart = new Dictionary<string, Dictionary<string, List<double>>>();
     public List<Capacity> all_capacity = new List<Capacity>();
     public PokeCenter pokeCenter;
+    public PokeBall pokeBall;
 
     public static Game Instance
     {
