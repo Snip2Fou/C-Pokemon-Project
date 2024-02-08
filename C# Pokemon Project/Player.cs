@@ -24,4 +24,16 @@ public class Trainer
     {
         Team.Add(pokemon);
     }
+
+    public bool TeamIsAlive()
+    {
+        foreach (var pokemon in Team)
+        {
+            if (pokemon.IsAlive())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

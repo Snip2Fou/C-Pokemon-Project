@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 
 public class Object
 {
@@ -15,8 +16,57 @@ public class Object
     }
     public Object() { }
 
-    virtual public void UseObject() { }
-    
+    virtual public bool UseObject() { return true; }
+    virtual public bool UseObjectDuringBattle(Pokemon pokemon) {  return true; }
+
+    public Pokemon ChoosePokemon()
+    {
+        bool first = false;
+        Trainer trainer = Game.Instance.player;
+        int nb_event = 0;
+        Console.Clear();
+        Console.WriteLine("Quelle Pokemon voullez-vous soignez ?");
+        Console.WriteLine("  Nom | Niveau | Type1 | Type2 | Pv/PvMax | Attack | Defense | AttackSpecial | DefenseSpecial");
+        for (int i = 0; i < trainer.Team.Count; i++)
+        {
+            if (!first)
+            {
+                Console.WriteLine($"> {trainer.Team[i].Name} | {trainer.Team[i].Level} | {trainer.Team[i].TypeOne} | {trainer.Team[i].TypeTwo} | {trainer.Team[i].Pv}/{trainer.Team[i].PvMax} PV | {trainer.Team[i].Attack} | {trainer.Team[i].Defense} | {trainer.Team[i].AttackSpecial} | {trainer.Team[i].DefenseSpecial}");
+                first = true;
+                nb_event++;
+            }
+            else
+            {
+                Console.WriteLine($"  {trainer.Team[i].Name} | {trainer.Team[i].Level} | {trainer.Team[i].TypeOne} | {trainer.Team[i].TypeTwo} | {trainer.Team[i].Pv}/{trainer.Team[i].PvMax} PV | {trainer.Team[i].Attack} | {trainer.Team[i].Defense} | {trainer.Team[i].AttackSpecial} | {trainer.Team[i].DefenseSpecial}");
+                nb_event++;
+            }
+        }
+
+        bool choice = false;
+        Event event_choice = new Event();
+        while (!choice)
+        {
+            choice = event_choice.ChoiceEvent(nb_event);
+
+            Console.Clear();
+            Console.WriteLine("Quelle Pokemon voullez-vous soignez ?");
+            Console.WriteLine("  Nom | Niveau | Type1 | Type2 | Pv/PvMax | Attack | Defense | AttackSpecial | DefenseSpecial");
+            for (int i = 0; i < trainer.Team.Count; i++)
+            {
+                if (event_choice.action_count == i )
+                {
+                    Console.WriteLine($"> {trainer.Team[i].Name} | {trainer.Team[i].Level} | {trainer.Team[i].TypeOne} | {trainer.Team[i].TypeTwo} | {trainer.Team[i].Pv}/{trainer.Team[i].PvMax} PV | {trainer.Team[i].Attack} | {trainer.Team[i].Defense} | {trainer.Team[i].AttackSpecial} | {trainer.Team[i].DefenseSpecial}");
+                }
+                else
+                {
+                    Console.WriteLine($"  {trainer.Team[i].Name} | {trainer.Team[i].Level} | {trainer.Team[i].TypeOne} | {trainer.Team[i].TypeTwo} | {trainer.Team[i].Pv}/{trainer.Team[i].PvMax} PV | {trainer.Team[i].Attack} | {trainer.Team[i].Defense} | {trainer.Team[i].AttackSpecial} | {trainer.Team[i].DefenseSpecial}");
+                }
+            }
+        }
+        Console.Clear();
+        return trainer.Team[event_choice.action_count];
+    }
+
 }
 
 public class PokeBall : Object
@@ -24,14 +74,14 @@ public class PokeBall : Object
     public PokeBall() 
     {
         Name = "PokeBall";
-        Description = "Iconique objet de la franchise, il permet de capturer le Pokémon sauvage en face de vous. L'objet est le plus standard qui soit, d'une couleur rouge et blanche et possède un Bonus Ball de x1.";
+        Description = "Il permet de capturer le PokÃ©mon sauvage en face de vous. Il possÃ¨de un Bonus Ball de x1.";
         Effect = 1;
         Price = 300;
     }
 
-    override public void UseObject()
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
     {
-        
+        return true;
     }
 }
 
@@ -40,14 +90,14 @@ public class SuperBall : Object
     public SuperBall() 
     {
         Name = "SuperBall";
-        Description = "La Super Ball est plus performante que la Poké Ball, dotée d'une couleur bleue et blanche avec des petites barres rouges sur le haut de la Ball. Cette dernière a un Bonus Ball de x1.5.";
+        Description = "La Super Ball est plus performante que la PokÃ© Ball. Cette derniÃ¨re a un Bonus Ball de x1.5.";
         Effect = 1.5;
         Price = 700;
     }
 
-    override public void UseObject()
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
     {
-
+        return true;
     }
 }
 
@@ -56,14 +106,14 @@ public class HyperBall : Object
     public HyperBall()
     {
         Name = "HyperBall";
-        Description = "L'Hyper Ball est la plus performante des Balls standards (hors Master Ball) que vous pouvez obtenir dans le jeu via la boutique. Elle est de couleur noire et blanche avec un H doré sur la partie sombre. Cette dernière a un Bonus Ball de x2.";
+        Description = "L'Hyper Ball est la plus performante des Balls standards. Cette derniÃ¨re a un Bonus Ball de x2.";
         Effect = 2;
         Price = 1300;
     }
 
-    override public void UseObject()
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
     {
-
+        return true;
     }
 }
 
@@ -71,15 +121,42 @@ public class Potion : Object
 {
     public Potion()
     {
-        Name = "Potion";
+        Name = "Potion"; 
         Description = "Restore 20 HP.";
         Effect = 20;
         Price = 200;
     }
 
-    override public void UseObject()
+    override public bool UseObject()
     {
+        Pokemon pokemon = ChoosePokemon();
+        if(pokemon.Pv < pokemon.PvMax)
+        {
+            int prev_pv = pokemon.Pv;
+            pokemon.Heal(Effect);
+            Quantity -= 1;
+            Console.WriteLine($"Les pv de {pokemon.Name} sont passe de {prev_pv} a {pokemon.Pv} !\n");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
+    {
+        if (pokemon.Pv < pokemon.PvMax)
+        {
+            int prev_pv = pokemon.Pv;
+            pokemon.Heal(Effect);
+            Quantity -= 1;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 
@@ -93,9 +170,36 @@ public class SuperPotion : Object
         Price = 700;
     }
 
-    override public void UseObject()
+    override public bool UseObject()
     {
+        Pokemon pokemon = ChoosePokemon();
+        if (pokemon.Pv < pokemon.PvMax)
+        {
+            int prev_pv = pokemon.Pv;
+            pokemon.Heal(Effect);
+            Quantity -= 1;
+            Console.WriteLine($"Les pv de {pokemon.Name} sont passe de {prev_pv} a {pokemon.Pv} !\n");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
+    {
+        if (pokemon.Pv < pokemon.PvMax)
+        {
+            int prev_pv = pokemon.Pv;
+            pokemon.Heal(Effect);
+            Quantity -= 1;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 
@@ -109,8 +213,35 @@ public class HyperPotion : Object
         Price = 1500;
     }
 
-    override public void UseObject()
+    override public bool UseObject()
     {
+        Pokemon pokemon = ChoosePokemon();
+        if (pokemon.Pv < pokemon.PvMax)
+        {
+            int prev_pv = pokemon.Pv;
+            pokemon.Heal(Effect);
+            Quantity -= 1;
+            Console.WriteLine($"Les pv de {pokemon.Name} sont passe de {prev_pv} a {pokemon.Pv} !\n");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
+    {
+        if (pokemon.Pv < pokemon.PvMax)
+        {
+            int prev_pv = pokemon.Pv;
+            pokemon.Heal(Effect);
+            Quantity -= 1;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
