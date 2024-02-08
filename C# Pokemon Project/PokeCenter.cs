@@ -9,6 +9,7 @@ public class PokeCenter
 {
     public bool exit = false;
     public bool exitBoutique = false;
+    public bool exitInBoutique = false;
     public bool exitEquipe = false;
     public Trainer Player = new Trainer("");
     public PokeBall pokeBall = new PokeBall();
@@ -95,6 +96,7 @@ public class PokeCenter
                 Console.WriteLine("> Sortir du Centre");
             }
         }
+        exit = false;
     }
 
     public void Boutique()
@@ -112,7 +114,7 @@ public class PokeCenter
             bool choice_event = event_choice.ChoiceEvent(3);
             if (choice_event)
             {
-                Console.Clear();
+                
                 if (event_choice.action_count == 0)
                 {
                     Console.WriteLine($"> {pokeBall.Name} {pokeBall.Price} pokemoney");
@@ -124,208 +126,195 @@ public class PokeCenter
                     Console.WriteLine("  Quitter");
 
                     bool choice_boutique = event_boutique.ChoiceEvent(7);
-                    if (choice_boutique)
-                    {
-
-                        if (event_choice.action_count == 0)
-                        {
-                            bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, pokeBall.Price);
-
-                            Console.Clear();
-
-                            Console.WriteLine("\u005E ");
-                            Console.WriteLine($"{event_boutique.action_count}");
-                            Console.WriteLine("\u142F");
-                                                        
-                            if (quantity)
-                            {
-                                Console.WriteLine($"tu a achete {event_boutique.action_count}x{pokeBall.Name}");
-                                Player.Inventory.AddObject(pokeBall, event_boutique.action_count);
-                            }
-                            else
-                            {
-                                Console.WriteLine("tu n'a pas assez d'argents");
-                            }
-                        }
-                        else if (event_choice.action_count == 1)
-                        {
-                            bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, superBall.Price);
-
-                            Console.Clear();
-
-                            Console.WriteLine("\u005E ");
-                            Console.WriteLine($"{event_boutique.action_count}");
-                            Console.WriteLine("\u142F");
-
-                            if (quantity)
-                            {
-                                Console.WriteLine($"tu a achete {event_boutique.action_count}x{superBall.Name}");
-                                Player.Inventory.AddObject(superBall, event_boutique.action_count);
-                            }
-                            else
-                            {
-                                Console.WriteLine("tu n'a pas assez d'argents");
-                            }
-                        }
-                        else if (event_choice.action_count == 2)
-                        {
-                            bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, hyperBall.Price);
-
-                            Console.Clear();
-
-                            Console.WriteLine("\u005E ");
-                            Console.WriteLine($"{event_boutique.action_count}");
-                            Console.WriteLine("\u142F");
-
-                            if (quantity)
-                            {
-                                Console.WriteLine($"tu a achete {event_boutique.action_count}x{hyperBall.Name}");
-                                Player.Inventory.AddObject(hyperBall, event_boutique.action_count);
-                            }
-                            else
-                            {
-                                Console.WriteLine("tu n'a pas assez d'argents");
-                            }
-                        }
-                        else if (event_choice.action_count == 3)
-                        {
-                            
-                            bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, potion.Price);
-
-                            Console.Clear();
-
-                            Console.WriteLine("\u005E ");
-                            Console.WriteLine($"{event_boutique.action_count}");
-                            Console.WriteLine("\u142F");
-
-                            if (quantity)
-                            {
-                                Console.WriteLine($"tu a achete {event_boutique.action_count}x{potion.Name}");
-                                Player.Inventory.AddObject(potion, event_boutique.action_count);
-                            }
-                            else
-                            {
-                                Console.WriteLine("tu n'a pas assez d'argents");
-                            }
-                        }
-                        else if (event_choice.action_count == 4)
-                        {
-                            bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, superPotion.Price);
-
-                            Console.Clear();
-
-                            Console.WriteLine("\u005E ");
-                            Console.WriteLine($"{event_boutique.action_count}");
-                            Console.WriteLine("\u142F");
-
-                            if (quantity)
-                            {
-                                Console.WriteLine($"tu a achete {event_boutique.action_count}x{superPotion.Name}");
-                                Player.Inventory.AddObject(superPotion, event_boutique.action_count);
-                            }
-                            else
-                            {
-                                Console.WriteLine("tu n'a pas assez d'argents");
-                            }
-                        }
-                        else if (event_choice.action_count == 5)
-                        {
-                            bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, hyperPotion.Price);
-
-                            Console.Clear();
-
-                            Console.WriteLine("\u005E ");
-                            Console.WriteLine($"{event_boutique.action_count}");
-                            Console.WriteLine("\u142F");
-
-                            if (quantity)
-                            {
-                                Console.WriteLine($"tu a achete {event_boutique.action_count}x{hyperPotion.Name}");
-                                Player.Inventory.AddObject(hyperPotion, event_boutique.action_count);
-                            }
-                            else
-                            {
-                                Console.WriteLine("tu n'a pas assez d'argents");
-                            }
-                        }
-                        else if (event_choice.action_count == 6)
-                        {
-                            break;
-                        }
-                    }
                     Console.Clear();
-                    
-                    if (event_choice.action_count == 0)
+                    while (!exitInBoutique)
                     {
-                        Console.WriteLine($"> {pokeBall.Name} {pokeBall.Price} pokemoney");
-                        Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
-                        Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
-                        Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
-                        Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
-                        Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
-                        Console.WriteLine("  Quitter");
+                        if (choice_boutique)
+                        {
+                            if (event_choice.action_count == 0)
+                            {
+                                Console.WriteLine("\u005E ");
+                                Console.WriteLine($"{event_boutique.action_count}");
+                                Console.WriteLine("\u142F");
+
+                                bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, pokeBall.Price);
+
+                                if (quantity)
+                                {
+                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{pokeBall.Name}");
+                                    Player.Inventory.AddObject(pokeBall, event_boutique.action_count);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                }
+                            }
+                            else if (event_choice.action_count == 1)
+                            {
+                                Console.WriteLine("\u005E ");
+                                Console.WriteLine($"{event_boutique.action_count}");
+                                Console.WriteLine("\u142F");
+
+                                bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, superBall.Price);
+
+                                if (quantity)
+                                {
+                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{superBall.Name}");
+                                    Player.Inventory.AddObject(superBall, event_boutique.action_count);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                }
+                            }
+                            else if (event_choice.action_count == 2)
+                            {
+                                Console.WriteLine("\u005E ");
+                                Console.WriteLine($"{event_boutique.action_count}");
+                                Console.WriteLine("\u142F");
+                                bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, hyperBall.Price);
+
+                                if (quantity)
+                                {
+                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{hyperBall.Name}");
+                                    Player.Inventory.AddObject(hyperBall, event_boutique.action_count);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                }
+                            }
+                            else if (event_choice.action_count == 3)
+                            {
+                                Console.WriteLine("\u005E ");
+                                Console.WriteLine($"{event_boutique.action_count}");
+                                Console.WriteLine("\u142F");
+                                bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, potion.Price);
+
+                                if (quantity)
+                                {
+                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{potion.Name}");
+                                    Player.Inventory.AddObject(potion, event_boutique.action_count);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                }
+                            }
+                            else if (event_choice.action_count == 4)
+                            {
+                                Console.WriteLine("\u005E ");
+                                Console.WriteLine($"{event_boutique.action_count}");
+                                Console.WriteLine("\u142F");
+                                bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, superPotion.Price);
+
+                                if (quantity)
+                                {
+                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{superPotion.Name}");
+                                    Player.Inventory.AddObject(superPotion, event_boutique.action_count);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                }
+                            }
+                            else if (event_choice.action_count == 5)
+                            {
+                                Console.WriteLine("\u005E ");
+                                Console.WriteLine($"{event_boutique.action_count}");
+                                Console.WriteLine("\u142F");
+                                bool quantity = event_boutique.QuantityEvent(Player.PokeMoney, hyperPotion.Price);
+
+                                if (quantity)
+                                {
+                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{hyperPotion.Name}");
+                                    Player.Inventory.AddObject(hyperPotion, event_boutique.action_count);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                }
+                            }
+                            else if (event_choice.action_count == 6)
+                            {
+                                exitInBoutique = true;
+                            }
+                            Console.Clear();
+                            if (event_choice.action_count == 0)
+                            {
+                                Console.WriteLine($"> {pokeBall.Name} {pokeBall.Price} pokemoney");
+                                Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
+                                Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
+                                Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
+                                Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
+                                Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
+                                Console.WriteLine("  Quitter");
+                            }
+                            else if (event_choice.action_count == 1)
+                            {
+                                Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
+                                Console.WriteLine($"> {superBall.Name} {superBall.Price} pokemoney");
+                                Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
+                                Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
+                                Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
+                                Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
+                                Console.WriteLine("  Quitter");
+                            }
+                            else if (event_choice.action_count == 2)
+                            {
+                                Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
+                                Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
+                                Console.WriteLine($"> {hyperBall.Name} {hyperBall.Price} pokemoney");
+                                Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
+                                Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
+                                Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
+                                Console.WriteLine("  Quitter");
+                            }
+                            else if (event_choice.action_count == 3)
+                            {
+                                Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
+                                Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
+                                Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
+                                Console.WriteLine($"> {potion.Name} {potion.Price} pokemoney");
+                                Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
+                                Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
+                                Console.WriteLine("  Quitter");
+                            }
+                            else if (event_choice.action_count == 4)
+                            {
+                                Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
+                                Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
+                                Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
+                                Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
+                                Console.WriteLine($"> {superPotion.Name} {superPotion.Price} pokemoney");
+                                Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
+                                Console.WriteLine("  Quitter");
+                            }
+                            else if (event_choice.action_count == 5)
+                            {
+                                Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
+                                Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
+                                Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
+                                Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
+                                Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
+                                Console.WriteLine($"> {hyperPotion.Name} {hyperPotion.Price} pokemoney");
+                                Console.WriteLine("  Quitter");
+                            }
+                            else if (event_choice.action_count == 6)
+                            {
+                                Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
+                                Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
+                                Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
+                                Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
+                                Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
+                                Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
+                                Console.WriteLine("> Quitter");
+                            }
+                        }
                     }
-                    else if (event_choice.action_count == 1)
-                    {
-                        Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
-                        Console.WriteLine($"> {superBall.Name} {superBall.Price} pokemoney");
-                        Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
-                        Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
-                        Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
-                        Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
-                        Console.WriteLine("  Quitter");
-                    }
-                    else if (event_choice.action_count == 2)
-                    {
-                        Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
-                        Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
-                        Console.WriteLine($"> {hyperBall.Name} {hyperBall.Price} pokemoney");
-                        Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
-                        Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
-                        Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
-                        Console.WriteLine("  Quitter");
-                    }
-                    else if (event_choice.action_count == 3)
-                    {
-                        Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
-                        Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
-                        Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
-                        Console.WriteLine($"> {potion.Name} {potion.Price} pokemoney");
-                        Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
-                        Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
-                        Console.WriteLine("  Quitter");
-                    }
-                    else if (event_choice.action_count == 4)
-                    {
-                        Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
-                        Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
-                        Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
-                        Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
-                        Console.WriteLine($"> {superPotion.Name} {superPotion.Price} pokemoney");
-                        Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
-                        Console.WriteLine("  Quitter");
-                    }
-                    else if (event_choice.action_count == 5)
-                    {
-                        Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
-                        Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
-                        Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
-                        Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
-                        Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
-                        Console.WriteLine($"> {hyperPotion.Name} {hyperPotion.Price} pokemoney");
-                        Console.WriteLine("  Quitter");
-                    }
-                    else if (event_choice.action_count == 6)
-                    {
-                        Console.WriteLine($"  {pokeBall.Name} {pokeBall.Price} pokemoney");
-                        Console.WriteLine($"  {superBall.Name} {superBall.Price} pokemoney");
-                        Console.WriteLine($"  {hyperBall.Name} {hyperBall.Price} pokemoney");
-                        Console.WriteLine($"  {potion.Name} {potion.Price} pokemoney");
-                        Console.WriteLine($"  {superPotion.Name} {superPotion.Price} pokemoney");
-                        Console.WriteLine($"  {hyperPotion.Name} {hyperPotion.Price} pokemoney");
-                        Console.WriteLine("> Quitter");
-                    }
-                }
+                    exitInBoutique = false;
+                    Boutique();
+                } 
                 else if (event_choice.action_count == 1)
                 {
                     Objectvente = Player.Inventory.OpenInventoryDuringBattle();
@@ -375,6 +364,8 @@ public class PokeCenter
                 Console.WriteLine("> Sortir de la boutique");
             }
         }
+        exitBoutique = false;
+        Interface();
     }
 
     public void Equipe()
@@ -387,48 +378,49 @@ public class PokeCenter
             Console.WriteLine("Voici tout vos pokemon :\n");
             if (event_equipe.action_count == 0)
             {
-                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 3]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 4]}");
+                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 3].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 4].Name}");
             }
             else if (event_equipe.action_count == 1)
             {
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1]}");
-                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 3]}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
+                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 3].Name}");
             }
             else if (event_equipe.action_count <= Player.Pokedex.Count - 3)
             {
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1]}");
-                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2]}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
+                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2].Name}");
             }
             else if (event_equipe.action_count <= Player.Pokedex.Count - 2)
             {
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 3]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1]}");
-                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1]}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 3].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
+                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
             }
             else if (event_equipe.action_count >= Player.Pokedex.Count - 1)
             {
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 4]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 3]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2]}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1]}");
-                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count]}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 4].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 3].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2].Name}");
+                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
+                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
             }
 
             exitEquipe = event_equipe.ListPokedex(Player.Pokedex);
         }
+        exitEquipe = false;
+        Interface();
     }
-
 }
 

@@ -15,6 +15,7 @@ public class Trainer
         Team = new List<Pokemon>();
         Inventory = new Inventory();
         BattleTeam = new List<Pokemon>();
+        Pokedex = new List<Pokemon>();
     }
 
 
