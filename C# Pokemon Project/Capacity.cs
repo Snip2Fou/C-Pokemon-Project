@@ -13,6 +13,19 @@ public class Capacity
     public float Accuracy { get; set; }
     public bool Critical { get; set; }
 
+    public Capacity(string name, string description, string type, string category, float power, float accuracy, bool critical)
+    {
+        Name = name;
+        Description = description;
+        Type = type;
+        Category = category;
+        Power = power;
+        Accuracy = accuracy;    
+        Critical = critical;
+    }
+
+    public Capacity() { }
+
     public Capacity(string[] values, List<string> type_list) 
     {
         string _name = values[1];

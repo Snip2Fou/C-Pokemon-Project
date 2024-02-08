@@ -212,7 +212,7 @@ public class Game
     {
         try
         {
-            SaveData game_save = new SaveData(player.Name, player.Team, player.Inventory.SaveInventory(), playerPos);
+            SaveData game_save = new SaveData(player.Name, player.PokeMoney, player.Team, player.Pokedex, player.Inventory.SaveInventory(), playerPos);
             string jsonData = JsonConvert.SerializeObject(game_save);
             File.WriteAllText("data/game_save.json", jsonData);
             Console.WriteLine("sauvegarde");
@@ -221,10 +221,12 @@ public class Game
         catch (FieldAccessException)
         {
             Console.WriteLine("Aucun fichier trouvé");
+            Console.ReadKey();
         }
         catch (JsonException)
         {
             Console.WriteLine("Erreur lors de la sauvegarde");
+            Console.ReadKey();
         }       
     }
 
@@ -235,9 +237,14 @@ public class Game
             string jsonData = File.ReadAllText("data/game_save.json");
             SaveData data = JsonConvert.DeserializeObject<SaveData>(jsonData);
             player.Name = data.NamePlayer;
+            player.PokeMoney = data.PokeMoney;
             foreach (var poke in data.Pokemons)
             {
                 player.Team.Add(poke);
+            }
+            foreach (var pokebis in data.Pokedex)
+            {
+                player.Pokedex.Add(pokebis);
             }
             foreach(var obj in data.Inventory)
             {
@@ -245,15 +252,18 @@ public class Game
             }
             playerPos = data.playerPos;
             Console.WriteLine("Partie chargée");
+            Console.ReadKey();
             GameLoop();
         }
         catch (FieldAccessException) 
         {
             Console.WriteLine("Aucun sauvegarde trouvé");
+            Console.ReadKey();
         }
-        catch (JsonException)
+        catch (Exception ex)
         {
-            Console.WriteLine("Erreur lors de la lecture du fichier de sauvegarde");
+            Console.WriteLine($"Erreur lors de la lecture du fichier de sauvegarde : {ex.Message}");
+            Console.ReadKey();
         }
     }
 
@@ -278,8 +288,8 @@ public class Game
 
             switch (consoleKeyInfo.Key)
             {
-                case ConsoleKey.Escape:
-                    MenuPause menuPause = new MenuPause(this);
+                case ConsoleKey.P:
+                    MenuPause menuPause = new MenuPause();
                     menuPause.Stop();
                     break;
 

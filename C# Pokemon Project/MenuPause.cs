@@ -5,11 +5,6 @@ public class MenuPause
     bool exit = false;
     Game Game = Game.Instance;
 
-    public MenuPause(Game game)
-    {
-        Game = game;
-    }
-
     public void Stop()
     {
         Event event_choice = new Event();
