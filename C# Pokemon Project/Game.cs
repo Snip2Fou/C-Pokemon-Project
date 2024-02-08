@@ -300,7 +300,7 @@ public class Game
                         {
                             pokeCenter.Interface();
                         }
-                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '\u2302'/*⌂*/)
+                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '_')
                         {
                             home.Equipe();
                         }
@@ -308,7 +308,7 @@ public class Game
                         {
 
                         }
-                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '\u263C'/*☼*/)
+                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0] - 1, playerPos[1]] = '0';
@@ -334,7 +334,7 @@ public class Game
                         {
                             pokeCenter.Interface();
                         }
-                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '\u2302'/*⌂*/)
+                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '_')
                         {
                             home.Equipe();
                         }
@@ -342,7 +342,7 @@ public class Game
                         {
 
                         }
-                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '\u263C'/*☼*/)
+                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0] + 1, playerPos[1]] = '0';
@@ -368,7 +368,7 @@ public class Game
                         {
                             pokeCenter.Interface();
                         }
-                        else if (map.map[playerPos[0], playerPos[1] - 1] == '\u2302'/*⌂*/)
+                        else if (map.map[playerPos[0], playerPos[1] - 1] == '_')
                         {
                             home.Equipe();
                         }
@@ -376,7 +376,7 @@ public class Game
                         {
 
                         }
-                        else if (map.map[playerPos[0], playerPos[1] - 1] == '\u263C'/*☼*/)
+                        else if (map.map[playerPos[0], playerPos[1] - 1] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0], playerPos[1] - 1] = '0';
@@ -402,7 +402,7 @@ public class Game
                         {
                             pokeCenter.Interface();
                         }
-                        else if (map.map[playerPos[0], playerPos[1] + 1] == '\u2302'/*⌂*/)
+                        else if (map.map[playerPos[0], playerPos[1] + 1] == '_')
                         {
                             home.Equipe();
                         }
@@ -410,7 +410,7 @@ public class Game
                         {
 
                         }
-                        else if (map.map[playerPos[0], playerPos[1] + 1] == '\u263C'/*☼*/)
+                        else if (map.map[playerPos[0], playerPos[1] + 1] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0], playerPos[1] + 1] = '0';
