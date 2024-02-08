@@ -21,6 +21,7 @@ public class Game
     public List<Capacity> all_capacity = new List<Capacity>();
     public PokeCenter pokeCenter;
     public House home;
+    public List<Npc> npcs_list;
 
     public static Game Instance
     {
@@ -282,8 +283,12 @@ public class Game
         playerPos[0] = map.size_x / 2;
         playerPos[1] = map.size_y / 2;
         map.map.SetValue('0', playerPos[0], playerPos[1]);
+        npcs_list = new List<Npc>();
+
         Npc Pr_Chen = new NpcPrChen();
         Pr_Chen.LaunchNpc();
+
+        npcs_list.Add(new NpcMaman());
         GameLoop();
     }
 
@@ -326,7 +331,13 @@ public class Game
                         }
                         else if(map.map[playerPos[0] - 1, playerPos[1]] == 'O')
                         {
-
+                            foreach(var npc in npcs_list)
+                            {
+                                if (npc.NpcPos[0] == playerPos[0] - 1 && npc.NpcPos[1] == playerPos[1])
+                                {
+                                    npc.LaunchNpc();
+                                }
+                            }
                         }
                         else
                         {
@@ -360,7 +371,13 @@ public class Game
                         }
                         else if(map.map[playerPos[0] + 1, playerPos[1]] == 'O')
                         {
-
+                            foreach (var npc in npcs_list)
+                            {
+                                if (npc.NpcPos[0] == playerPos[0] + 1 && npc.NpcPos[1] == playerPos[1])
+                                {
+                                    npc.LaunchNpc();
+                                }
+                            }
                         }
                         else
                         {
@@ -394,7 +411,13 @@ public class Game
                         }
                         else if (map.map[playerPos[0], playerPos[1] - 1] == 'O')
                         {
-
+                            foreach (var npc in npcs_list)
+                            {
+                                if (npc.NpcPos[0] == playerPos[0] && npc.NpcPos[1] == playerPos[1] - 1)
+                                {
+                                    npc.LaunchNpc();
+                                }
+                            }
                         }
                         else
                         {
@@ -428,7 +451,13 @@ public class Game
                         }
                         else if (map.map[playerPos[0], playerPos[1] + 1] == 'O')
                         {
-
+                            foreach (var npc in npcs_list)
+                            {
+                                if (npc.NpcPos[0] == playerPos[0] && npc.NpcPos[1] == playerPos[1] + 1)
+                                {
+                                    npc.LaunchNpc();
+                                }
+                            }
                         }
                         else
                         {
