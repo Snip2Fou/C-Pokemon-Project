@@ -20,7 +20,7 @@ public class Game
     public Dictionary<string, Dictionary<string, List<double>>> type_chart = new Dictionary<string, Dictionary<string, List<double>>>();
     public List<Capacity> all_capacity = new List<Capacity>();
     public PokeCenter pokeCenter;
-    public PokeBall pokeBall;
+    public House home;
 
     public static Game Instance
     {
@@ -37,6 +37,8 @@ public class Game
     private Game()
     {
         LoadData();
+        pokeCenter = new PokeCenter(player);
+        home = new House(player);
     }
 
     public void LoadData()
@@ -204,15 +206,6 @@ public class Game
         {
             Console.WriteLine("Le fichier n'existe pas.");
         }
-      pokeBall = new PokeBall();
-      pokeCenter = new PokeCenter(player);
-        player.AddPokemon(pokemons[0]);
-        player.AddPokemon(pokemons[52]);
-        player.Pokedex.Add(pokemons[3]);
-        player.Pokedex.Add(pokemons[10]);
-        player.Inventory.AddObject(pokeBall, 10);
-      map.map.SetValue('0', playerPos[0], playerPos[1]);
-      map.Draw();
     }
 
     public void SaveGame()
@@ -276,28 +269,16 @@ public class Game
 
     public void Start() 
     {
-        Console.WriteLine("entre votre pseudo :");
-
-        // Création de deux dresseurs
-        player.Name = Console.ReadLine();
-
         playerPos[0] = map.size_x / 2;
         playerPos[1] = map.size_y / 2;
         map.map.SetValue('0', playerPos[0], playerPos[1]);
-
+        Npc Pr_Chen = new NpcPrChen();
+        Pr_Chen.LaunchNpc();
         GameLoop();
     }
 
     public void GameLoop()
     {
-        player.AddPokemon(pokemons[0]);
-        player.AddPokemon(pokemons[52]);
-        player.Team[0].Capacity2 = all_capacity[3];
-        player.Team[0].Capacity3 = all_capacity[4];
-        player.Inventory.AddObject(new PokeBall(),2);
-        player.Inventory.AddObject(new SuperBall(),12);
-        player.Inventory.AddObject(new Potion(),13);
-
         while (isRunning)
         {
             Console.Clear();
@@ -321,7 +302,7 @@ public class Game
                         }
                         else if(map.map[playerPos[0] - 1, playerPos[1]] == '\u2302'/*⌂*/)
                         {
-
+                            home.Equipe();
                         }
                         else if(map.map[playerPos[0] - 1, playerPos[1]] == '\u00A5'/*¥*/)
                         {
@@ -355,7 +336,7 @@ public class Game
                         }
                         else if(map.map[playerPos[0] + 1, playerPos[1]] == '\u2302'/*⌂*/)
                         {
-
+                            home.Equipe();
                         }
                         else if(map.map[playerPos[0] + 1, playerPos[1]] == '\u00A5'/*¥*/)
                         {
@@ -389,7 +370,7 @@ public class Game
                         }
                         else if (map.map[playerPos[0], playerPos[1] - 1] == '\u2302'/*⌂*/)
                         {
-
+                            home.Equipe();
                         }
                         else if (map.map[playerPos[0], playerPos[1] - 1] == '\u00A5'/*¥*/)
                         {
@@ -423,7 +404,7 @@ public class Game
                         }
                         else if (map.map[playerPos[0], playerPos[1] + 1] == '\u2302'/*⌂*/)
                         {
-
+                            home.Equipe();
                         }
                         else if (map.map[playerPos[0], playerPos[1] + 1] == '\u00A5'/*¥*/)
                         {

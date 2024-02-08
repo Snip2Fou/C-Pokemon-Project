@@ -17,73 +17,82 @@ public class House
 
     public void Equipe()
     {
-        Event event_equipe = new Event();
-
-        while (!exitEquipe)
+        if (Player.Team.Count > 6)
         {
-            Console.Clear();
-            Console.WriteLine("Voici tout vos pokemon :\n");
-            if (event_equipe.action_count == 0)
-            {
-                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 3].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 4].Name}");
-            }
-            else if (event_equipe.action_count == 1)
-            {
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
-                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 3].Name}");
-            }
-            else if (event_equipe.action_count <= Player.Pokedex.Count - 3)
-            {
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
-                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2].Name}");
-            }
-            else if (event_equipe.action_count <= Player.Pokedex.Count - 2)
-            {
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 3].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
-                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
-            }
-            else if (event_equipe.action_count >= Player.Pokedex.Count - 1)
-            {
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 4].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 3].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2].Name}");
-                Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
-                Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
-            }
+            Event event_equipe = new Event();
 
-            exitEquipe = event_equipe.ListPokedex(Player.Pokedex);
-            if (exitEquipe)
+            while (!exitEquipe)
             {
-                foreach (var poke in Player.Team)
+                Console.Clear();
+                Console.WriteLine("Voici tout vos pokemon :\n");
+                if (event_equipe.action_count == 0)
                 {
-                    if (poke == Player.Pokedex[event_equipe.action_count])
+                    Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 3].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 4].Name}");
+                }
+                else if (event_equipe.action_count == 1)
+                {
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
+                    Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 3].Name}");
+                }
+                else if (event_equipe.action_count <= Player.Pokedex.Count - 3)
+                {
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
+                    Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 2].Name}");
+                }
+                else if (event_equipe.action_count <= Player.Pokedex.Count - 2)
+                {
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 3].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
+                    Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count + 1].Name}");
+                }
+                else if (event_equipe.action_count >= Player.Pokedex.Count - 1)
+                {
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 4].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 3].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 2].Name}");
+                    Console.WriteLine($"  {Player.Pokedex[event_equipe.action_count - 1].Name}");
+                    Console.WriteLine($"> {Player.Pokedex[event_equipe.action_count].Name}");
+                }
+
+                exitEquipe = event_equipe.ListPokedex(Player.Pokedex);
+                if (exitEquipe)
+                {
+                    foreach (var poke in Player.Team)
                     {
-                        exitEquipe = false;
-                        Console.Write("Pokemon deja dans l'equipe");
-                        Console.Write("\nAppuyer pour passer...");
-                        Console.ReadKey();
-                        break;
+                        if (poke == Player.Pokedex[event_equipe.action_count])
+                        {
+                            exitEquipe = false;
+                            Console.Write("Pokemon deja dans l'equipe");
+                            Console.Write("\nAppuyer pour passer...");
+                            Console.ReadKey();
+                            break;
+                        }
                     }
                 }
             }
+            Pokemon newPokenomTeam = Player.Pokedex[event_equipe.action_count];
+            exitEquipe = false;
+            Pokemon pokemonTeam = ChooseTeamPokemon(Player);
+            Player.Team[Player.Team.IndexOf(pokemonTeam, 0)] = newPokenomTeam;
         }
-        Pokemon newPokenomTeam = Player.Pokedex[event_equipe.action_count];
-        exitEquipe = false;
-        Pokemon pokemonTeam = ChooseTeamPokemon(Player);
-        Player.Team[Player.Team.IndexOf(pokemonTeam, 0)] = newPokenomTeam;
+        else
+        {
+            Console.WriteLine("Vous n'avez pas assez de pokemon pour changer votre équipe");
+            Console.Write("\nAppuyer pour passer...");
+            Console.ReadKey();
+        }
     }
 
 
