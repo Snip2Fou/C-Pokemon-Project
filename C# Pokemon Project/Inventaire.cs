@@ -147,6 +147,16 @@ public class Inventory
         }
         return null;
     }
+  
+      public void RemoveObject(Object obj, int quantity)
+    {
+        obj.Quantity -= quantity;
+        if (obj.Quantity == 0)
+        {
+            _inventory.Remove(obj);
+        }
+    }
+  
     public List<Object> SaveInventory()
     {
         return _inventory;

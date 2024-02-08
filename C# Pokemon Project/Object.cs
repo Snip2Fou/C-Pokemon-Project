@@ -6,6 +6,7 @@ public class Object
     public string Name { get; set; }
     public string Description { get; set; }
     public double Effect { get; set; }
+    public int Price { get; set; }
     public int Quantity { get; set; }
 
     public Object(string name, string description) 
@@ -73,8 +74,9 @@ public class PokeBall : Object
     public PokeBall() 
     {
         Name = "PokeBall";
-        Description = "Il permet de capturer le Pokémon sauvage en face de vous. Il possède un Bonus Ball de x1.";
+        Description = "Il permet de capturer le PokÃ©mon sauvage en face de vous. Il possÃ¨de un Bonus Ball de x1.";
         Effect = 1;
+        Price = 300;
     }
 
     override public bool UseObjectDuringBattle(Pokemon pokemon)
@@ -88,8 +90,9 @@ public class SuperBall : Object
     public SuperBall() 
     {
         Name = "SuperBall";
-        Description = "La Super Ball est plus performante que la Poké Ball. Cette dernière a un Bonus Ball de x1.5.";
+        Description = "La Super Ball est plus performante que la PokÃ© Ball. Cette derniÃ¨re a un Bonus Ball de x1.5.";
         Effect = 1.5;
+        Price = 700;
     }
 
     override public bool UseObjectDuringBattle(Pokemon pokemon)
@@ -103,8 +106,9 @@ public class HyperBall : Object
     public HyperBall()
     {
         Name = "HyperBall";
-        Description = "L'Hyper Ball est la plus performante des Balls standards. Cette dernière a un Bonus Ball de x2.";
+        Description = "L'Hyper Ball est la plus performante des Balls standards. Cette derniÃ¨re a un Bonus Ball de x2.";
         Effect = 2;
+        Price = 1300;
     }
 
     override public bool UseObjectDuringBattle(Pokemon pokemon)
@@ -120,6 +124,7 @@ public class Potion : Object
         Name = "Potion"; 
         Description = "Restore 20 HP.";
         Effect = 20;
+        Price = 200;
     }
 
     override public bool UseObject()
@@ -162,6 +167,7 @@ public class SuperPotion : Object
         Name = "SuperPotion";
         Description = "Restore 60 HP.";
         Effect = 60;
+        Price = 700;
     }
 
     override public bool UseObject()
@@ -204,6 +210,7 @@ public class HyperPotion : Object
         Name = "HyperPotion";
         Description = "Restore 120 HP.";
         Effect = 120;
+        Price = 1500;
     }
 
     override public bool UseObject()

@@ -19,6 +19,7 @@ public class Game
     public Trainer player = new Trainer("");
     public Dictionary<string, Dictionary<string, List<double>>> type_chart = new Dictionary<string, Dictionary<string, List<double>>>();
     public List<Capacity> all_capacity = new List<Capacity>();
+    public PokeCenter pokeCenter;
 
     public static Game Instance
     {
@@ -202,6 +203,17 @@ public class Game
         {
             Console.WriteLine("Le fichier n'existe pas.");
         }
+      pokeBall = new PokeBall();
+      pokeCenter = new PokeCenter(player);
+        player.AddPokemon(pokemons[0]);
+        player.AddPokemon(pokemons[52]);
+        player.Pokedex.Add(pokemons[3]);
+        player.Pokedex.Add(pokemons[10]);
+        player.Inventory.AddObject(pokeBall, 10);
+        playerPos[0] = map.size_x / 2;
+      playerPos[1] = map.size_y / 2;
+      map.map.SetValue('0', playerPos[0], playerPos[1]);
+      map.Draw();
     }
 
     public void SaveGame()
@@ -237,7 +249,7 @@ public class Game
             }
             foreach(var obj in data.Inventory)
             {
-               player.Inventory.AddObject(obj,obj.Quantity);
+               player.Inventory.AddObject(obj, obj.Quantity);
             }
             playerPos = data.playerPos;
             Console.WriteLine("Partie chargée");
@@ -279,10 +291,8 @@ public class Game
 
         while (isRunning)
         {
-
             Console.Clear();
             map.Draw();
-
             ConsoleKeyInfo consoleKeyInfo = Console.ReadKey();
             Console.Clear();
 
@@ -298,7 +308,7 @@ public class Game
                     {
                         if(map.map[playerPos[0] - 1, playerPos[1]] == '\u256C'/*╬*/)
                         {
-
+                            pokeCenter.Interface();
                         }
                         else if(map.map[playerPos[0] - 1, playerPos[1]] == '\u2302'/*⌂*/)
                         {
@@ -332,7 +342,7 @@ public class Game
                     {
                         if(map.map[playerPos[0] + 1, playerPos[1]] == '\u256C'/*╬*/)
                         {
-
+                            pokeCenter.Interface();
                         }
                         else if(map.map[playerPos[0] + 1, playerPos[1]] == '\u2302'/*⌂*/)
                         {
@@ -366,7 +376,7 @@ public class Game
                     {
                         if (map.map[playerPos[0], playerPos[1] - 1] == '\u256C'/*╬*/)
                         {
-
+                            pokeCenter.Interface();
                         }
                         else if (map.map[playerPos[0], playerPos[1] - 1] == '\u2302'/*⌂*/)
                         {
@@ -400,7 +410,7 @@ public class Game
                     {
                         if (map.map[playerPos[0], playerPos[1] + 1] == '\u256C'/*╬*/)
                         {
-
+                            pokeCenter.Interface();
                         }
                         else if (map.map[playerPos[0], playerPos[1] + 1] == '\u2302'/*⌂*/)
                         {
@@ -448,6 +458,7 @@ public class Game
 
                     Battle battle = new Battle(); 
                     battle.StartBattleVsPokemon(player, pokemons[random_pokemon]);
+                  
                     if (!player.TeamIsAlive())
                     {
                         map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
@@ -455,7 +466,6 @@ public class Game
                         playerPos[1] = 4;
                         map.map[playerPos[0], playerPos[1]] = '0';
                     }
-
                     Console.Clear();
                 }
             }
