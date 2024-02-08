@@ -27,7 +27,7 @@ public class Npc
 
     public void SkipDialogue()
     {
-        Console.WriteLine("\nAppuyer pour passer...");
+        Console.Write("\nAppuyer pour passer...");
         Console.ReadKey();
     }
 
@@ -90,7 +90,7 @@ public class NpcPrChen : Npc
             Game.Instance.player.Name = Console.ReadLine();
             dialogue_act++;
             Console.Clear();
-            Console.WriteLine($"{Name} : {dialogue[dialogue_act]} {Name}");
+            Console.WriteLine($"{Name} : {dialogue[dialogue_act]} {Game.Instance.player.Name}");
             SkipDialogue();
             dialogue_act++;
         }

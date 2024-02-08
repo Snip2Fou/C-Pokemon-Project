@@ -215,17 +215,23 @@ public class Game
             SaveData game_save = new SaveData(player.Name, player.PokeMoney, player.Team, player.Pokedex, player.Inventory.SaveInventory(), playerPos);
             string jsonData = JsonConvert.SerializeObject(game_save);
             File.WriteAllText("data/game_save.json", jsonData);
-            Console.WriteLine("sauvegarde");
-            GameLoop();
+            Console.Clear();
+            Console.WriteLine("Partie Sauvegarde");
+            Console.Write("\nAppuyer pour passer...");
+            Console.ReadKey();
         }
         catch (FieldAccessException)
         {
+            Console.Clear();
             Console.WriteLine("Aucun fichier trouvé");
+            Console.Write("\nAppuyer pour passer...");
             Console.ReadKey();
         }
         catch (JsonException)
         {
+            Console.Clear();
             Console.WriteLine("Erreur lors de la sauvegarde");
+            Console.Write("\nAppuyer pour passer...");
             Console.ReadKey();
         }       
     }
@@ -250,19 +256,23 @@ public class Game
             {
                player.Inventory.AddObject(obj, obj.Quantity);
             }
+            map.map[playerPos[0], playerPos[1]] = ' ';
             playerPos = data.playerPos;
-            Console.WriteLine("Partie chargée");
-            Console.ReadKey();
-            GameLoop();
+            map.map[playerPos[0], playerPos[1]] = '0';
+            Console.Clear();
         }
         catch (FieldAccessException) 
         {
+            Console.Clear();
             Console.WriteLine("Aucun sauvegarde trouvé");
+            Console.Write("\nAppuyer pour passer...");
             Console.ReadKey();
         }
         catch (Exception ex)
         {
+            Console.Clear();
             Console.WriteLine($"Erreur lors de la lecture du fichier de sauvegarde : {ex.Message}");
+            Console.Write("\nAppuyer pour passer...");
             Console.ReadKey();
         }
     }
