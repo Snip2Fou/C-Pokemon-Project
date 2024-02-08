@@ -42,7 +42,60 @@ public class Map
         {
             for (int y = 0; y < size_y; y++)
             {
+                if (map[x,y] == '"')
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                }
+                else if (map[x,y] == '\u256C' /*╬*/)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                }
+                else if (map[x,y] == '\u2302'/*⌂*/)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                }
+                else if (map[x, y] == '\u00A5'/*¥*/)
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                }
+                else if (map[x, y] == '\u263C'/*☼*/)
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                }
+                else if (map[x, y] == '0')
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+                else if (map[x, y] == 'O')
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                }
                 Console.Write(map[x, y]);
+                Console.ResetColor();
+            }
+            if (x == 3 )
+            {
+                Console.Write("\t\t\t  0 : Player\n");
+            }
+            if(x == 6)
+            {
+                Console.Write("\t\t\t  O : PNJ\n");
+            }
+            if (x == 12)
+            {
+                Console.Write("\t\t\t  \u2302 : Maison\n");
+            }
+            if (x == 15)
+            {
+                Console.Write("\t\t\t  \u00A5 : TeamRocket\n");
+            }
+            if (x == 18)
+            {
+                Console.Write("\t\t\t   \u263C : Objet\n");
+            }
+            if (x == 20)
+            {
+                Console.Write("\t\t\t  \u256C : Centre Pokemon\n");
             }
             Console.Write('\n');
         }
