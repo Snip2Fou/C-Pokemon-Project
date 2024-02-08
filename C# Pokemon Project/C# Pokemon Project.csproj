@@ -73,6 +73,7 @@
     <Compile Include="Capacity.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="House.cs" />
     <Compile Include="Inventaire.cs" />
     <Compile Include="JsonSerializerOptions.cs" />
     <Compile Include="main.cs" />

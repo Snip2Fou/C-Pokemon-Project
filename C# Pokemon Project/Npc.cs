@@ -2,7 +2,7 @@
 
 public class Npc
 {
-   public bool ennemy = true;
+   public bool ennemy = false;
 
     public void NpcEnnemy(Trainer player)
     {
