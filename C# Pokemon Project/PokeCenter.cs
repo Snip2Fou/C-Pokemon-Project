@@ -225,12 +225,12 @@ public class PokeCenter
 
                                 if (quantity)
                                 {
-                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{pokeBall.Name}");
+                                    Console.WriteLine($"Tu a achete {event_boutique.action_count}x{pokeBall.Name}");
                                     Player.Inventory.AddObject(pokeBall, event_boutique.action_count);
                                 }
                                 else
                                 {
-                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                    Console.WriteLine("Tu n'a pas assez d'argents");
                                 }
                             }
                             else if (event_boutique.action_count == 1)
@@ -246,12 +246,12 @@ public class PokeCenter
                                 }
                                 if (quantity)
                                 {
-                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{superBall.Name}");
+                                    Console.WriteLine($"Tu a achete {event_boutique.action_count}x{superBall.Name}");
                                     Player.Inventory.AddObject(superBall, event_boutique.action_count);
                                 }
                                 else
                                 {
-                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                    Console.WriteLine("Tu n'a pas assez d'argents");
                                 }
                             }
                             else if (event_boutique.action_count == 2)
@@ -267,12 +267,12 @@ public class PokeCenter
                                 }
                                 if (quantity)
                                 {
-                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{hyperBall.Name}");
+                                    Console.WriteLine($"Tu a achete {event_boutique.action_count}x{hyperBall.Name}");
                                     Player.Inventory.AddObject(hyperBall, event_boutique.action_count);
                                 }
                                 else
                                 {
-                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                    Console.WriteLine("Tu n'a pas assez d'argents");
                                 }
                             }
                             else if (event_boutique.action_count == 3)
@@ -288,12 +288,12 @@ public class PokeCenter
                                 }
                                 if (quantity)
                                 {
-                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{potion.Name}");
+                                    Console.WriteLine($"Tu a achete {event_boutique.action_count}x{potion.Name}");
                                     Player.Inventory.AddObject(potion, event_boutique.action_count);
                                 }
                                 else
                                 {
-                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                    Console.WriteLine("Tu n'a pas assez d'argents");
                                 }
                             }
                             else if (event_boutique.action_count == 4)
@@ -309,12 +309,12 @@ public class PokeCenter
                                 }
                                 if (quantity)
                                 {
-                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{superPotion.Name}");
+                                    Console.WriteLine($"Tu a achete {event_boutique.action_count}x{superPotion.Name}");
                                     Player.Inventory.AddObject(superPotion, event_boutique.action_count);
                                 }
                                 else
                                 {
-                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                    Console.WriteLine("Tu n'a pas assez d'argents");
                                 }
                             }
                             else if (event_boutique.action_count == 5)
@@ -330,12 +330,12 @@ public class PokeCenter
                                 }
                                 if (quantity)
                                 {
-                                    Console.WriteLine($"tu a achete {event_boutique.action_count}x{hyperPotion.Name}");
+                                    Console.WriteLine($"Tu a achete {event_boutique.action_count}x{hyperPotion.Name}");
                                     Player.Inventory.AddObject(hyperPotion, event_boutique.action_count);
                                 }
                                 else
                                 {
-                                    Console.WriteLine("tu n'a pas assez d'argents");
+                                    Console.WriteLine("Tu n'a pas assez d'argents");
                                 }
                             }
                             else if (event_boutique.action_count == 6)
@@ -367,7 +367,7 @@ public class PokeCenter
                             int money = ((Objectvente.Price * event_boutique.action_count) / 2);
                             Player.PokeMoney += money;
                             Player.Inventory.RemoveObject(Objectvente, event_boutique.action_count);
-                            Console.WriteLine($"tu a gagne {money} pokemoney");
+                            Console.WriteLine($"Tu a gagne {money} pokemoney");
                         }
                         else
                         {
@@ -522,7 +522,7 @@ public class PokeCenter
                 }
             }
         }
-        return trainer.Team[event_choice.action_count];
+        reTurn trainer.Team[event_choice.action_count];
     }
 }
 
