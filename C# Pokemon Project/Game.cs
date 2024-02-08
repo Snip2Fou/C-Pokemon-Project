@@ -18,6 +18,7 @@ public class Game
     public List<string> type_list = new List<string>();
     public Trainer player = new Trainer("");
     public Dictionary<string, Dictionary<string, List<double>>> type_chart = new Dictionary<string, Dictionary<string, List<double>>>();
+    public List<Capacity> all_capacity = new List<Capacity>();
 
     public static Game Instance
     {
@@ -103,6 +104,26 @@ public class Game
             Console.WriteLine("Le fichier n'existe pas.");
         }
 
+        if (File.Exists(filePathCapacity))
+        {
+            using (StreamReader readerCapacity = new StreamReader(filePathCapacity))
+            {
+                readerCapacity.ReadLine();
+
+                while (!readerCapacity.EndOfStream)
+                {
+                    string line_capacity = readerCapacity.ReadLine();
+                    string[] values_capacity = line_capacity.Split(',');
+
+                    all_capacity.Add(new Capacity(values_capacity, type_list));
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("Le fichier n'existe pas.");
+        }
+
         if (File.Exists(filePath))
         {
             using (StreamReader reader = new StreamReader(filePath))
@@ -143,34 +164,19 @@ public class Game
                                 string[] values_all_capacity = line_all_capacity.Split(',');
                                 if (values_all_capacity[1] == pokemon.Name)
                                 {
+                                    pokemon.NextLearnCapacity = new string[values_all_capacity.Length];
+                                    values_all_capacity.CopyTo(pokemon.NextLearnCapacity,0);
                                     for (int i = 3; i < values_all_capacity.Length; i++)
                                     {
                                         if (values_all_capacity[i].Contains("Start"))
                                         {
-                                            bool pokemon_capacity_found = false;
                                             string[] parts = values_all_capacity[i].Split('-');
-                                            if (File.Exists(filePathCapacity))
+                                            foreach (var capacity in all_capacity)
                                             {
-                                                using (StreamReader readerCapacity = new StreamReader(filePathCapacity))
+                                                if (parts[1].Contains(capacity.Name))
                                                 {
-                                                    readerCapacity.ReadLine();
-
-                                                    while (!pokemon_capacity_found && !readerCapacity.EndOfStream)
-                                                    {
-                                                        string line_capacity = readerCapacity.ReadLine();
-                                                        string[] values_capacity = line_capacity.Split(',');
-
-                                                        if (parts[1].Contains(values_capacity[1]))
-                                                        {
-                                                            pokemon.CreateCapacity(values_capacity, type_list);
-                                                            pokemon_capacity_found = true;
-                                                        }
-                                                    }
+                                                    pokemon.AddCapacity(capacity);
                                                 }
-                                            }
-                                            else
-                                            {
-                                                Console.WriteLine("Le fichier n'existe pas.");
                                             }
                                         }
                                         else
@@ -204,7 +210,7 @@ public class Game
         {
             SaveData game_save = new SaveData(player.Name, player.Team, player.Inventory.SaveInventory(), playerPos);
             string jsonData = JsonConvert.SerializeObject(game_save);
-            File.WriteAllText("Save/game_save.json", jsonData);
+            File.WriteAllText("data/game_save.json", jsonData);
             Console.WriteLine("sauvegarde");
             GameLoop();
         }
@@ -222,7 +228,7 @@ public class Game
     {
         try
         {
-            string jsonData = File.ReadAllText("Save/game_save.json");
+            string jsonData = File.ReadAllText("data/game_save.json");
             SaveData data = JsonConvert.DeserializeObject<SaveData>(jsonData);
             player.Name = data.NamePlayer;
             foreach (var poke in data.Pokemons)
@@ -265,6 +271,8 @@ public class Game
     {
         player.AddPokemon(pokemons[0]);
         player.AddPokemon(pokemons[52]);
+        player.Team[0].Capacity2 = all_capacity[3];
+        player.Team[0].Capacity3 = all_capacity[4];
         player.Inventory.AddObject(new PokeBall(),2);
         player.Inventory.AddObject(new SuperBall(),12);
         player.Inventory.AddObject(new Potion(),13);

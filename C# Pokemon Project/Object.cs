@@ -16,6 +16,7 @@ public class Object
     public Object() { }
 
     virtual public bool UseObject() { return true; }
+    virtual public bool UseObjectDuringBattle(Pokemon pokemon) {  return true; }
 
     public Pokemon ChoosePokemon()
     {
@@ -76,7 +77,7 @@ public class PokeBall : Object
         Effect = 1;
     }
 
-    override public bool UseObject()
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
     {
         return true;
     }
@@ -91,7 +92,7 @@ public class SuperBall : Object
         Effect = 1.5;
     }
 
-    override public bool UseObject()
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
     {
         return true;
     }
@@ -106,7 +107,7 @@ public class HyperBall : Object
         Effect = 2;
     }
 
-    override public bool UseObject()
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
     {
         return true;
     }
@@ -130,6 +131,21 @@ public class Potion : Object
             pokemon.Heal(Effect);
             Quantity -= 1;
             Console.WriteLine($"Les pv de {pokemon.Name} sont passe de {prev_pv} a {pokemon.Pv} !\n");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
+    {
+        if (pokemon.Pv < pokemon.PvMax)
+        {
+            int prev_pv = pokemon.Pv;
+            pokemon.Heal(Effect);
+            Quantity -= 1;
             return true;
         }
         else
@@ -164,6 +180,21 @@ public class SuperPotion : Object
             return false;
         }
     }
+
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
+    {
+        if (pokemon.Pv < pokemon.PvMax)
+        {
+            int prev_pv = pokemon.Pv;
+            pokemon.Heal(Effect);
+            Quantity -= 1;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 public class HyperPotion : Object
@@ -184,6 +215,21 @@ public class HyperPotion : Object
             pokemon.Heal(Effect);
             Quantity -= 1;
             Console.WriteLine($"Les pv de {pokemon.Name} sont passe de {prev_pv} a {pokemon.Pv} !\n");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    override public bool UseObjectDuringBattle(Pokemon pokemon)
+    {
+        if (pokemon.Pv < pokemon.PvMax)
+        {
+            int prev_pv = pokemon.Pv;
+            pokemon.Heal(Effect);
+            Quantity -= 1;
             return true;
         }
         else

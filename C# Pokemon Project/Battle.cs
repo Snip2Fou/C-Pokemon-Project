@@ -134,7 +134,7 @@ public class Battle
         {
             int damage = GetDamage(pokemon_attack, capacity_attack, pokemon_defense);
             pokemon_defense.TakeDamage(damage);
-            return  $"{pokemon_attack.Name} utilise {capacity_attack.Name} et inflige {damage} Ã  {pokemon_defense} !";
+            return  $"{pokemon_attack.Name} utilise {capacity_attack.Name} et inflige {damage} a {pokemon_defense.Name} !";
         }
     }
 
@@ -249,15 +249,34 @@ public class Battle
         }
     }
 
-    public bool Capture(int ball, Pokemon pokemonCapture)
+    public bool Capture(double ball, Pokemon pokemonCapture)
     {
         Random rnd = new Random();
-        int Formule = ((1 - (2 / 3) * (pokemonCapture.Pv / pokemonCapture.Pv)) * rnd.Next(3,256) * ball);
+        int Formule = (int)((1 - (2 / 3) * (pokemonCapture.Pv / pokemonCapture.Pv)) * rnd.Next(3,256) * ball);
         if (Formule >= 255)
         {
             return  true;
         }
         else { return false; }
+    }
+
+    public void GiveXpToUsingPokemons(bool capture)
+    {
+        foreach(var pokemon in PlayerBattle.Team) 
+        {
+            if (pokemon.IsUsing)
+            {
+                pokemon.GiveXp(ActivePokemon2, capture);
+            }
+        }
+    }
+
+    public void CheckLearnCapacityForAllPokemon()
+    {
+        foreach (var pokemon in PlayerBattle.Team)
+        {
+            pokemon.CanLearnNewCapacity();
+        }
     }
 
     public void AffichageVs()
@@ -407,15 +426,17 @@ public class Battle
             {
                 player.BattleTeam.Add(pokemon_battle);
             }
+            pokemon_battle.IsUsing = false;
         }
         Event event_choice = new Event();
         bool fuite = false;
+        bool capture = false;
         PlayerBattle = player;
         PokemonBattle = pokemon;
         ActivePokemon2 = pokemon;
         Pokemon activePokemon1 = ChooseActivePokemon(player);
         event_choice.action_count = 0;
-        while (player.BattleTeam.Count > 0 && pokemon.IsAlive() && fuite != true)
+        while (player.BattleTeam.Count > 0 && pokemon.IsAlive() && fuite != true && !capture)
         {
             Console.Clear();
             AffichageVs();
@@ -474,14 +495,73 @@ public class Battle
                 }
                 else if (event_choice.action_count == 2)
                 {
-
+                    Object using_obj = player.Inventory.OpenInventoryDuringBattle();
+                    if(using_obj != null)
+                    {
+                        if(using_obj.Name == "PokeBall" ||  using_obj.Name == "SuperBall" || using_obj.Name == "HyperBall")
+                        {
+                            capture = Capture(using_obj.Effect, ActivePokemon2);
+                            if (!capture)
+                            {
+                                NextAction1 = $"Le pokemon {ActivePokemon2.Name} s'est echappe de la {using_obj.Name} !";
+                            }
+                        }
+                        else if(using_obj.Name == "Potion" || using_obj.Name == "SuperPotion" || using_obj.Name == "HyperPotion")
+                        {
+                            int prev_pv = ActivePokemon1.Pv;
+                            using_obj.UseObjectDuringBattle(ActivePokemon1);
+                            NextAction1 = $"Vous avez utilise une {using_obj.Name} sur {ActivePokemon1.Name}, PV passe de {prev_pv} a {ActivePokemon1.Pv} !";
+                        }
+                        if (!capture)
+                        {
+                            Capacity capacity_random = GetCapacityRandom();
+                            NextAction2 = UseCapacity(ActivePokemon2, capacity_random, ActivePokemon1);
+                            if (!ActivePokemon1.IsAlive())
+                            {
+                                PlayerBattle.BattleTeam.Remove(ActivePokemon1);
+                            }
+                        }
+                    }
                 }
                 else if (event_choice.action_count == 3)
                 {
                     fuite = GetCanEscape();
                 }
+                ActivePokemon1.IsUsing = true;
             }
         }
+        Console.Clear();
+        if (fuite)
+        {
+            Console.WriteLine("Vous vous etes enfuis !\n");
+            Console.Write("Appuyer sur une touche pour passer...");
+            Console.ReadKey();
+        }
+        else if (capture)
+        {
+            Console.WriteLine($"Vous avez capture {ActivePokemon2.Name} !\n");
+            GiveXpToUsingPokemons(true);
+            Console.Write("\nAppuyer sur une touche pour passer...");
+            Console.ReadKey();
+            Console.Clear();
+            CheckLearnCapacityForAllPokemon();
+        }
+        else if(!pokemon.IsAlive())
+        {
+            Console.WriteLine($"Vous avez vaicu {ActivePokemon2.Name} !\n");
+            GiveXpToUsingPokemons(false);
+            Console.Write("\nAppuyer sur une touche pour passer...");
+            Console.ReadKey();
+            Console.Clear();
+            CheckLearnCapacityForAllPokemon();
+        }
+        else
+        {
+            Console.WriteLine($"Vous avez ete vaicu par {ActivePokemon2.Name} !\n");
+            Console.Write("\nAppuyer sur une touche pour passer...");
+            Console.ReadKey();
+        }
+        Console.Clear();
     }
 
     public Pokemon ChooseActivePokemon(Trainer trainer)
@@ -546,12 +626,12 @@ public class Battle
             Console.WriteLine($">  {activePokemon1.Capacity1.Name} | {activePokemon1.Capacity1.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Power} | {activePokemon1.Capacity1.Accuracy}");
             nb_event++;
         }
-        else if(activePokemon1.Capacity2 != null)
+        if(activePokemon1.Capacity2 != null)
         {
             Console.WriteLine($"  {activePokemon1.Capacity2.Name} | {activePokemon1.Capacity2.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity2.Power} | {activePokemon1.Capacity2.Accuracy}");
             nb_event++;
         }
-        else if (activePokemon1.Capacity3 != null)
+        if (activePokemon1.Capacity3 != null)
         {
             Console.WriteLine($"  {activePokemon1.Capacity3.Name} | {activePokemon1.Capacity3.Type} | {activePokemon1.Capacity3.Category} | {activePokemon1.Capacity3.Power} | {activePokemon1.Capacity3.Accuracy}");
             nb_event++;
@@ -561,6 +641,8 @@ public class Battle
             choice_event = event_choice.ChoiceEvent(nb_event);
 
             Console.Clear();
+            AffichageVs();
+            AffichageHUD();
             Console.WriteLine("Choisissez votre attaque :");
             if (event_choice.action_count == 0)
             {
@@ -568,11 +650,11 @@ public class Battle
                 {
                     Console.WriteLine($"> {activePokemon1.Capacity1.Name} | {activePokemon1.Capacity1.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Power} | {activePokemon1.Capacity1.Accuracy}");
                 }
-                else if (activePokemon1.Capacity2 != null)
+                if (activePokemon1.Capacity2 != null)
                 {
                     Console.WriteLine($"  {activePokemon1.Capacity2.Name} | {activePokemon1.Capacity2.Type} | {activePokemon1.Capacity2.Category} | {activePokemon1.Capacity2.Power} | {activePokemon1.Capacity2.Accuracy}");
                 }
-                else if (activePokemon1.Capacity3 != null)
+                if (activePokemon1.Capacity3 != null)
                 {
                     Console.WriteLine($"  {activePokemon1.Capacity3.Name} | {activePokemon1.Capacity3.Type} | {activePokemon1.Capacity3.Category} | {activePokemon1.Capacity3.Power} | {activePokemon1.Capacity3.Accuracy}");
                 }
@@ -583,11 +665,11 @@ public class Battle
                 {
                     Console.WriteLine($"  {activePokemon1.Capacity1.Name} | {activePokemon1.Capacity1.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Power} | {activePokemon1.Capacity1.Accuracy}");
                 }
-                else if (activePokemon1.Capacity2 != null)
+                if (activePokemon1.Capacity2 != null)
                 {
                     Console.WriteLine($"> {activePokemon1.Capacity2.Name} | {activePokemon1.Capacity2.Type} | {activePokemon1.Capacity2.Category} | {activePokemon1.Capacity2.Power} | {activePokemon1.Capacity2.Accuracy}");
                 }
-                else if (activePokemon1.Capacity3 != null)
+                if (activePokemon1.Capacity3 != null)
                 {
                     Console.WriteLine($"  {activePokemon1.Capacity3.Name} | {activePokemon1.Capacity3.Type} | {activePokemon1.Capacity3.Category} | {activePokemon1.Capacity3.Power} | {activePokemon1.Capacity3.Accuracy}");
                 }
@@ -598,11 +680,11 @@ public class Battle
                 {
                     Console.WriteLine($"  {activePokemon1.Capacity1.Name} | {activePokemon1.Capacity1.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Power} | {activePokemon1.Capacity1.Accuracy}");
                 }
-                else if (activePokemon1.Capacity2 != null)
+                if (activePokemon1.Capacity2 != null)
                 {
                     Console.WriteLine($"  {activePokemon1.Capacity2.Name} | {activePokemon1.Capacity2.Type} | {activePokemon1.Capacity2.Category} | {activePokemon1.Capacity2.Power} | {activePokemon1.Capacity2.Accuracy}");
                 }
-                else if (activePokemon1.Capacity3 != null)
+                if (activePokemon1.Capacity3 != null)
                 {
                     Console.WriteLine($"> {activePokemon1.Capacity3.Name} | {activePokemon1.Capacity3.Type} | {activePokemon1.Capacity3.Category} | {activePokemon1.Capacity3.Power} | {activePokemon1.Capacity3.Accuracy}");
                 }

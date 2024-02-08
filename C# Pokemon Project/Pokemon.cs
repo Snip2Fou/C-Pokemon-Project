@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection.Emit;
+using System.Security.Cryptography;
 using System.Security.Policy;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Xml.Linq;
 
 public class Pokemon
 {
@@ -25,7 +29,8 @@ public class Pokemon
     public Capacity Capacity3 { get; set; }
     public bool IsUsing { get; set; }
     public bool Switch {  get; set; }
-
+    public string[] NextLearnCapacity { get; set; }
+    public bool AsLevelUp  = false;
 
 
     public Pokemon(string name, string typeOne, string typeTwo, int total ,int health, int attack, int defense, int attackspecial, int defensespecial, int speed)
@@ -81,36 +86,154 @@ public class Pokemon
 
     public void GiveXp(Pokemon pokemon, bool capture)
     {
-        if (capture)
+        if (IsAlive())
         {
-            int formuleXp = (int)(((1.5 * 8 * pokemon.Level) / (5 * 1)) * ((2 * pokemon.Level + 10) / Math.Pow((pokemon.Level + Level + 10), 2.5) + 1));
-            if (Switch)
+            if (capture)
             {
-                formuleXp = (int)(formuleXp * 1.5);
+                int formuleXp = (int)(((1.5 * 75 * pokemon.Level) / (5 * 1)) * ((2 * pokemon.Level + 10) / Math.Pow((pokemon.Level + Level + 10), 2.5) + 1));
+                if (Switch)
+                {
+                    formuleXp = (int)(formuleXp * 1.5);
+                    Xp += formuleXp;
+                }
                 Xp += formuleXp;
+                Console.WriteLine($"{Name} a gagne {formuleXp} XP {CanLevelUp()}");
             }
-            Xp += formuleXp;
-        }
-        else
-        {
-            int formuleXp = (int)(((1 * 8 * pokemon.Level) / (5 * 1)) * ((2 * pokemon.Level + 10) / Math.Pow((pokemon.Level + Level + 10), 2.5) + 1));
-            if (Switch)
+            else
             {
-                formuleXp += (int)(formuleXp * 1.5);
+                int formuleXp = (int)(((1 * 75 * pokemon.Level) / (5 * 1)) * ((2 * pokemon.Level + 10) / Math.Pow((pokemon.Level + Level + 10), 2.5) + 1));
+                if (Switch)
+                {
+                    formuleXp += (int)(formuleXp * 1.5);
+                    Xp += formuleXp;
+                }
                 Xp += formuleXp;
+                Console.WriteLine($"{Name} a gagne {formuleXp} XP {CanLevelUp()}");
             }
-            Xp += formuleXp;
         }
-
     }
 
-    public void CanLevelUp()
+    public string CanLevelUp()
     {
         if (Xp >= Math.Pow((Level+1),3))
         {
             Xp -= (int)Math.Pow((Level+1),3);
             Level += 1;
-        } 
+            AsLevelUp = true;
+            return $"et passe Level {Level}";
+        }
+        else
+        {
+            return "!";
+        }
+    }
+
+    public void CanLearnNewCapacity()
+    {
+        foreach (var new_capactiy in NextLearnCapacity)
+        {
+            string[] parts = new_capactiy.Split('-');
+            if (parts[0] == "L" + Level.ToString() + " ")
+            {
+                foreach (var capacity in Game.Instance.all_capacity)
+                {
+                    if (parts[1].Contains(capacity.Name))
+                    {
+                        LearnNewCapacity(capacity);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    public void LearnNewCapacity(Capacity capacity)
+    {
+        Console.Clear();
+        if (Capacity1 == null)
+        {
+            Capacity1 = capacity;
+            Console.WriteLine($"{Name} a appris {capacity.Name} !");
+
+        }
+        else if (Capacity2 == null)
+        {
+            Capacity2 = capacity;
+            Console.WriteLine($"{Name} a appris {capacity.Name} !");
+        }
+        else if (Capacity3 == null)
+        {
+            Capacity3 = capacity;
+            Console.WriteLine($"{Name} a appris {capacity.Name} !");
+        }
+        else
+        {
+            Event event_choice = new Event();
+            bool choice = false;
+            while (!choice)
+            {
+                Console.Clear();
+                Console.WriteLine($"{Name} souhaite apprendre {capacity.Name}");
+                if (event_choice.action_count == 0)
+                {
+                    Console.WriteLine("> Oublier une capacite");
+                    Console.WriteLine($"  Ne pas apprendre {capacity.Name}");
+                }else if (event_choice.action_count == 1)
+                {
+                    Console.WriteLine("  Oublier une capacite");
+                    Console.WriteLine($"> Ne pas apprendre {capacity.Name}");
+                }
+                choice = event_choice.ChoiceEvent(2);
+            }
+            if(event_choice.action_count == 0)
+            {
+                event_choice.action_count = 0;
+                choice = false;
+                while (!choice)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Quelle capacite souhaitez-vous oublier ?");
+                    if (event_choice.action_count == 0)
+                    {
+                        Console.WriteLine($"> {Capacity1.Name} | {Capacity1.Type} | {Capacity1.Category} | {Capacity1.Power} | {Capacity1.Accuracy}");
+                        Console.WriteLine($"  {Capacity2.Name} | {Capacity2.Type} | {Capacity2.Category} | {Capacity2.Power} | {Capacity2.Accuracy}");
+                        Console.WriteLine($"  {Capacity3.Name} | {Capacity3.Type} | {Capacity3.Category} | {Capacity3.Power} | {Capacity3.Accuracy}");
+                    }
+                    else if (event_choice.action_count == 1)
+                    {
+                        Console.WriteLine($"  {Capacity1.Name} | {Capacity1.Type} | {Capacity1.Category} | {Capacity1.Power} | {Capacity1.Accuracy}");
+                        Console.WriteLine($"> {Capacity2.Name} | {Capacity2.Type} | {Capacity2.Category} | {Capacity2.Power} | {Capacity2.Accuracy}");
+                        Console.WriteLine($"  {Capacity3.Name} | {Capacity3.Type} | {Capacity3.Category} | {Capacity3.Power} | {Capacity3.Accuracy}");
+                    }
+                    else if (event_choice.action_count == 2)
+                    {
+                        Console.WriteLine($"  {Capacity1.Name} | {Capacity1.Type} | {Capacity1.Category} | {Capacity1.Power} | {Capacity1.Accuracy}");
+                        Console.WriteLine($"  {Capacity2.Name} | {Capacity2.Type} | {Capacity2.Category} | {Capacity2.Power} | {Capacity2.Accuracy}");
+                        Console.WriteLine($"> {Capacity3.Name} | {Capacity3.Type} | {Capacity3.Category} | {Capacity3.Power} | {Capacity3.Accuracy}");
+                    }
+
+                    choice = event_choice.ChoiceEvent(3);
+                }
+                Console.Clear();
+                if (event_choice.action_count == 0)
+                {
+                    Console.WriteLine($"{Name} a oublie {Capacity1.Name} et a appris {capacity.Name} !");
+                    Capacity1 = capacity;
+                }
+                else if (event_choice.action_count == 1)
+                {
+                    Console.WriteLine($"{Name} a oublie {Capacity2.Name} et a appris {capacity.Name} !");
+                    Capacity2 = capacity;
+                }
+                else if (event_choice.action_count == 2)
+                {
+                    Console.WriteLine($"{Name} a oublie {Capacity2.Name} et a appris {capacity.Name} !");
+                    Capacity3 = capacity;
+                }
+            }
+        }
+        Console.Write("\nAppuyer sur une touche pour passer...");
+        Console.ReadKey();
     }
 
     public bool IsAlive()
@@ -137,88 +260,19 @@ public class Pokemon
         return resultat_stat;
     }
 
-    public void CreateCapacity(string[] values, List<string> type_list)
+    public void AddCapacity(Capacity capacity)
     {
-        string _name = values[1];
-        string _des = "";
-        int k = 2;
-        while (!type_list.Contains(values[k].ToLower()))
-        {
-            _des += values[k];
-            k++;
-        }
-        string type = values[k];
-        string category = values[k+1];
-        string power = values[k+2];
-        if (power == "—")
-        {
-            power = "0";
-        }
-        string accuracy = values[k+3];
-        if (accuracy == "—")
-        {
-            accuracy = "0";
-        }
-        else
-        {
-            string new_val = "";
-            for (int i = 0; i < values[k+3].Length; i++) {
-                if (values[k+3][i] == '%')
-                {
-                    break;
-                }
-                else
-                {
-                    new_val += values[k+3][i];
-                }
-            }
-            accuracy = new_val;
-        }
-        bool critical = false;
-        if (values[k+7] == "1")
-        {
-            critical = true;
-        }
-
         if (Capacity1 == null)
         {
-            Capacity1 = new Capacity
-            {
-                Name = _name,
-                Description = _des,
-                Type = type,
-                Category = category,
-                Power = int.Parse(power),
-                Accuracy = int.Parse(accuracy),
-                Critical = critical
-            };
+            Capacity1 = capacity;
         }
-        else if(Capacity2 == null)
+        else if (Capacity2 == null)
         {
-            Capacity2 = new Capacity
-            {
-                Name = _name,
-                Description = _des,
-                Type = type,
-                Category = category,
-                Power = int.Parse(power),
-                Accuracy = int.Parse(accuracy),
-                Critical = critical
-            };
+            Capacity2 = capacity;
         }
-        else if(Capacity3 == null)
+        else if (Capacity3 == null)
         {
-            Capacity3 = new Capacity
-            {
-                Name = _name,
-                Description = _des,
-                Type = type,
-                Category = category,
-                Power = int.Parse(power),
-                Accuracy = int.Parse(accuracy),
-                Critical = critical
-            };
+            Capacity3 = capacity;
         }
-
     }
 }
