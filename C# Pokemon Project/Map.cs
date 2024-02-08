@@ -81,19 +81,19 @@ public class Map
             {
                 Console.Write("\t\t\t  O : PNJ");
             }
-            if (x == 12)
+            if (x == 9)
             {
                 Console.Write("\t\t\t  \u2302 : Maison");
             }
-            if (x == 15)
+            if (x == 12)
             {
                 Console.Write("\t\t\t  \u00A5 : TeamRocket");
             }
-            if (x == 18)
+            if (x == 15)
             {
                 Console.Write("\t\t\t   \u263C : Objet");
             }
-            if (x == 20)
+            if (x == 18)
             {
                 Console.Write("\t\t\t  \u256C : Centre Pokemon$");
             }
