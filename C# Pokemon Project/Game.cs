@@ -446,7 +446,15 @@ public class Game
                     int random_pokemon = random.Next(1, 1061);
                     // Combat entre les deux dresseurs
 
-                    Battle battle = new Battle(); 
+                    Battle battle = new Battle();
+                    int sommeNiveauPokemonPlayer = 0;
+                    foreach (var poke in player.Team)
+                    {
+                        sommeNiveauPokemonPlayer += poke.Level;
+                    }
+                    int moyenneNiveauxPokemonPlayer = sommeNiveauPokemonPlayer / player.Team.Count;
+                    pokemons[random_pokemon].Level = moyenneNiveauxPokemonPlayer;
+                    pokemons[random_pokemon].CanLearnNewCapacity();
                     battle.StartBattleVsPokemon(player, pokemons[random_pokemon]);
                   
                     if (!player.TeamIsAlive())
