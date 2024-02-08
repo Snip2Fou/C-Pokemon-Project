@@ -24,6 +24,8 @@ public class Capacity
         Critical = critical;
     }
 
+    public Capacity() { }
+
     public Capacity(string[] values, List<string> type_list) 
     {
         string _name = values[1];

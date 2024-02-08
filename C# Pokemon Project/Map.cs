@@ -95,7 +95,7 @@ public class Map
             }
             if (x == 20)
             {
-                Console.Write("\t\t\t  \u256C : Centre Pokemon");
+                Console.Write("\t\t\t  \u256C : Centre Pokemon$");
             }
             Console.Write('\n');
         }
