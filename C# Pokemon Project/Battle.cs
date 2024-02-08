@@ -623,7 +623,7 @@ public class Battle
         Console.WriteLine("Choisissez votre attaque :");
         if(activePokemon1.Capacity1 != null)
         {
-            Console.WriteLine($">  {activePokemon1.Capacity1.Name} | {activePokemon1.Capacity1.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Power} | {activePokemon1.Capacity1.Accuracy}");
+            Console.WriteLine($"> {activePokemon1.Capacity1.Name} | {activePokemon1.Capacity1.Type} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Category} | {activePokemon1.Capacity1.Power} | {activePokemon1.Capacity1.Accuracy}");
             nb_event++;
         }
         if(activePokemon1.Capacity2 != null)
