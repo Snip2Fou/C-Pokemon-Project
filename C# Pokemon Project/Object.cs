@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 public class Object
@@ -18,6 +19,25 @@ public class Object
 
     virtual public bool UseObject() { return true; }
     virtual public bool UseObjectDuringBattle(Pokemon pokemon) {  return true; }
+
+    public List<Object> GetListObjects() 
+    {
+        var list = new List<Object>();
+        PokeBall pokeBall = new PokeBall();
+        SuperBall superBall = new SuperBall();
+        HyperBall hyperBall = new HyperBall();
+        Potion potion = new Potion();
+        SuperPotion superPotion = new SuperPotion();
+        HyperPotion hyperPotion = new HyperPotion();
+        list.Add(pokeBall);
+        list.Add(potion);
+        list.Add(superBall);
+        list.Add(superPotion);
+        list.Add(hyperBall);
+        list.Add(hyperPotion);
+
+        return list;
+    }
 
     public Pokemon ChoosePokemon()
     {
