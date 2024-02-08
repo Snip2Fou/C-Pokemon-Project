@@ -16,6 +16,7 @@ public class Trainer
         Inventory = new Inventory();
         BattleTeam = new List<Pokemon>();
         Pokedex = new List<Pokemon>();
+        PokeMoney = 10000;
     }
 
 

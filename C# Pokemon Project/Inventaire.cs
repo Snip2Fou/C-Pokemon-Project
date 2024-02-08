@@ -35,6 +35,15 @@ public class Inventory
         }
     }
 
+    public void RemoveObject(Object obj, int quantity)
+    {
+        obj.Quantity -= quantity;
+        if (obj.Quantity == 0)
+        {
+            _inventory.Remove(obj);
+        }
+    }
+
     public Object OpenInventoryDuringBattle()
     {
         Console.Clear();

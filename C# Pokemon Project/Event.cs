@@ -56,9 +56,13 @@ public class Event
                 return false;
 
             case ConsoleKey.DownArrow:
-                if (prizeObject * action_count-1 >= pokemoney)
+                if(action_count - 1 < 0)
                 {
-                    action_count-=1;
+                    action_count = 0;
+                }
+                else 
+                {
+                    action_count -= 1;
                 }
                 return false;
 
