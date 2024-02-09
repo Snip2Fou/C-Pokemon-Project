@@ -831,9 +831,11 @@ public class Battle
                     {
                         if(using_obj.Name == "PokeBall" ||  using_obj.Name == "SuperBall" || using_obj.Name == "HyperBall")
                         {
+                            using_obj.Quantity -= 1;
                             capture = Capture(using_obj.Effect, ActivePokemon2);
                             if (!capture)
                             {
+                                
                                 NextAction1 = $"Le pokemon {ActivePokemon2.Name} s'est echappe de la {using_obj.Name} !";
                             }
                         }
