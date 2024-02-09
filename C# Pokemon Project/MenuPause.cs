@@ -26,6 +26,7 @@ public class MenuPause
                 else if (event_choice.action_count == 1)
                 {
                     Game.LoadGame();
+                    exit = true;
                 }
                 else if (event_choice.action_count == 2)
                 {

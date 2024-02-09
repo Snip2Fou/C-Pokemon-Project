@@ -26,6 +26,7 @@ public class Menu
                 else if (event_choice.action_count == 1)
                 {
                     game.LoadGame();
+                    game.GameLoop();
                 }
                 else if (event_choice.action_count == 2)
                 {

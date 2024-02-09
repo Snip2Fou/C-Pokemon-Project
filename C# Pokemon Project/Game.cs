@@ -23,6 +23,7 @@ public class Game
     public List<Capacity> all_capacity = new List<Capacity>();
     public PokeCenter pokeCenter;
     public House home;
+    public List<Npc> npcs_list;
     public List<Object> list_object;
     public Object Object = new Object();
 
@@ -219,17 +220,23 @@ public class Game
             SaveData game_save = new SaveData(player.Name, player.PokeMoney, player.Team, player.Pokedex, player.Inventory.SaveInventory(), playerPos);
             string jsonData = JsonConvert.SerializeObject(game_save);
             File.WriteAllText("data/game_save.json", jsonData);
-            Console.WriteLine("sauvegarde");
-            GameLoop();
+            Console.Clear();
+            Console.WriteLine("Partie Sauvegarde");
+            Console.Write("\nAppuyer pour passer...");
+            Console.ReadKey();
         }
         catch (FieldAccessException)
         {
+            Console.Clear();
             Console.WriteLine("Aucun fichier trouvé");
+            Console.Write("\nAppuyer pour passer...");
             Console.ReadKey();
         }
         catch (JsonException)
         {
+            Console.Clear();
             Console.WriteLine("Erreur lors de la sauvegarde");
+            Console.Write("\nAppuyer pour passer...");
             Console.ReadKey();
         }       
     }
@@ -254,19 +261,23 @@ public class Game
             {
                player.Inventory.AddObject(obj, obj.Quantity);
             }
+            map.map[playerPos[0], playerPos[1]] = ' ';
             playerPos = data.playerPos;
-            Console.WriteLine("Partie chargée");
-            Console.ReadKey();
-            GameLoop();
+            map.map[playerPos[0], playerPos[1]] = '0';
+            Console.Clear();
         }
         catch (FieldAccessException) 
         {
+            Console.Clear();
             Console.WriteLine("Aucun sauvegarde trouvé");
+            Console.Write("\nAppuyer pour passer...");
             Console.ReadKey();
         }
         catch (Exception ex)
         {
+            Console.Clear();
             Console.WriteLine($"Erreur lors de la lecture du fichier de sauvegarde : {ex.Message}");
+            Console.Write("\nAppuyer pour passer...");
             Console.ReadKey();
         }
     }
@@ -276,11 +287,75 @@ public class Game
         playerPos[0] = map.size_x / 2;
         playerPos[1] = map.size_y / 2;
         map.map.SetValue('0', playerPos[0], playerPos[1]);
+        npcs_list = new List<Npc>();
         list_object = new List<Object>();
         list_object = Object.GetListObjects();
         Npc Pr_Chen = new NpcPrChen();
         Pr_Chen.LaunchNpc();
+
+        npcs_list.Add(new NpcMaman());
+        npcs_list.Add(new NpcAlex());
+        npcs_list.Add(new NpcJamesTeamRocket());
         GameLoop();
+    }
+
+    public void OpenBag()
+    {
+        Event choice_event = new Event();
+        bool choice = false;
+        while (!choice)
+        {
+            Console.Clear();
+            Console.WriteLine("Sac :");
+            if (choice_event.action_count == 0)
+            {
+                Console.WriteLine("> Equipe");
+                Console.WriteLine("  Object");
+                Console.WriteLine("  Quitter");
+            }
+            else if (choice_event.action_count == 1)
+            {
+                Console.WriteLine("  Equipe");
+                Console.WriteLine("> Object");
+                Console.WriteLine("  Quitter");
+            }
+            else if (choice_event.action_count == 2)
+            {
+                Console.WriteLine("  Equipe");
+                Console.WriteLine("  Object");
+                Console.WriteLine("> Quitter");
+            }
+
+            choice = choice_event.ChoiceEvent(3);
+            if (choice)
+            {
+                if (choice_event.action_count == 0)
+                {
+                    OpenPokemon();
+                    choice = false;
+
+                }
+                else if (choice_event.action_count == 1)
+                {
+                    player.Inventory.OpenInventory();
+                    choice = false;
+                }
+            }
+        }
+        Console.Clear() ;
+    }
+
+    public void OpenPokemon()
+    {
+        Console.Clear();
+        Console.WriteLine("Voici les pokemons de votre equipe :");
+        Console.WriteLine("  Nom | Niveau | Type1 | Type2 | Pv/PvMax | Attack | Defense | AttackSpecial | DefenseSpecial");
+        for (int i = 0; i < player.Team.Count; i++)
+        {
+            Console.WriteLine($"  {player.Team[i].Name} | {player.Team[i].Level} | {player.Team[i].TypeOne} | {player.Team[i].TypeTwo} | {player.Team[i].Pv}/{player.Team[i].PvMax} PV | {player.Team[i].Attack} | {player.Team[i].Defense} | {player.Team[i].AttackSpecial} | {player.Team[i].DefenseSpecial}");
+        }
+        Console.Write("Appuyez pour Quitter...");
+        Console.ReadKey();
     }
 
     public void GameLoop()
@@ -337,7 +412,13 @@ public class Game
                         }
                         else if(map.map[playerPos[0] - 1, playerPos[1]] == 'O')
                         {
-                           
+                            foreach(var npc in npcs_list)
+                            {
+                                if (npc.NpcPos[0] == playerPos[0] - 1 && npc.NpcPos[1] == playerPos[1])
+                                {
+                                    npc.LaunchNpc();
+                                }
+                            }
                         }
                         else
                         {
@@ -394,7 +475,13 @@ public class Game
                         }
                         else if(map.map[playerPos[0] + 1, playerPos[1]] == 'O')
                         {
-
+                            foreach (var npc in npcs_list)
+                            {
+                                if (npc.NpcPos[0] == playerPos[0] + 1 && npc.NpcPos[1] == playerPos[1])
+                                {
+                                    npc.LaunchNpc();
+                                }
+                            }
                         }
                         else
                         {
@@ -451,7 +538,13 @@ public class Game
                         }
                         else if (map.map[playerPos[0], playerPos[1] - 1] == 'O')
                         {
-
+                            foreach (var npc in npcs_list)
+                            {
+                                if (npc.NpcPos[0] == playerPos[0] && npc.NpcPos[1] == playerPos[1] - 1)
+                                {
+                                    npc.LaunchNpc();
+                                }
+                            }
                         }
                         else
                         {
@@ -509,7 +602,13 @@ public class Game
                         }
                         else if (map.map[playerPos[0], playerPos[1] + 1] == 'O')
                         {
-
+                            foreach (var npc in npcs_list)
+                            {
+                                if (npc.NpcPos[0] == playerPos[0] && npc.NpcPos[1] == playerPos[1] + 1)
+                                {
+                                    npc.LaunchNpc();
+                                }
+                            }
                         }
                         else
                         {
@@ -529,7 +628,7 @@ public class Game
                     break;
 
                 case ConsoleKey.I:
-                    player.Inventory.OpenInventory();
+                    OpenBag();
                     break;
 
                 default:

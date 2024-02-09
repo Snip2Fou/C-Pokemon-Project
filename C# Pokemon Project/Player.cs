@@ -36,4 +36,16 @@ public class Trainer
         }
         return false;
     }
+
+    public Pokemon FindByName(string pokeName)
+    {
+        foreach (var item in Team)
+        {
+            if(item.Name == pokeName)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
 }
