@@ -307,7 +307,7 @@ public class NpcAlex : Npc
         Pokemon pokemon = Game.Instance.pokemons[45];
         Pokemon pokemon2 = Game.Instance.pokemons[5];
         Pokemon pokemon3 = Game.Instance.pokemons[555];
-        for (int i = 2; i < 40; i++)
+        for (int i = 2; i < 20; i++)
         {
             pokemon.Level = i;
             pokemon2.Level = i;
@@ -425,13 +425,8 @@ public class NpcJamesTeamRocket : Npc
         Pokemon pokemon2 = Game.Instance.pokemons[201];
         Pokemon pokemon3 = Game.Instance.pokemons[590];
         Pokemon pokemon4 = Game.Instance.pokemons[335];
-        int sommeNiveauPokemonPlayer = 0;
-        foreach (var poke in Game.Instance.player.Team)
-        {
-            sommeNiveauPokemonPlayer += poke.Level;
-        }
-        int moyenneNiveauxPokemonPlayer = sommeNiveauPokemonPlayer / Game.Instance.player.Team.Count;
-        for (int i = 2; i < moyenneNiveauxPokemonPlayer; i++)
+       
+        for (int i = 2; i < 40; i++)
         {
             pokemon.Level = i;
             pokemon2.Level = i;
