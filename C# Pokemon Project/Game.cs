@@ -645,6 +645,8 @@ public class Game
                     for (int i = 2; i < moyenneNiveauxPokemonPlayer; i++)
                     {
                         pokemons[random_pokemon].Level = i;
+                        pokemons[random_pokemon].Pv = GetPvByFormule();
+                        pokemons[random_pokemon].PvMax = GetPvByFormule();
                         pokemons[random_pokemon].CanLearnNewCapacityEnemy();
                     }
                     battle.StartBattleVsPokemon(player, pokemons[random_pokemon]);
