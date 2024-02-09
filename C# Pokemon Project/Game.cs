@@ -645,10 +645,10 @@ public class Game
                     for (int i = 2; i < moyenneNiveauxPokemonPlayer; i++)
                     {
                         pokemons[random_pokemon].Level = i;
-                        pokemons[random_pokemon].Pv = pokemons[random_pokemon].GetPvByFormule();
-                        pokemons[random_pokemon].PvMax = pokemons[random_pokemon].GetPvByFormule();
                         pokemons[random_pokemon].CanLearnNewCapacityEnemy();
                     }
+                    pokemons[random_pokemon].Pv = pokemons[random_pokemon].GetPvByFormule();
+                    pokemons[random_pokemon].PvMax = pokemons[random_pokemon].GetPvByFormule();
                     battle.StartBattleVsPokemon(player, pokemons[random_pokemon]);
                   
                     if (!player.TeamIsAlive())
