@@ -12,6 +12,8 @@ public class Game
     private static Game instance;
 
     public bool isRunning = true;
+    public bool isRecover = false;
+    public int coldcooldownObject = 0;
     protected Map map = new Map();
     protected int[] playerPos = new int[2];
     public List<Pokemon> pokemons = new List<Pokemon>();
@@ -22,6 +24,8 @@ public class Game
     public PokeCenter pokeCenter;
     public House home;
     public List<Npc> npcs_list;
+    public List<Object> list_object;
+    public Object Object = new Object();
 
     public static Game Instance
     {
@@ -284,7 +288,8 @@ public class Game
         playerPos[1] = map.size_y / 2;
         map.map.SetValue('0', playerPos[0], playerPos[1]);
         npcs_list = new List<Npc>();
-
+        list_object = new List<Object>();
+        list_object = Object.GetListObjects();
         Npc Pr_Chen = new NpcPrChen();
         Pr_Chen.LaunchNpc();
 
@@ -376,7 +381,7 @@ public class Game
                         {
                             pokeCenter.Interface();
                         }
-                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '\u2302'/*⌂*/)
+                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '_')
                         {
                             home.Equipe();
                         }
@@ -384,11 +389,26 @@ public class Game
                         {
 
                         }
-                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '\u263C'/*☼*/)
+                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0] - 1, playerPos[1]] = '0';
                             playerPos[0] -= 1;
+                            if (!isRecover)
+                            {
+                                isRecover = true;
+                                coldcooldownObject = 15;
+                                Random random = new Random();
+                                int randon_object = random.Next(0, 5);
+                                player.Inventory.AddObject(list_object[randon_object], 1);
+                                Console.WriteLine($"Vous avez recupere {list_object[randon_object].Name}");
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Vous avez deja recuperer c'est objet revene plus tard");
+                                Console.ReadKey();
+                            }
                         }
                         else if(map.map[playerPos[0] - 1, playerPos[1]] == 'O')
                         {
@@ -405,6 +425,14 @@ public class Game
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0] - 1, playerPos[1]] = '0';
                             playerPos[0] -= 1;
+                            if (coldcooldownObject > 0)
+                            {
+                                coldcooldownObject -= 1;
+                            }
+                            if (coldcooldownObject == 0)
+                            {
+                                isRecover = false;
+                            }
                         }
                     }
                     break;
@@ -416,7 +444,7 @@ public class Game
                         {
                             pokeCenter.Interface();
                         }
-                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '\u2302'/*⌂*/)
+                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '_')
                         {
                             home.Equipe();
                         }
@@ -424,11 +452,26 @@ public class Game
                         {
 
                         }
-                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '\u263C'/*☼*/)
+                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0] + 1, playerPos[1]] = '0';
                             playerPos[0] += 1;
+                            if (!isRecover)
+                            {
+                                isRecover = true;
+                                coldcooldownObject = 15;
+                                Random random = new Random();
+                                int randon_object = random.Next(0, 5);
+                                player.Inventory.AddObject(list_object[randon_object], 1);
+                                Console.WriteLine($"Vous avez recupere {list_object[randon_object].Name}");
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Vous avez deja recuperer c'est objet revene plus tard");
+                                Console.ReadKey();
+                            }
                         }
                         else if(map.map[playerPos[0] + 1, playerPos[1]] == 'O')
                         {
@@ -445,6 +488,14 @@ public class Game
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0] + 1, playerPos[1]] = '0';
                             playerPos[0] += 1;
+                            if (coldcooldownObject > 0)
+                            {
+                                coldcooldownObject -= 1;
+                            }
+                            if (coldcooldownObject == 0)
+                            {
+                                isRecover = false;
+                            }
                         }
                     }
                     break;
@@ -456,7 +507,7 @@ public class Game
                         {
                             pokeCenter.Interface();
                         }
-                        else if (map.map[playerPos[0], playerPos[1] - 1] == '\u2302'/*⌂*/)
+                        else if (map.map[playerPos[0], playerPos[1] - 1] == '_')
                         {
                             home.Equipe();
                         }
@@ -464,11 +515,26 @@ public class Game
                         {
 
                         }
-                        else if (map.map[playerPos[0], playerPos[1] - 1] == '\u263C'/*☼*/)
+                        else if (map.map[playerPos[0], playerPos[1] - 1] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0], playerPos[1] - 1] = '0';
                             playerPos[1] -= 1;
+                            if (!isRecover)
+                            {
+                                isRecover = true;
+                                coldcooldownObject = 15;
+                                Random random = new Random();
+                                int randon_object = random.Next(0, 5);
+                                player.Inventory.AddObject(list_object[randon_object], 1);
+                                Console.WriteLine($"Vous avez recupere {list_object[randon_object].Name}");
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Vous avez deja recuperer c'est objet revene plus tard");
+                                Console.ReadKey();
+                            }
                         }
                         else if (map.map[playerPos[0], playerPos[1] - 1] == 'O')
                         {
@@ -485,6 +551,14 @@ public class Game
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0], playerPos[1] - 1] = '0';
                             playerPos[1] -= 1;
+                            if (coldcooldownObject > 0)
+                            {
+                                coldcooldownObject -= 1;
+                            }
+                            if (coldcooldownObject == 0)
+                            {
+                                isRecover = false;
+                            }
                         }
                     }
                     break;
@@ -496,7 +570,7 @@ public class Game
                         {
                             pokeCenter.Interface();
                         }
-                        else if (map.map[playerPos[0], playerPos[1] + 1] == '\u2302'/*⌂*/)
+                        else if (map.map[playerPos[0], playerPos[1] + 1] == '_')
                         {
                             home.Equipe();
                         }
@@ -504,11 +578,27 @@ public class Game
                         {
 
                         }
-                        else if (map.map[playerPos[0], playerPos[1] + 1] == '\u263C'/*☼*/)
+                        else if (map.map[playerPos[0], playerPos[1] + 1] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0], playerPos[1] + 1] = '0';
                             playerPos[1] += 1;
+                            if (!isRecover)
+                            {
+                                isRecover = true;
+                                coldcooldownObject = 15;
+                                Random random = new Random();
+                                int randon_object = random.Next(0, 5);
+                                player.Inventory.AddObject(list_object[randon_object], 1);
+                                Console.WriteLine($"Vous avez recupere {list_object[randon_object].Name}");
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Vous avez deja recuperer c'est objet revene plus tard");
+                                Console.ReadKey();
+                            }
+
                         }
                         else if (map.map[playerPos[0], playerPos[1] + 1] == 'O')
                         {
@@ -525,6 +615,14 @@ public class Game
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
                             map.map[playerPos[0], playerPos[1] + 1] = '0';
                             playerPos[1] += 1;
+                            if (coldcooldownObject > 0)
+                            {
+                                coldcooldownObject -= 1;
+                            }
+                            if (coldcooldownObject == 0)
+                            {
+                                isRecover = false;
+                            }
                         }
                     }
                     break;
@@ -546,7 +644,18 @@ public class Game
                     int random_pokemon = random.Next(1, 1061);
                     // Combat entre les deux dresseurs
 
-                    Battle battle = new Battle(); 
+                    Battle battle = new Battle();
+                    int sommeNiveauPokemonPlayer = 0;
+                    foreach (var poke in player.Team)
+                    {
+                        sommeNiveauPokemonPlayer += poke.Level;
+                    }
+                    int moyenneNiveauxPokemonPlayer = sommeNiveauPokemonPlayer / player.Team.Count;
+                    for (int i = 2; i < moyenneNiveauxPokemonPlayer; i++)
+                    {
+                        pokemons[random_pokemon].Level = i;
+                        pokemons[random_pokemon].CanLearnNewCapacityEnemy();
+                    }
                     battle.StartBattleVsPokemon(player, pokemons[random_pokemon]);
                   
                     if (!player.TeamIsAlive())

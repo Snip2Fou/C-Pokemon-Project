@@ -50,7 +50,7 @@ public class Map
                 {
                     Console.ForegroundColor = ConsoleColor.DarkCyan;
                 }
-                else if (map[x,y] == '\u2302'/*⌂*/)
+                else if (map[x,y] == '/' || map[x,y] == '|' || map[x,y] == '_' || map[x, y] == map[12,38])
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 }
@@ -58,7 +58,7 @@ public class Map
                 {
                     Console.ForegroundColor = ConsoleColor.Magenta;
                 }
-                else if (map[x, y] == '\u263C'/*☼*/)
+                else if (map[x, y] == '°')
                 {
                     Console.ForegroundColor = ConsoleColor.Blue;
                 }
@@ -81,19 +81,15 @@ public class Map
             {
                 Console.Write("\t\t\t  O : PNJ");
             }
-            if (x == 12)
-            {
-                Console.Write("\t\t\t  \u2302 : Maison");
-            }
-            if (x == 15)
+            if (x == 9)
             {
                 Console.Write("\t\t\t  \u00A5 : TeamRocket");
             }
-            if (x == 18)
+            if (x == 12)
             {
-                Console.Write("\t\t\t   \u263C : Objet");
+                Console.Write("\t\t\t   ° : Objet");
             }
-            if (x == 20)
+            if (x == 15)
             {
                 Console.Write("\t\t\t  \u256C : Centre Pokemon$");
             }
