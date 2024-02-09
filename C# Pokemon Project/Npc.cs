@@ -316,6 +316,12 @@ public class NpcAlex : Npc
             pokemon2.CanLearnNewCapacityEnemy();
             pokemon3.CanLearnNewCapacityEnemy();
         }
+        pokemon.Pv = pokemon.GetPvByFormule();
+        pokemon2.Pv = pokemon2.GetPvByFormule();
+        pokemon3.Pv = pokemon3.GetPvByFormule();
+        pokemon.PvMax = pokemon.GetPvByFormule();
+        pokemon2.PvMax = pokemon2.GetPvByFormule();
+        pokemon3.PvMax = pokemon3.GetPvByFormule();
         Trainer.AddPokemon(pokemon);
         Trainer.AddPokemon(pokemon2);
         Trainer.AddPokemon(pokemon3);
@@ -436,6 +442,14 @@ public class NpcJamesTeamRocket : Npc
             pokemon3.CanLearnNewCapacityEnemy();
             pokemon4.CanLearnNewCapacityEnemy();
         }
+        pokemon.Pv = pokemon.GetPvByFormule();
+        pokemon2.Pv = pokemon2.GetPvByFormule();
+        pokemon3.Pv = pokemon3.GetPvByFormule();
+        pokemon4.Pv = pokemon4.GetPvByFormule();
+        pokemon.PvMax = pokemon.GetPvByFormule();
+        pokemon2.PvMax = pokemon2.GetPvByFormule();
+        pokemon3.PvMax = pokemon3.GetPvByFormule();
+        pokemon4.PvMax = pokemon4.GetPvByFormule();
         Trainer.AddPokemon(pokemon);
         Trainer.AddPokemon(pokemon2);
         Trainer.AddPokemon(pokemon3);
