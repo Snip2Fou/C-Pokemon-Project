@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Media;
+using System.Numerics;
 using System.Security.Policy;
 
 public class Npc
@@ -303,8 +304,21 @@ public class NpcAlex : Npc
         NpcPos = new int[2];
         NpcPos[0] = 16;
         NpcPos[1] = 11;
-        Trainer.AddPokemon(Game.Instance.pokemons[45]);
-        Trainer.AddPokemon(Game.Instance.pokemons[3]);
+        Pokemon pokemon = Game.Instance.pokemons[45];
+        Pokemon pokemon2 = Game.Instance.pokemons[5];
+        Pokemon pokemon3 = Game.Instance.pokemons[555];
+        for (int i = 2; i < 40; i++)
+        {
+            pokemon.Level = i;
+            pokemon2.Level = i;
+            pokemon3.Level = i;
+            pokemon.CanLearnNewCapacityEnemy();
+            pokemon2.CanLearnNewCapacityEnemy();
+            pokemon3.CanLearnNewCapacityEnemy();
+        }
+        Trainer.AddPokemon(pokemon);
+        Trainer.AddPokemon(pokemon2);
+        Trainer.AddPokemon(pokemon3);
         Trainer.Inventory.AddObject(new Potion(), 5);
         Trainer.Inventory.AddObject(new SuperPotion(), 2);
     }
@@ -401,10 +415,34 @@ public class NpcJamesTeamRocket : Npc
         NpcPos = new int[2];
         NpcPos[0] = 8;
         NpcPos[1] = 55;
-        Trainer.AddPokemon(Game.Instance.pokemons[45]);
-        Trainer.AddPokemon(Game.Instance.pokemons[3]);
-        Trainer.Inventory.AddObject(new Potion(), 5);
-        Trainer.Inventory.AddObject(new SuperPotion(), 2);
+        Pokemon pokemon = Game.Instance.pokemons[51];
+        Pokemon pokemon2 = Game.Instance.pokemons[201];
+        Pokemon pokemon3 = Game.Instance.pokemons[590];
+        Pokemon pokemon4 = Game.Instance.pokemons[335];
+        int sommeNiveauPokemonPlayer = 0;
+        foreach (var poke in Game.Instance.player.Team)
+        {
+            sommeNiveauPokemonPlayer += poke.Level;
+        }
+        int moyenneNiveauxPokemonPlayer = sommeNiveauPokemonPlayer / Game.Instance.player.Team.Count;
+        for (int i = 2; i < moyenneNiveauxPokemonPlayer; i++)
+        {
+            pokemon.Level = i;
+            pokemon2.Level = i;
+            pokemon3.Level = i;
+            pokemon4.Level = i;
+            pokemon.CanLearnNewCapacityEnemy();
+            pokemon2.CanLearnNewCapacityEnemy();
+            pokemon3.CanLearnNewCapacityEnemy();
+            pokemon4.CanLearnNewCapacityEnemy();
+        }
+        Trainer.AddPokemon(pokemon);
+        Trainer.AddPokemon(pokemon2);
+        Trainer.AddPokemon(pokemon3);
+        Trainer.AddPokemon(pokemon4);
+        Trainer.Inventory.AddObject(new Potion(), 7);
+        Trainer.Inventory.AddObject(new SuperPotion(), 4);
+        Trainer.Inventory.AddObject(new HyperPotion(), 2);
     }
 
     override public void PlayDialogue()

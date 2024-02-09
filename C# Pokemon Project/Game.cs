@@ -243,6 +243,12 @@ public class Game
 
     public void LoadGame()
     {
+        npcs_list = new List<Npc>();
+        list_object = new List<Object>();
+        list_object = Object.GetListObjects();
+        npcs_list.Add(new NpcMaman());
+        npcs_list.Add(new NpcAlex());
+        npcs_list.Add(new NpcJamesTeamRocket());
         try
         {
             string jsonData = File.ReadAllText("data/game_save.json");
@@ -287,15 +293,16 @@ public class Game
         playerPos[0] = map.size_x / 2;
         playerPos[1] = map.size_y / 2;
         map.map.SetValue('0', playerPos[0], playerPos[1]);
+        Npc Pr_Chen = new NpcPrChen();
+        Pr_Chen.LaunchNpc();
         npcs_list = new List<Npc>();
         list_object = new List<Object>();
         list_object = Object.GetListObjects();
-        Npc Pr_Chen = new NpcPrChen();
-        Pr_Chen.LaunchNpc();
-
         npcs_list.Add(new NpcMaman());
         npcs_list.Add(new NpcAlex());
         npcs_list.Add(new NpcJamesTeamRocket());
+        player.Inventory.AddObject(new PokeBall(), 5);
+        player.Inventory.AddObject(new Potion(), 5);
         GameLoop();
     }
 
@@ -385,10 +392,6 @@ public class Game
                         {
                             home.Equipe();
                         }
-                        else if(map.map[playerPos[0] - 1, playerPos[1]] == '\u00A5'/*¥*/)
-                        {
-
-                        }
                         else if(map.map[playerPos[0] - 1, playerPos[1]] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
@@ -410,7 +413,7 @@ public class Game
                                 Console.ReadKey();
                             }
                         }
-                        else if(map.map[playerPos[0] - 1, playerPos[1]] == 'O')
+                        else if(map.map[playerPos[0] - 1, playerPos[1]] == 'O' || map.map[playerPos[0] - 1, playerPos[1]] == '\u00A5'/*¥*/)
                         {
                             foreach(var npc in npcs_list)
                             {
@@ -448,10 +451,6 @@ public class Game
                         {
                             home.Equipe();
                         }
-                        else if(map.map[playerPos[0] + 1, playerPos[1]] == '\u00A5'/*¥*/)
-                        {
-
-                        }
                         else if(map.map[playerPos[0] + 1, playerPos[1]] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
@@ -473,7 +472,7 @@ public class Game
                                 Console.ReadKey();
                             }
                         }
-                        else if(map.map[playerPos[0] + 1, playerPos[1]] == 'O')
+                        else if(map.map[playerPos[0] + 1, playerPos[1]] == 'O' || map.map[playerPos[0] + 1, playerPos[1]] == '\u00A5'/*¥*/)
                         {
                             foreach (var npc in npcs_list)
                             {
@@ -511,10 +510,6 @@ public class Game
                         {
                             home.Equipe();
                         }
-                        else if (map.map[playerPos[0], playerPos[1] - 1] == '\u00A5'/*¥*/)
-                        {
-
-                        }
                         else if (map.map[playerPos[0], playerPos[1] - 1] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
@@ -536,7 +531,7 @@ public class Game
                                 Console.ReadKey();
                             }
                         }
-                        else if (map.map[playerPos[0], playerPos[1] - 1] == 'O')
+                        else if (map.map[playerPos[0], playerPos[1] - 1] == 'O' || map.map[playerPos[0], playerPos[1] - 1] == '\u00A5'/*¥*/)
                         {
                             foreach (var npc in npcs_list)
                             {
@@ -574,10 +569,6 @@ public class Game
                         {
                             home.Equipe();
                         }
-                        else if (map.map[playerPos[0], playerPos[1] + 1] == '\u00A5'/*¥*/)
-                        {
-
-                        }
                         else if (map.map[playerPos[0], playerPos[1] + 1] == '°')
                         {
                             map.map[playerPos[0], playerPos[1]] = map.copy_map[playerPos[0], playerPos[1]];
@@ -600,7 +591,7 @@ public class Game
                             }
 
                         }
-                        else if (map.map[playerPos[0], playerPos[1] + 1] == 'O')
+                        else if (map.map[playerPos[0], playerPos[1] + 1] == 'O' || map.map[playerPos[0], playerPos[1] + 1] == '\u00A5'/*¥*/)
                         {
                             foreach (var npc in npcs_list)
                             {

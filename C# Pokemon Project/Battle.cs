@@ -1,3 +1,4 @@
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -203,7 +204,7 @@ public class Battle
                     if (efficacity3 > efficacity1)
                     {
                         validCapacity.Clear();
-                        validCapacity[0] = ActivePokemon2.Capacity3;
+                        validCapacity.Add(ActivePokemon2.Capacity3);
                     }
                     else if (efficacity3 == efficacity1)
                     {
@@ -213,7 +214,7 @@ public class Battle
                         }
                         else
                         {
-                            validCapacity[1] = ActivePokemon2.Capacity3;
+                            validCapacity.Add(ActivePokemon2.Capacity3);
                         }
                     }
                 }
@@ -221,11 +222,12 @@ public class Battle
                 {
                     if (efficacity3 > efficacity2)
                     {
-                        validCapacity[0] = ActivePokemon2.Capacity3;
+                        validCapacity.Clear();
+                        validCapacity.Add(ActivePokemon2.Capacity3);
                     }
                     else if (efficacity3 == efficacity2)
                     {
-                        validCapacity[1] = ActivePokemon2.Capacity3;
+                        validCapacity.Add(ActivePokemon2.Capacity3);
                     }
                 }
             }
@@ -539,8 +541,8 @@ public class Battle
         {
             versus += ' ';
         }
-        versus += "*** ";
-        Console.Write(versus);
+        versus += "***";
+        Console.Write(versus + " ");
         Console.ForegroundColor = ConsoleColor.Green;
         Console.Write($"{PlayerBattle.Name}");
         Console.ResetColor();
@@ -556,6 +558,33 @@ public class Battle
         }
         Console.ResetColor();
         Console.WriteLine(" ***");
+        versus = "   ";
+        for (int i = 0; i < 20 - PlayerBattle.Name.Length; i++)
+        {
+            versus += ' ';
+        }
+        Console.Write(versus);
+        string nb_pokemon = "";
+        foreach (var pokemon in PlayerBattle.BattleTeam)
+        {
+            nb_pokemon += "°";
+        }
+        Console.Write(nb_pokemon);
+        if (PokemonBattle == null)
+        {
+            string space = "";
+            for(int i = 0; i <  PlayerBattle.Name.Length - PlayerBattle.BattleTeam.Count + 4; i++) 
+            { 
+                space += " ";
+            }
+            Console.Write(space);
+            nb_pokemon = "";
+            foreach (var pokemon in EnemyBattle.BattleTeam)
+            {
+                nb_pokemon += "°";
+            }
+            Console.Write(nb_pokemon);
+        }
         Console.WriteLine();
     }
 
@@ -857,6 +886,7 @@ public class Battle
             Console.ReadKey();
             Console.Clear();
             CheckLearnCapacityForAllPokemon();
+            player.PokeMoney += 100;
         }
         else if(!pokemon.IsAlive())
         {
@@ -866,6 +896,7 @@ public class Battle
             Console.ReadKey();
             Console.Clear();
             CheckLearnCapacityForAllPokemon();
+            player.PokeMoney += 75;
         }
         else
         {
@@ -1111,6 +1142,7 @@ public class Battle
             Console.Write("\nAppuyer sur une touche pour passer...");
             Console.ReadKey();
             Console.Clear();
+            player.PokeMoney += 500;
             return true;
         }
         else
@@ -1119,6 +1151,7 @@ public class Battle
             Console.Write("\nAppuyer sur une touche pour passer...");
             Console.ReadKey();
             Console.Clear();
+            player.PokeMoney += 150;
             return false;
         }
     }
