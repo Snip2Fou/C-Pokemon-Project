@@ -121,6 +121,7 @@ public class Pokemon
             Xp -= (int)Math.Pow((Level+1),3);
             Level += 1;
             AsLevelUp = true;
+            PvMax = GetPvByFormule();
             return $"et passe Level {Level}";
         }
         else

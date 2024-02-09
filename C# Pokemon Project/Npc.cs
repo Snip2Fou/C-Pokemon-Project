@@ -291,34 +291,87 @@ public class NpcMaman : Npc
 
 public class NpcAlex : Npc
 {
-    public Trainer trainer = new Trainer("Alex");
+    public Trainer Trainer = new Trainer("Alex");
     public NpcAlex() 
     {
+        Name = "Alex";
         dialogue.Add("Salut, dresseur ! Je suis un passionne de Pokémon. Tu cherches un combat pour tester la force de tes Pokemon ?");
         dialogue.Add("ChoiceYesNo");
         dialogue.Add("Genial ! On va voir ça.");
         dialogue.Add("Bien joue, dresseur ! Tes Pokémon sont vraiment forts. Ça a ete un super combat");
         dialogue.Add("Oh, pas de problème ! Si jamais tu changes d'avis, n'hésite pas à revenir. On se croisera peut-être sur la route, prêts à en découdre !");
+        NpcPos = new int[2];
+        NpcPos[0] = 16;
+        NpcPos[1] = 11;
+        Trainer.AddPokemon(Game.Instance.pokemons[45]);
+        Trainer.AddPokemon(Game.Instance.pokemons[3]);
+        Trainer.Inventory.AddObject(new Potion(), 5);
+        Trainer.Inventory.AddObject(new SuperPotion(), 2);
+    }
+
+    override public void LaunchNpc()
+    {
+        while (dialogue_act < dialogue.Count && !is_terminated)
+        {
+            PlayDialogue();
+        }
+        if (dialogue_act >= dialogue.Count && !is_terminated)
+        {
+            dialogue_act = 0;
+        }
     }
 
     override public void PlayDialogue()
     {
-        if (dialogue[dialogue_act + 1] == "ChoiceYesNo")
+        if(dialogue_act == 2)
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write(Name);
-            Console.ResetColor();
-            string yesno = YesOrNo($" : {dialogue[dialogue_act]}");
-            if(yesno == "yes")
+            AfficheDialogue();
+            SkipDialogue();
+            Battle battle = new Battle();
+            battle.StartBattleVsTrainer(Game.Instance.player, Trainer);
+            dialogue_act++;
+            AfficheDialogue();
+            SkipDialogue();
+            dialogue_act = 5;
+        }
+        else if(dialogue_act == 4)
+        {
+            AfficheDialogue();
+            SkipDialogue();
+            dialogue_act++;
+        }
+        else if (dialogue[dialogue_act + 1] == "ChoiceYesNo")
+        {
+            Event yes_no_event = new Event();
+            bool yes_no_choice = false;
+            while (!yes_no_choice)
             {
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write(Name);
                 Console.ResetColor();
-                Console.WriteLine($" {dialogue[dialogue_act]}");
+                Console.WriteLine($" : {dialogue[dialogue_act]}");
+                if (yes_no_event.action_count == 0)
+                {
+                    Console.WriteLine("> Oui");
+                    Console.WriteLine("  Non");
+                }
+                else if (yes_no_event.action_count == 1)
+                {
+                    Console.WriteLine("  Oui");
+                    Console.WriteLine("> Non");
+                }
+
+                yes_no_choice = yes_no_event.ChoiceEvent(2);
             }
-            dialogue_act += 2;
+            if (yes_no_event.action_count == 0)
+            {
+                dialogue_act = 2;
+            }
+            else
+            {
+                dialogue_act = 4;
+            }
         }
         else
         {
@@ -328,4 +381,69 @@ public class NpcAlex : Npc
         }
     }
 
+}
+
+public class NpcJamesTeamRocket : Npc
+{
+    private Trainer Trainer = new Trainer("James");
+
+    public NpcJamesTeamRocket()
+    {
+        Name = "James de la Team Rocket";
+        dialogue.Add("Ah, quel endroit charmant ! Un terrain de chasse parfait pour nos futures acquisitions.");
+        dialogue.Add("Oh, regardez qui voilà ! Un minable dresseur. Prêt à être détrôné par la grandeur de la Team Rocket ?");
+        dialogue.Add("(rires) Ah, tu es bien naïf, mon ami. Prépare-toi à affronter la puissance de la Team Rocket ! Miaouss, en avant !");
+        dialogue.Add("Battle");
+        dialogue.Add("(frustré) C'est impossible ! Comment as-tu osé battre la grande Team Rocket ?");
+        dialogue.Add("(souriant) Prépare-toi pour la prochaine fois, dresseur. La Team Rocket ne recule jamais devant un défi !");
+        dialogue.Add("Haha, tu n'étais pas de taille, petit dresseur ! C'est ça, apprends la leçon : la Team Rocket est toujours un cran au-dessus.");
+        dialogue.Add("La grandeur de la Team Rocket est incontestée. Reviens m'affronter quand tu sera meilleur, pauvre dresseur");
+        NpcPos = new int[2];
+        NpcPos[0] = 8;
+        NpcPos[1] = 55;
+        Trainer.AddPokemon(Game.Instance.pokemons[45]);
+        Trainer.AddPokemon(Game.Instance.pokemons[3]);
+        Trainer.Inventory.AddObject(new Potion(), 5);
+        Trainer.Inventory.AddObject(new SuperPotion(), 2);
+    }
+
+    override public void PlayDialogue()
+    {
+        if(dialogue_act == 5)
+        {
+            AfficheDialogue();
+            SkipDialogue();
+            is_terminated = true;
+        }
+        else if(dialogue_act == 7)
+        {
+            AfficheDialogue();
+            SkipDialogue();
+            dialogue_act++;
+        }
+        else if(dialogue[dialogue_act + 1] == "Battle")
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(Name);
+            Console.ResetColor();
+            Console.WriteLine($" : {dialogue[dialogue_act]}");
+            Battle battle = new Battle();
+            bool win = battle.StartBattleVsTrainer(Game.Instance.player, Trainer);
+            if(win)
+            {
+                dialogue_act = 4;
+            }
+            else
+            {
+                dialogue_act = 6;
+            }
+        }
+        else
+        {
+            AfficheDialogue();
+            SkipDialogue();
+            dialogue_act++;
+        }
+    }
 }

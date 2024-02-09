@@ -289,7 +289,68 @@ public class Game
         Pr_Chen.LaunchNpc();
 
         npcs_list.Add(new NpcMaman());
+        npcs_list.Add(new NpcAlex());
+        npcs_list.Add(new NpcJamesTeamRocket());
         GameLoop();
+    }
+
+    public void OpenBag()
+    {
+        Event choice_event = new Event();
+        bool choice = false;
+        while (!choice)
+        {
+            Console.Clear();
+            Console.WriteLine("Sac :");
+            if (choice_event.action_count == 0)
+            {
+                Console.WriteLine("> Equipe");
+                Console.WriteLine("  Object");
+                Console.WriteLine("  Quitter");
+            }
+            else if (choice_event.action_count == 1)
+            {
+                Console.WriteLine("  Equipe");
+                Console.WriteLine("> Object");
+                Console.WriteLine("  Quitter");
+            }
+            else if (choice_event.action_count == 2)
+            {
+                Console.WriteLine("  Equipe");
+                Console.WriteLine("  Object");
+                Console.WriteLine("> Quitter");
+            }
+
+            choice = choice_event.ChoiceEvent(3);
+            if (choice)
+            {
+                if (choice_event.action_count == 0)
+                {
+                    OpenPokemon();
+                    choice = false;
+
+                }
+                else if (choice_event.action_count == 1)
+                {
+                    player.Inventory.OpenInventory();
+                    choice = false;
+                }
+            }
+        }
+        Console.Clear() ;
+    }
+
+    public void OpenPokemon()
+    {
+        Console.Clear();
+        Console.WriteLine("Voici les pokemons de votre equipe :");
+        Console.WriteLine("  Nom | Niveau | Type1 | Type2 | Pv/PvMax | Attack | Defense | AttackSpecial | DefenseSpecial");
+        for (int i = 0; i < player.Team.Count; i++)
+        {
+            Console.WriteLine($"  {player.Team[i].Name} | {player.Team[i].Level} | {player.Team[i].TypeOne} | {player.Team[i].TypeTwo} | {player.Team[i].Pv}/{player.Team[i].PvMax} PV | {player.Team[i].Attack} | {player.Team[i].Defense} | {player.Team[i].AttackSpecial} | {player.Team[i].DefenseSpecial}");
+        }
+        Console.Write("Appuyez pour Quitter...");
+        Console.ReadKey();
     }
 
     public void GameLoop()
@@ -469,7 +530,7 @@ public class Game
                     break;
 
                 case ConsoleKey.I:
-                    player.Inventory.OpenInventory();
+                    OpenBag();
                     break;
 
                 default:

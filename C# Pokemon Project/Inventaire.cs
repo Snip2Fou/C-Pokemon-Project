@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 
 public class Inventory 
 {
@@ -12,6 +13,29 @@ public class Inventory
         return _inventory;
     }
 
+    public Object GetObjectByName(string objName)
+    {
+        foreach (Object obj in _inventory)
+        {
+            if (obj.Name == objName)
+            {
+                return obj;
+            }
+        }
+        return null;
+    }
+
+    public bool IsInInventory(string objName)
+    {
+        foreach (Object obj in _inventory)
+        {
+            if(obj.Name == objName && obj.Quantity > 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public void AddObject(Object obj, int quantity) 
     { 
         Object find = null;
